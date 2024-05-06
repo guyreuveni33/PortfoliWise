@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Form</title>
+    <link rel="stylesheet" href="register.css">
+</head>
+<body>
+
+<div class="form-container">
+    <div class="button-group">
+
+        <button id="signInBtn" class="btn">Sign In</button>
+        <button id="signUpBtn" class="btn">Sign Up</button>
+    </div>
+    <h2>Let’s Get Started</h2>
+    <p class="enterTitle">Enter your Credentials to access your account</p>
+    <form>
+        <p class="detailsTitle">Email Address</p>
+        <input type="email" placeholder="username@mail.com" required>
+        <p class="detailsTitle">Password</p>
+        <input id="passwordInput" type="password" placeholder="Enter your password" required>
+        <div class="checkbox check-transparent">
+            <input type="checkbox" id="checkbox">
+            <label for="checkbox"> I agree to the terms & policy
+            </label>
+        </div>
+        <button id="sub" type="submit">Sign Up</button>
+        <div class="divider">
+            <hr class="line">
+            <span class="text">or</span>
+            <hr class="line">
+        </div>
+
+        <button class="google-btn"><span id="googleSign">G  </span> Sign in with Google</button>
+    </form>
+</div>
+</body>
+</html>
