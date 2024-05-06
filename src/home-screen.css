@@ -122,15 +122,16 @@ canvas {
     background: none;
     border: none;
     color: #8b9196;
-    border-radius: 20px;
+    border-radius: 10px;
     cursor: pointer;
     padding: 5px 15px;
     font-size: 15px;
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
 }
 
 .filter.active, .filter:hover {
-    background-color: #3057d5;
-    border-color: #3057d5;
+    background-color: #613DE4;
+    border-color: #613DE4;
     color: #ffffff;
 }
 
@@ -159,7 +160,8 @@ canvas {
 }  /* Assuming your links are inside list items */
 #a li a {
     color: #ffffff; /* White text color */
-    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
+    border-radius: 10px;
 }
 
 #a li a:hover {
