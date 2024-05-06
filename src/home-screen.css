@@ -1,0 +1,190 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #0C1120;
+}
+
+.sidebar {
+    width: 15%;
+    background-color: #131C2F;
+    height: 100vh;
+    position: fixed;
+}
+
+.menu {
+    padding: 20px;
+}
+
+.menu a.logo {
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.menu ul li a.active, .menu ul li a:hover {
+    color: #fff;
+}
+
+.logout {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.main-content {
+    margin-left: 15%;
+    padding: 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between; /* Ensures sections are spaced out evenly */
+}
+
+.graphs {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures that graphs are spaced evenly */
+}
+
+.section {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 5%;
+    margin-right: 3%;
+    flex: 1 1 auto; /* Adds flexibility to section sizing */
+}
+
+.balance-graph.section {
+    flex-basis: 40%; /* Adjusted for spacing */
+    height: auto; /* Height auto for flexibility */
+}
+
+.watchlist.section, .marketplace.section {
+    flex-basis: 10%; /* Adjust width to fit content without overflow */
+}
+
+.portfolio.section {
+    overflow-x: auto; /* Keeps horizontal scroll if needed */
+    width: 48%; /* Adjust width to match balance graph */
+    flex-basis: 48%; /* Ensures it doesn't grow or shrink beyond set width */
+    height: auto; /* Allows height to adjust based on content */
+}
+
+.circle-chart.section {
+    flex-basis: 20%; /* Aligns with watchlist and marketplace sections */
+    height: auto; /* Flexible height */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+header h1, .balance {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+canvas {
+    width: 100%;
+    height: auto; /* Adjust height automatically */
+    background-image: none; /* Ensures no background image is used */
+}
+
+.time-filters, .watchlist-table, .market-table, .portfolio-table {
+    width: 100%; /* Ensures tables take full width of their containers */
+    margin-top: 20px;
+}
+
+.filter, .watchlist-table td, .market-table td, .portfolio-table td {
+    text-align: left;
+    padding: 8px;
+}
+
+.filter {
+    background: none;
+    border: none;
+    color: #8b9196;
+    border-radius: 20px;
+    cursor: pointer;
+    padding: 5px 15px;
+    font-size: 15px;
+}
+
+.filter.active, .filter:hover {
+    background-color: #3057d5;
+    border-color: #3057d5;
+    color: #ffffff;
+}
+
+.watchlist-table th, .market-table th, .portfolio-table th {
+    padding-bottom: 15px;
+}
+
+.watchlist-table td, .market-table td, .portfolio-table td {
+    border-top: 1px solid #2f3951;
+}
+
+.watchlist-table td.positive, .market-table td.positive, .portfolio-table td.positive {
+    color: #4caf50;
+}
+
+.watchlist-table td.negative, .market-table td.negative, .portfolio-table td.negative {
+    color: #f44336;
+}
+
+/*here start the sidebar design*/
+
+.iconStyle{
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}  /* Assuming your links are inside list items */
+#a li a {
+    color: #ffffff; /* White text color */
+    transition: background-color 0.3s, color 0.3s; /* Smooth transition for background and text color */
+}
+
+#a li a:hover {
+    background-color:#613DE4; /* Darker shade when hovered */
+    color: #E2E2E2; /* Slightly lighter text color for contrast */
+    border-radius: 10px;
+}
+ul#a li {
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+ul#a li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+ul#a li .text {
+    margin-left: 10px; /* Adjust as needed */
+}
+.logout{
+    margin-left: 20px;
+    margin-bottom: 30px;
+    text-align: center;
+}
+.logout img.iconStyle {
+    vertical-align: middle;
+}
