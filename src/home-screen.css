@@ -33,6 +33,11 @@ body, html {
 .borderLine {
     border-bottom: 1px solid #ffffff; /* Add a 1px solid line under the header */
 }
+
+
+.borderLineTop {
+    border-top: 1px solid #A9ACBB; /* Add a 1px solid line under the header */
+ }
 .push {
     padding-top: 10px;
 }
@@ -69,6 +74,17 @@ body, html {
 /*.balance-graph {*/
 /*    flex-basis: 40%; !* Adjusted for spacing *!*/
 /*}*/
+
+.watchlist-table, .market-table, .portfolio-table {
+    width: 100%;
+
+}
+.portfolio-table th, .portfolio-table td {
+    width: 25%;
+}
+.watchlist-table th, .watchlist-table td, .market-table th, .market-table td {
+    width : 45%;
+}
 
 .watchlist.section, .marketplace.section {
     flex-basis: 10%; /* Adjust width to fit content without overflow */
@@ -127,20 +143,60 @@ canvas {
     width: 100%; /* Ensures tables take full width of their containers */
     margin-top: 20px;
 }
-
 .time-filters {
+    display: flex;  /* Using flexbox */
     position: absolute;
     bottom: 0;
     left: 0;
-    margin-bottom: 10px;
-    margin-left: 10px;
+    width: 100%;  /* Ensures the container takes full width */
+    padding: 0;
+    margin: 0;
+}
+#t1{
+    width: 25%;
+    margin: 5px;
 }
 
+#t2{
+    width: 25%;
+    margin: 5px;
+
+}
+
+#t3{
+    width: 25%;
+    margin: 5px;
+
+}
+
+#t4{
+    width: 25%;
+    margin: 5px;
+
+}
 .filter, .watchlist-table td, .market-table td, .portfolio-table td {
     text-align: left;
     padding: 8px;
 }
+.time-filters button {
+    flex-grow: 1;  /* Each button grows to fill the space */
+    text-align: center;
+    background: none;
+    border: none;
+    color: #8b9196;
+    border-radius: 10px;
+    cursor: pointer;
+    padding: 5px 15px;
+    margin: 0;  /* Remove any default margins */
+    box-sizing: border-box;  /* Crucial for including padding and borders */
+    font-size: 15px;
+    transition: background-color 0.3s, color 0.3s;
+}
 
+.filter.active, .filter:hover {
+    background-color: #613DE4;
+    color: #ffffff;
+}
 .filter {
 
     background: none;
