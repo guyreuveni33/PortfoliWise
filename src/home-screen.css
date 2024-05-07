@@ -40,6 +40,14 @@ body, html {
     color: #fff;
 }
 
+.borderLine {
+    border-bottom: 1px solid #ffffff; /* Add a 1px solid line under the header */
+}
+.push {
+    padding-top: 10px;
+}
+
+
 .logout {
     position: absolute;
     bottom: 20px;
@@ -70,32 +78,51 @@ body, html {
     padding: 20px;
     margin-bottom: 5%;
     margin-right: 3%;
+    max-height: 30%;
     flex: 1 1 auto; /* Adds flexibility to section sizing */
 }
 
-.balance-graph.section {
-    flex-basis: 40%; /* Adjusted for spacing */
-    height: auto; /* Height auto for flexibility */
-}
+/*.balance-graph {*/
+/*    flex-basis: 40%; !* Adjusted for spacing *!*/
+/*}*/
 
 .watchlist.section, .marketplace.section {
     flex-basis: 10%; /* Adjust width to fit content without overflow */
 }
-
-.portfolio.section {
+/*.marketplace{*/
+/*    height: fit-content;*/
+/*}*/
+.portfolio {
     overflow-x: auto; /* Keeps horizontal scroll if needed */
-    width: 48%; /* Adjust width to match balance graph */
+    /*width: 48%; /* Adjust width to match balance graph */
     flex-basis: 48%; /* Ensures it doesn't grow or shrink beyond set width */
-    height: auto; /* Allows height to adjust based on content */
+    /*height: fit-content;*/
 }
-
-.circle-chart.section {
-    flex-basis: 20%; /* Aligns with watchlist and marketplace sections */
-    height: auto; /* Flexible height */
+#portfolioChart{
+    margin: 30px;
+}
+.circle-chart {
+    width: 35%;
+    flex-basis: 35%; /* Aligns with watchlist and marketplace sections */
+    /*height: fit-content;*/
     display: flex;
     justify-content: center;
     align-items: center;
 }
+/*.portfolio, .circle-chart {*/
+/*    flex-grow: 0;*/
+/*    flex-shrink: 0;*/
+/*}*/
+
+/* Adjust the layout more granularly */
+/*@media (max-width: 1024px) {*/
+/*    .portfolio{*/
+/*        flex-basis: 100%;*/
+/*    }*/
+/*    .graphs {*/
+/*        flex-direction: column;*/
+/*    }*/
+/*}*/
 
 header h1, .balance {
     margin: 0;
@@ -107,10 +134,22 @@ canvas {
     height: auto; /* Adjust height automatically */
     background-image: none; /* Ensures no background image is used */
 }
+.balance-graph {
+    position: relative;
+}
+
 
 .time-filters, .watchlist-table, .market-table, .portfolio-table {
     width: 100%; /* Ensures tables take full width of their containers */
     margin-top: 20px;
+}
+
+.time-filters {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    margin-bottom: 10px;
+    margin-left: 10px;
 }
 
 .filter, .watchlist-table td, .market-table td, .portfolio-table td {
@@ -119,6 +158,7 @@ canvas {
 }
 
 .filter {
+
     background: none;
     border: none;
     color: #8b9196;
@@ -136,7 +176,8 @@ canvas {
 }
 
 .watchlist-table th, .market-table th, .portfolio-table th {
-    padding-bottom: 15px;
+    text-align: left;
+    padding: 8px;
 }
 
 .watchlist-table td, .market-table td, .portfolio-table td {
@@ -161,7 +202,7 @@ canvas {
 #a li a {
     color: #ffffff; /* White text color */
     transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
-    border-radius: 10px;
+    border-radius: 10px;</tr>
 }
 
 #a li a:hover {
