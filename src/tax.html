@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="tax.css">
+
+    <title>Dashboard</title>
+</head>
+
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul id="a">
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/home.png" alt="Home Icon">
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/hand.png" alt="Hand Icon">
+                    <span class="text">Portfolios</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/tax.png" alt="Tax Icon">
+                    <span class="text">Tax</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/settings.png" alt="Settings Icon">
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <a class="logout"><img class="iconStyle" src="../public/exit.png" alt="Exit Icon"><span
+            class="text">Logout</span></a>
+</div>
+<div class="main-content">
+    <div class="profile-icon">
+        <img src="../public/User-profile-pic.png" alt="User Profile">
+    </div>
+
+    <div class=" portfolio "  >
+
+        <div class=" section">
+            <header class="borderLine">
+                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
+                                                                          src="../public/refresh.png"
+                                                                          alt="Settings Icon">
+                </h1>
+            </header>
+            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
+        </div>
+        <div class=" section">
+            <header class="borderLine">
+                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
+                                                                          src="../public/refresh.png"
+                                                                          alt="Settings Icon">
+                </h1>
+            </header>
+            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
+        </div>
+        <div class=" section">
+            <header class="borderLine">
+                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
+                                                                          src="../public/refresh.png"
+                                                                          alt="Settings Icon">
+                </h1>
+            </header>
+            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
+        </div>
+        <div class="  section">
+            <header class="borderLine">
+                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
+                                                                          src="../public/refresh.png"
+                                                                          alt="Settings Icon">
+                </h1>
+            </header>
+            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
+
+
+        </div>
+        <div class="  section">
+            <header class="borderLine">
+                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
+                                                                          src="../public/refresh.png"
+                                                                          alt="Settings Icon">
+                </h1>
+            </header>
+            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
+
+        </div>
+
+    </div>
+    <button class="btn-bot calculate-tax-button s">
+        <img class="iconStyle " src="../public/estimate.png"
+             alt="Settings Icon" > Calculate Tax
+    </button>
+</div>
+<script>
+    document.querySelectorAll('.refresh').forEach(item => {
+        item.addEventListener('mouseenter', function() {
+            this.style.animationPlayState = 'running';
+        });
+        item.addEventListener('mouseleave', function() {
+            this.style.animationPlayState = 'paused';
+        });
+    });
+</script>
+
+</body>
+</html>

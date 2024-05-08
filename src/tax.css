@@ -1,0 +1,287 @@
+
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #0C1120;
+}
+
+
+.menu a.logo {
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.menu ul li a.active, .menu ul li a:hover {
+    color: #fff;
+}
+
+.borderLine {
+    border-bottom: 1px solid #ffffff; /* Add a 1px solid line under the header */
+}
+
+
+.borderLineTop {
+    border-top: 1px solid #A9ACBB; /* Add a 1px solid line under the header */
+}
+
+
+.main-content {
+    padding: 70px 0 30px 30px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between; /* Ensures sections are spaced out evenly */
+    margin-left: 200px;
+     flex-direction: column; /* Stack children vertically */
+
+}
+
+.section {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px; /* Use a fixed unit like px instead of % */
+    width: 100%; /* Full width */
+    box-sizing: border-box; /* Includes padding and border in the width */
+}
+
+/*here start the sidebar design*/
+
+.sidebar {
+    width: 15%;
+    background-color: #131C2F;
+    height: 100vh;
+    position: fixed;
+    min-width: 180px; /* Set a minimum width for the sidebar */
+    max-width: 180px;
+    float: left;
+}
+
+.profile-icon {
+    position: absolute; /* Absolute position within the main-content */
+    top: 10px; /* Spacing from the top */
+    right: 10px; /* Spacing from the right */
+}
+
+.profile-icon img {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+}
+
+.menu {
+    padding: 20px;
+}
+
+.iconStyle {
+    width: 30px;
+    height: 30px;
+    margin-right: 10px;
+}
+
+/* Assuming your links are inside list items */
+#a li a {
+    color: #ffffff; /* White text color */
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
+    border-radius: 10px;
+}
+
+#a li a:hover {
+    background-color: #613DE4; /* Darker shade when hovered */
+    color: #E2E2E2; /* Slightly lighter text color for contrast */
+    border-radius: 10px;
+}
+
+ul#a li {
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+ul#a li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+ul#a li .text {
+    margin-left: 10px; /* Adjust as needed */
+}
+
+
+.logout {
+    margin-left: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logout .text {
+    margin-left: 6px; /* Adjust as needed */
+}
+
+.logout img.iconStyle {
+    transition: transform 0.3s ease; /* Add a transition effect for smooth movement */
+}
+
+.logout:hover img.iconStyle {
+    transform: translate(2px, -2px); /* Move the image 5px to the right and 5px up on hover */
+}
+
+@media only screen and (max-height: 343px) {
+    .logout {
+        position: relative; /* Reset position property to default */
+    }
+}
+
+/* Media query for small screens */
+@media only screen and (max-width: 1000px) {
+    ul#a li .text {
+        display: none; /* Hide text when screen is small */
+    }
+
+    .sidebar {
+        width: 50px;
+        min-width: 50px; /* Set a minimum width for the sidebar */
+        background-color: #131C2F;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: width 0.3s ease; /* Add smooth transition for width */
+    }
+
+    .menu {
+        padding: 20px;
+        flex-grow: 1; /* Allow the menu to grow to fill the remaining space */
+    }
+
+    .iconStyle {
+        margin-right: 2px;
+    }
+
+    .logout {
+        position: relative; /* Reset position property to default */
+
+    }
+
+    .logout .text {
+        display: none; /* Hide text when screen is small */
+    }
+
+    .logout img.iconStyle {
+        margin-right: 45px;
+    }
+
+    .main-content {
+        margin-left: 40px;
+
+    }
+
+}
+
+.sidebar, .menu, ul#a li .text, .logout img.iconStyle {
+    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease; /* Adjust properties as needed */
+}
+
+
+.borderLine h1 {
+    display: flex; /* Enables flexbox layout within the <h1> */
+    justify-content: space-between; /* Spaces out the child elements */
+    align-items: center; /* Aligns items vertically in the center */
+    width: 100%; /* Ensures the <h1> takes the full width of its container */
+    margin: 0; /* Removes any default margin */
+}
+
+.year {
+    font-size: 20px;
+    margin-left: auto; /* Automatically margins to the left, pushing it to the right */
+    border-radius: 5px; /* Rounded corners */
+    white-space: nowrap; /* Keeps the text from wrapping */
+}
+
+.total-profit {
+    margin-top: 10px;
+    padding: 0;
+    font-size: 20px;
+    color: white;
+}
+
+.PnL {
+    color: #63C89B;
+}
+.calculate-tax-button {
+    position: relative;
+    bottom: 0; /* Adjust this to 0 or even negative values if needed */
+     background-color: #613DE4;
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
+    width: fit-content;
+
+}.refresh {
+     animation: rotateIcon 2s linear infinite;
+     animation-play-state: paused; /* Start with animation paused */
+ }
+
+@keyframes rotateIcon {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.refresh.active {
+    animation-play-state: running;
+}
+.calculate-tax-button:hover {
+    background-color: #5029A7;
+}
+.calculate-tax-button:hover img.iconStyle {
+    transform: rotate(-10deg); /* Adjust the degree to your preference */
+    transition: transform 0.3s ease; /* Smooth transition for rotation */
+}
+.calculate-tax-button img.iconStyle {
+    transition: transform 0.3s ease; /* Ensure the transition is smooth in both directions */
+}
+.t{
+    align-items: center;
+    justify-content: center;
+}
+.portfolio {
+    display: flex;
+    flex-direction: column; /* Changes the flex direction to column to stack children vertically */
+     width: 100%; /* Ensures it takes the full width available */
+    margin-bottom: 20px;
+    margin-right: 30px; /* Use a fixed unit like px instead of % */
+
+
+   }
