@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="portfolios-screen.css">
+    <title>Portfolios</title>
+</head>
+
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul id="a">
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/home.png" alt="Home Icon">
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/hand.png" alt="Hand Icon">
+                    <span class="text">Portfolios</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/tax.png" alt="Tax Icon">
+                    <span class="text">Tax</span>
+                </a>
+            </li>
+            <li>
+                <a class="active">
+                    <img class="iconStyle" src="../public/settings.png" alt="Settings Icon">
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <a class="logout"><img class="iconStyle" src="../public/exit.png" alt="Exit Icon"><span
+            class="text">Logout</span></a>
+</div>
+
+
+<div class="main-content">
+    <div class="profile-icon">
+        <img src="../public/User-profile-pic.png" alt="User Profile">
+    </div>
+    <div class="graphs">
+
+        <div class="portfolio section">
+            <header class="borderLine"><h1>Your Portfolio</h1></header>
+            <table class="portfolio-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Balance</th>
+                    <th>Price</th>
+                    <th>Today</th>
+                    <th>Week</th>
+                    <th class="centerAnalyzer">Price Analyzer</th>
+                </tr>
+                <tr>
+                    <td>AMZ</td>
+                    <td>$5,722</td>
+                    <td>$360</td>
+                    <td class="negative">-2.4%</td>
+                    <td class="positive">+2.12%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>BLK</td>
+                    <td>$377</td>
+                    <td>$678</td>
+                    <td class="positive">+1.1%</td>
+                    <td class="negative">-27.4%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>MAR</td>
+                    <td>$676</td>
+                    <td>$334.09</td>
+                    <td class="positive">+3.3%</td>
+                    <td class="positive">+4.23%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>MMM</td>
+                    <td>$137</td>
+                    <td>$12.8</td>
+                    <td class="positive">+2.13%</td>
+                    <td class="negative">-2.2%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="portfolio section">
+            <header class="borderLine"><h1>Your Portfolio</h1></header>
+            <table class="portfolio-table">
+                <tr>
+                    <th>Name</th>
+                    <th>Balance</th>
+                    <th>Price</th>
+                    <th>Today</th>
+                    <th>Week</th>
+                    <th class="centerAnalyzer">Price Analyzer</th>
+                </tr>
+                <tr>
+                    <td>AMD</td>
+                    <td>$5,777</td>
+                    <td>$200.77</td>
+                    <td class="positive">+5.21%</td>
+                    <td class="negative">-7.4%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>AMZ</td>
+                    <td>$5,722</td>
+                    <td>$360</td>
+                    <td class="negative">-2.4%</td>
+                    <td class="positive">+2.12%</td>
+                    <td class="centerAnalyzer">
+                        <button class="analyzerButton">
+                            <img class="analyzerStyle" src="../public/price-analyzer.png" alt="Analyzer Icon">
+                        </button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <button class="add-portfolio-button">
+            <img class="iconStyle" src="../public/plus.png"
+                 alt="Add Portfolio Icon">Add Portfolio
+        </button>
+    </div>
+
+
+    <div id="addPortfolioModal" class="port-modal">
+        <div class="port-modal-content">
+            <div class="port-close">&times;</div>
+            <h1 class="borderLine">Add a new portfolio</h1>
+            <label for="apiAddress">API Address</label>
+            <input type="text" id="apiAddress" name="apiAddress">
+            <button class="add-button">
+                <img class="port-icon-style" src="../public/plus.png" alt="Add Portfolio Icon">
+                Add
+            </button>
+        </div>
+    </div>
+
+
+    <div id="analyzerModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2 id="stockName">AMZ</h2>
+            <svg id="gauge" width="200" height="100"></svg> <!-- Placeholder for the gauge -->
+            <p class="disclaimer">This should not be seen as an investment recommendation</p>
+        </div>
+    </div>
+
+
+</div>
+
+</body>
+
+<script>
+    document.querySelector('.add-portfolio-button').addEventListener('click', function () {
+        document.getElementById('addPortfolioModal').style.display = 'block';
+    });
+
+    document.querySelector('.port-close').addEventListener('click', function () {
+        document.getElementById('addPortfolioModal').style.display = 'none';
+    });
+
+    window.addEventListener('click', function (event) {
+        if (event.target == document.getElementById('addPortfolioModal')) {
+            document.getElementById('addPortfolioModal').style.display = 'none';
+        }
+    });
+
+
+    function drawGauge(value) {
+        const svg = document.getElementById('gauge');
+        svg.innerHTML = ''; // Clear previous contents
+
+        const width = 200;
+        const height = 100;
+        const thickness = 18;
+
+        // Function to calculate path for the arc
+        function describeArc(x, y, radius, startAngle, endAngle) {
+            var start = polarToCartesian(x, y, radius, endAngle);
+            var end = polarToCartesian(x, y, radius, startAngle);
+            var largeArcFlag = endAngle - startAngle <= 180 ? "0" : "1";
+            var d = [
+                "M", start.x, start.y,
+                "A", radius, radius, 0, largeArcFlag, 0, end.x, end.y
+            ].join(" ");
+            return d;
+        }
+
+        function polarToCartesian(centerX, centerY, radius, angleInDegrees) {
+            var angleInRadians = (angleInDegrees - 90) * Math.PI / 180.0;
+            return {
+                x: centerX + (radius * Math.cos(angleInRadians)),
+                y: centerY + (radius * Math.sin(angleInRadians))
+            };
+        }
+
+        // Draw the gauge background
+        let background = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        background.setAttribute("d", describeArc(width / 2, height, height - thickness, 0, 180));
+        background.setAttribute("fill", "transparent");
+        background.setAttribute("stroke", "#444");
+        background.setAttribute("stroke-width", thickness);
+        svg.appendChild(background);
+
+        // Draw the gauge value arc
+        let arc = document.createElementNS("http://www.w3.org/2000/svg", "path");
+        arc.setAttribute("d", describeArc(width / 2, height, height - thickness, 0, value * 180));
+        arc.setAttribute("fill", "transparent");
+        arc.setAttribute("stroke", value > 0.66 ? "limegreen" : value > 0.33 ? "yellow" : "red");
+        arc.setAttribute("stroke-width", thickness);
+        svg.appendChild(arc);
+    }
+
+    // Example usage
+    document.querySelectorAll('.analyzerButton').forEach(button => {
+        button.onclick = function () {
+            var modal = document.getElementById('analyzerModal');
+            modal.style.display = "block";
+            drawGauge(Math.random()); // Random for demonstration, replace with actual data
+        }
+    });
+
+    document.querySelector('.close').onclick = function () {
+        var modal = document.getElementById('analyzerModal');
+        modal.style.display = "none";
+    }
+
+    window.onclick = function (event) {
+        var modal = document.getElementById('analyzerModal');
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+
+</html>

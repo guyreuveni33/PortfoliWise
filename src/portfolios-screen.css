@@ -1,0 +1,451 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    color: #fff;
+    background-color: #0C1120;
+}
+
+
+.menu a.logo {
+    font-size: 24px;
+    color: #fff;
+    text-decoration: none;
+}
+
+.menu ul {
+    list-style: none;
+    padding: 0;
+}
+
+.menu ul li a {
+    color: #ccc;
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    transition: color 0.3s;
+}
+
+.menu ul li a.active, .menu ul li a:hover {
+    color: #fff;
+}
+
+.borderLine {
+    border-bottom: 1px solid #ffffff; /* Add a 1px solid line under the header */
+}
+
+.main-content {
+    position: relative;
+    padding: 70px 0 30px 30px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-items: flex-start;
+    justify-content: space-between; /* Ensures sections are spaced out evenly */
+    margin-left: 200px;
+}
+
+.graphs {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* Ensures that graphs are spaced evenly */
+    flex-grow: 1;
+}
+
+.section {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    margin-right: 3%;
+    max-height: 30%;
+    /*flex: 1 1 auto; !* Adds flexibility to section sizing *!*/
+}
+
+.portfolio-table th, .portfolio-table td {
+    width: 17%;
+    text-align: left;
+    padding: 8px;
+}
+
+.portfolio {
+    overflow-x: auto; /* Keeps horizontal scroll if needed */
+    width: 100%; /* Adjust width to match balance graph */
+    height: fit-content;
+}
+
+header h1 {
+    margin: 0;
+    padding-bottom: 10px;
+}
+
+.portfolio-table {
+    width: 100%; /* Ensures tables take full width of their containers */
+    margin-top: 20px;
+}
+
+.portfolio-table td {
+    border-top: 1px solid #2f3951;
+}
+
+.portfolio-table td.positive {
+    color: #4caf50;
+}
+
+.portfolio-table td.negative {
+    color: #f44336;
+}
+.analyzerStyle {
+    width: 25px;
+    height: 25px;
+}
+
+.centerAnalyzer {
+    text-align: center !important;
+}
+
+.add-portfolio-button {
+    position: relative;
+    margin-top: 20px;
+    bottom: 20px;     /* 10px from the bottom */
+    background-color: #613DE4; /* Dark purple background */
+    border: none;
+    border-radius: 10px; /* Rounded corners */
+    color: white; /* White text */
+    padding: 10px 20px; /* Top and bottom padding, left and right padding */
+    font-size: 16px; /* Text size */
+    cursor: pointer; /* Cursor indicates it's clickable */
+    display: flex; /* Aligns the icon and text */
+    align-items: center; /* Centers items vertically */
+    justify-content: center; /* Centers items horizontally */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+    /*margin-right: 3%;*/
+}
+/*@media only screen and (max-width: 1000px) {*/
+/*    .add-portfolio-button {*/
+/*        margin-top: 20px; !* Hide text when screen is small *!*/
+/*        bottom: 20px; !* Hide text when screen is small *!*/
+/*    }*/
+
+.add-portfolio-button:hover {
+    background-color: #5029A7; /* Slightly darker purple on hover */
+}
+
+.button-icon {
+    width: 24px; /* Icon width */
+    height: 24px; /* Icon height */
+    margin-right: 10px; /* Space between icon and text */
+}
+
+/**************************************************************************************************************/
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed;
+    z-index: 1000; /* Higher z-index to ensure it's on top */
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8); /* Dimmed background */
+}
+
+
+.modal-content {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 50%; /* Adjust based on your preference */
+    background-color: #131C2F;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+.close {
+    color: #aaa;
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #fff;
+}
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+h2#stockName {
+    color: #fff;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.disclaimer {
+    color: #aaa;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.analyzerButton {
+    background-color: #131C2F;
+    border: none;
+}
+
+.analyzer-gauge {
+    margin: 20px auto;
+    width: 100%; /* Full width to center the SVG */
+    height: 150px; /* Fixed height for the gauge */
+    display: flex;
+    justify-content: center; /* Center SVG horizontally */
+    align-items: center; /* Center SVG vertically */
+}
+
+/**************************************************************************************************************/
+
+.port-modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.8);
+}
+
+.port-modal-content {
+    text-align: left;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 550px; /* Increase width from 50% to 60% */
+    height: 190px;
+    background-color: #131C2F;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+@media only screen and (max-width: 600px) {
+    .port-modal-content {
+        width: 90%; /* Adjust width to 90% of the screen */
+        max-width: 500px; /* Ensure it does not exceed the maximum width */
+    }
+}
+.port-modal-content h1 {
+    padding-left: 10px;
+    margin-top: 10px;
+    color: #fff;
+    margin-bottom: 20px;
+    text-align: left;
+}
+
+.port-modal-content label {
+    padding-left: 10px;
+    font-size: 12px;
+    color: #fff;
+    display: block;
+    text-align: left;
+    margin-bottom: 5px;
+}
+
+input[type="text"] {
+    margin-left: 10px;
+    width: 90%;
+    padding: 8px;
+    border: none;
+    border-radius: 4px;
+    font-size: 15px;
+    background-color: #252c48; /* Darker background for input */
+    color: #fff;
+}
+
+.add-button {
+    position: absolute;
+    bottom: 15px; /* 20px from the bottom */
+    right: 15px; /* Align to the right side */
+    background-color: #613DE4; /* Dark purple background */
+    border: none;
+    border-radius: 10px; /* Rounded corners */
+    color: white; /* White text */
+    padding: 10px 20px; /* Top and bottom padding, left and right padding */
+    font-size: 14px; /* Text size */
+    cursor: pointer; /* Indicates it's clickable */
+    display: flex; /* Aligns the icon and text */
+    align-items: center; /* Centers items vertically */
+    justify-content: center; /* Centers items horizontally */
+    transition: background-color 0.3s; /* Smooth transition for hover */
+}
+
+.add-button:hover {
+    background-color: #5029A7; /* Slightly darker purple on hover */
+}
+
+.port-icon-style {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+.port-close {
+    color: #aaa;
+    float: right;
+    font-size: 35px;
+    cursor: pointer;
+}
+
+.close:hover {
+    color: #fff;
+}
+
+
+/**************************************************************************************************************/
+
+
+
+/*here start the sidebar design*/
+
+.sidebar {
+    width: 15%;
+    background-color: #131C2F;
+    height: 100vh;
+    position: fixed;
+    min-width: 180px; /* Set a minimum width for the sidebar */
+    max-width: 180px;
+    float: left;
+}
+
+.profile-icon {
+    position: absolute; /* Absolute position within the main-content */
+    top: 10px; /* Spacing from the top */
+    right: 10px; /* Spacing from the right */
+}
+
+.profile-icon img {
+    width: 40px; /* Adjust size as needed */
+    height: 40px; /* Adjust size as needed */
+}
+.menu {
+    padding: 20px;
+}
+
+.iconStyle {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+/* Assuming your links are inside list items */
+#a li a {
+    color: #ffffff; /* White text color */
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
+    border-radius: 10px;
+}
+
+#a li a:hover {
+    background-color: #613DE4; /* Darker shade when hovered */
+    color: #E2E2E2; /* Slightly lighter text color for contrast */
+    border-radius: 10px;
+}
+
+ul#a li {
+    margin-bottom: 10px; /* Adjust as needed */
+}
+
+ul#a li a {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+}
+
+ul#a li .text {
+    margin-left: 10px; /* Adjust as needed */
+}
+
+
+.logout {
+    margin-left: 14px;
+    margin-bottom: 20px;
+    text-align: center;
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.logout .text{
+    margin-left: 6px; /* Adjust as needed */
+}
+
+.logout img.iconStyle {
+    transition: transform 0.3s ease; /* Add a transition effect for smooth movement */
+}
+
+.logout:hover img.iconStyle {
+    transform: translate(2px, -2px); /* Move the image 5px to the right and 5px up on hover */
+}
+@media only screen and (max-height: 343px) {
+    .logout {
+        position: relative; /* Reset position property to default */
+    }
+}
+/* Media query for small screens */
+@media only screen and (max-width: 1000px) {
+    ul#a li .text {
+        display: none; /* Hide text when screen is small */
+    }
+
+    .sidebar {
+        width: 50px;
+        min-width: 50px; /* Set a minimum width for the sidebar */
+        background-color: #131C2F;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: width 0.3s ease; /* Add smooth transition for width */
+    }
+
+    .menu {
+        padding: 20px;
+        flex-grow: 1; /* Allow the menu to grow to fill the remaining space */
+    }
+
+    .iconStyle {
+        margin-right: 2px;
+    }
+
+    .logout {
+        position: relative; /* Reset position property to default */
+
+    }
+
+    .logout .text {
+        display: none; /* Hide text when screen is small */
+    }
+    .logout img.iconStyle {
+        margin-right: 45px;
+    }
+
+    .main-content {
+        margin-left: 40px;
+
+    }
+
+}
+
+.sidebar, .menu, ul#a li .text, .logout img.iconStyle {
+    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease; /* Adjust properties as needed */
+}/* Media query for large screens */
