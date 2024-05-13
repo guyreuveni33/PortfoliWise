@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="tax.css">
+    <link rel="stylesheet" href="tax-modal.css">
 
     <title>Dashboard</title>
 </head>
@@ -47,26 +48,9 @@
         <img src="../public/User-profile-pic.png" alt="User Profile">
     </div>
 
-    <div class=" portfolio "  >
+    <div class=" portfolio ">
 
-        <div class=" section">
-            <header class="borderLine">
-                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
-                                                                          src="../public/refresh.png"
-                                                                          alt="Settings Icon">
-                </h1>
-            </header>
-            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
-        </div>
-        <div class=" section">
-            <header class="borderLine">
-                <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
-                                                                          src="../public/refresh.png"
-                                                                          alt="Settings Icon">
-                </h1>
-            </header>
-            <div class="total-profit">Total Profit: <span class="PnL">+1300$</span></div>
-        </div>
+
         <div class=" section">
             <header class="borderLine">
                 <h1>Portfolio 1<span class="year"> Year: 2024</span> <img class="iconStyle refresh"
@@ -99,17 +83,41 @@
         </div>
 
     </div>
-    <button class="btn-bot calculate-tax-button s">
-        <img class="iconStyle " src="../public/estimate.png"
-             alt="Settings Icon" > Calculate Tax
-    </button>
+
+    <button class="calculate-tax-button" onclick="openModal()"> <img class="iconStyle " src="../public/estimate.png"
+                                                                     alt="Settings Icon" >Calculate Tax</button>
+    <div id="calculateTaxModal" class="port-modal">
+        <div class="port-modal-content">
+            <div class="port-close">&times;</div>
+            <h1 class="borderLine">Tax Summary for This Year</h1>
+            <p class="alignText">Your combined portfolios profit for the year is <strong>$1,570</strong></p>
+            <p class="alignText">Tax due: <strong>$392.50</strong></p>
+            <p class="alignText">Keep up the great work!</p>
+            <button class="gotBtn">
+                <img class="port-icon-style" src="../public/facebookLike.png" alt="Add Portfolio Icon">
+                Got it
+            </button>
+        </div>
+    </div>
+
 </div>
+<script src="tax-modal.js"></script>
+
 <script>
+
     document.querySelectorAll('.refresh').forEach(item => {
-        item.addEventListener('mouseenter', function() {
+        item.addEventListener('mouseenter', function () {
             this.style.animationPlayState = 'running';
         });
-        item.addEventListener('mouseleave', function() {
+        item.addEventListener('mouseleave', function () {
+            this.style.animationPlayState = 'paused';
+        });
+    });
+    document.querySelectorAll('.refresh').forEach(item => {
+        item.addEventListener('mouseenter', function () {
+            this.style.animationPlayState = 'running';
+        });
+        item.addEventListener('mouseleave', function () {
             this.style.animationPlayState = 'paused';
         });
     });

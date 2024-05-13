@@ -48,7 +48,7 @@ body, html {
     align-items: flex-start;
     justify-content: space-between; /* Ensures sections are spaced out evenly */
     margin-left: 200px;
-     flex-direction: column; /* Stack children vertically */
+    flex-direction: column; /* Stack children vertically */
 
 }
 
@@ -56,9 +56,10 @@ body, html {
     background-color: #131C2F;
     border-radius: 8px;
     padding: 20px;
-    margin-bottom: 30px; /* Use a fixed unit like px instead of % */
-    width: 100%; /* Full width */
+    margin-top: 30px; /* Use a fixed unit like px instead of % */
+    width: 30%; /* Full width */
     box-sizing: border-box; /* Includes padding and border in the width */
+    min-width: 400px;
 }
 
 /*here start the sidebar design*/
@@ -217,6 +218,7 @@ ul#a li .text {
     margin-left: auto; /* Automatically margins to the left, pushing it to the right */
     border-radius: 5px; /* Rounded corners */
     white-space: nowrap; /* Keeps the text from wrapping */
+
 }
 
 .total-profit {
@@ -244,6 +246,7 @@ ul#a li .text {
     justify-content: center;
     transition: background-color 0.3s;
     width: fit-content;
+    margin-top: 10px;
 
 }.refresh {
      animation: rotateIcon 2s linear infinite;
