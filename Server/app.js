@@ -6,8 +6,10 @@ const jwt = require('jsonwebtoken');
 const User = require('./models/User');
 const swaggerJsdoc = require('swagger-jsdoc');
 const swaggerUi = require('swagger-ui-express');
-
+const cors = require('cors');
 const app = express();
+
+app.use(cors());
 const port = 3001;
 const secretKey = 'your_secret_key'; // Replace with your own secret key
 
