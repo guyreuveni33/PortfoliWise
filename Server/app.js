@@ -3,81 +3,36 @@ const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('./models/User');
-const swaggerJsdoc = require('swagger-jsdoc');
-const swaggerUi = require('swagger-ui-express');
+const User = require('./models/User'); // Assuming you have a User model
 const cors = require('cors');
 const app = express();
 
 app.use(cors());
+app.use(bodyParser.json());
+
 const port = 3001;
 const secretKey = 'your_secret_key'; // Replace with your own secret key
 
-// Middleware
-app.use(bodyParser.json());
+// Middleware to verify JWT
+const verifyToken = (req, res, next) => {
+    const token = req.headers['authorization'];
+    if (!token) return res.status(401).send('Access denied. No token provided.');
 
-// Swagger setup
-const swaggerOptions = {
-    swaggerDefinition: {
-        openapi: '3.0.0',
-        info: {
-            title: 'User API',
-            version: '1.0.0',
-            description: 'User Registration and Login API'
-        },
-        servers: [
-            {
-                url: 'http://localhost:3001'
-            }
-        ],
-    },
-    apis: ['./app.js'], // Path to the API docs
+    try {
+        const decoded = jwt.verify(token, secretKey);
+        req.user = decoded;
+        next();
+    } catch (error) {
+        res.status(400).send('Invalid token.');
+    }
 };
-
-const swaggerDocs = swaggerJsdoc(swaggerOptions);
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Connect to MongoDB
 mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true, useUnifiedTopology: true })
     .then(() => console.log('Connected to MongoDB'))
     .catch((error) => console.error('Could not connect to MongoDB:', error));
 
-/**
- * @swagger
- * components:
- *   schemas:
- *     User:
- *       type: object
- *       required:
- *         - email
- *         - password
- *       properties:
- *         email:
- *           type: string
- *           description: The user's email
- *         password:
- *           type: string
- *           description: The user's password
- */
-
-/**
- * @swagger
- * /register:
- *   post:
- *     summary: Register a new user
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       201:
- *         description: User registered successfully
- *       500:
- *         description: Error registering user
- */
+// User Registration Route
 app.post('/register', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -91,26 +46,7 @@ app.post('/register', async (req, res) => {
     }
 });
 
-/**
- * @swagger
- * /login:
- *   post:
- *     summary: Login a user
- *     tags: [User]
- *     requestBody:
- *       required: true
- *       content:
- *         application/json:
- *           schema:
- *             $ref: '#/components/schemas/User'
- *     responses:
- *       200:
- *         description: User logged in successfully
- *       400:
- *         description: Invalid email or password
- *       500:
- *         description: Error logging in user
- */
+// User Login Route
 app.post('/login', async (req, res) => {
     const { email, password } = req.body;
     try {
@@ -127,6 +63,11 @@ app.post('/login', async (req, res) => {
     }
 });
 
+// Protected Dashboard Route
+app.get('/dashboard', verifyToken, (req, res) => {
+    res.send('Welcome to the Dashboard');
+});
+
 app.listen(port, () => {
-    console.log(`Server is running at http://localhost:${port}`);
+    console.log(`Server is running on http://localhost:${port}`);
 });
