@@ -49,6 +49,8 @@ body, html {
     justify-content: space-between; /* Ensures sections are spaced out evenly */
     margin-left: 180px;
     overflow: hidden;
+    overflow-y: scroll;
+    margin-top: 40px;
 }
 
 .graphs {
@@ -56,7 +58,7 @@ body, html {
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between; /* Ensures that graphs are spaced evenly */
-    overflow: hidden;
+    overflow-y: scroll;
 }
 
 .section {
@@ -277,15 +279,14 @@ button .text {
     transform: translate(2px, -2px); /* Move the image 5px to the right and 5px up on hover */
 }
 
-/* Responsive sidebar behavior for small screens */
 @media only screen and (max-width: 1000px) {
     ul#a li .text {
-        display: none; /* Hide text when screen is small */
+        display: none;
     }
 
     .sidebar {
         width: 50px;
-        min-width: 50px; /* Set a minimum width for the sidebar */
+        min-width: 50px;
         background-color: #131C2F;
         height: 100vh;
         position: fixed;
@@ -293,12 +294,62 @@ button .text {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: width 0.3s ease; /* Add smooth transition for width */
+        transition: width 0.3s ease;
+    }
+
+    .main-content {
+        margin-left: 50px;
+        height: 100vh;
+        overflow-y: auto;
+        padding: 0 20px 30px 20px;
+    }
+
+    .graphs {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        overflow-y: visible;
+    }
+
+    .section {
+        width: 100%;
+        margin-right: 0;
+        margin-bottom: 20px;
+        max-height: none;
+        padding: 15px;
+        box-sizing: border-box;
+    }
+
+    .watchlist.section,
+    .marketplace.section,
+    .portfolio.section,
+    .circle-chart.section,
+    .balance-graph.section {
+        flex-basis: 100%;
+        max-width: 90%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .time-filters {
+        position: static;
+        margin-top: 20px;
+        /*width: 100%;*/
+    }
+
+    .watchlist-table,
+    .market-table,
+    .portfolio-table {
+        overflow-x: auto;
+        width: 100%;
+        display: table;
+        flex-wrap: wrap;
     }
 
     .menu {
         padding: 20px;
-        flex-grow: 1; /* Allow the menu to grow to fill the remaining space */
+        flex-grow: 1;
     }
 
     .iconStyle {
@@ -306,19 +357,19 @@ button .text {
     }
 
     .logout {
-        position: relative; /* Reset position property to default */
+        position: relative;
     }
 
     .logout .text {
-        display: none; /* Hide text when screen is small */
+        display: none;
     }
 
     .logout img.iconStyle {
         margin-right: 45px;
     }
 
-    .main-content {
-        margin-left: 50px;
+    .borderLine {
+        width: 100%;
     }
 }
 
