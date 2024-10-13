@@ -1,3 +1,4 @@
+/* portfolios-screen.css */
 body, html {
     margin: 0;
     padding: 0;
@@ -5,7 +6,6 @@ body, html {
     color: #fff;
     background-color: #0C1120;
 }
-
 
 .menu a.logo {
     font-size: 24px;
@@ -26,12 +26,18 @@ body, html {
     transition: color 0.3s;
 }
 
-.menu ul li a.active, .menu ul li a:hover {
+.menu ul li a.active {
+    background-color: #613DE4;
+    color: #E2E2E2;
+    border-radius: 10px;
+}
+
+.menu ul li a:hover {
     color: #fff;
 }
 
 .borderLine {
-    border-bottom: 1px solid #ffffff; /* Add a 1px solid line under the header */
+    border-bottom: 1px solid #ffffff;
 }
 
 .main-content {
@@ -41,7 +47,7 @@ body, html {
     flex-direction: column;
     flex-wrap: wrap;
     align-items: flex-start;
-    justify-content: space-between; /* Ensures sections are spaced out evenly */
+    justify-content: space-between;
     margin-left: 200px;
 }
 
@@ -49,7 +55,7 @@ body, html {
     width: 100%;
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-between; /* Ensures that graphs are spaced evenly */
+    justify-content: space-between;
     flex-grow: 1;
 }
 
@@ -60,7 +66,6 @@ body, html {
     margin-bottom: 30px;
     margin-right: 3%;
     max-height: 30%;
-    /*flex: 1 1 auto; !* Adds flexibility to section sizing *!*/
 }
 
 .portfolio-table th, .portfolio-table td {
@@ -70,8 +75,8 @@ body, html {
 }
 
 .portfolio {
-    overflow-x: auto; /* Keeps horizontal scroll if needed */
-    width: 100%; /* Adjust width to match balance graph */
+    overflow-x: auto;
+    width: 100%;
     height: fit-content;
 }
 
@@ -81,7 +86,7 @@ header h1 {
 }
 
 .portfolio-table {
-    width: 100%; /* Ensures tables take full width of their containers */
+    width: 100%;
     margin-top: 20px;
 }
 
@@ -96,6 +101,7 @@ header h1 {
 .portfolio-table td.negative {
     color: #f44336;
 }
+
 .analyzerStyle {
     width: 25px;
     height: 25px;
@@ -108,55 +114,47 @@ header h1 {
 .add-portfolio-button {
     position: relative;
     margin-top: 20px;
-    bottom: 20px;     /* 10px from the bottom */
-    background-color: #613DE4; /* Dark purple background */
+    bottom: 20px;
+    background-color: #613DE4;
     border: none;
-    border-radius: 10px; /* Rounded corners */
-    color: white; /* White text */
-    padding: 10px 20px; /* Top and bottom padding, left and right padding */
-    font-size: 16px; /* Text size */
-    cursor: pointer; /* Cursor indicates it's clickable */
-    display: flex; /* Aligns the icon and text */
-    align-items: center; /* Centers items vertically */
-    justify-content: center; /* Centers items horizontally */
-    transition: background-color 0.3s; /* Smooth transition for hover */
-    /*margin-right: 3%;*/
+    border-radius: 10px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
 }
-/*@media only screen and (max-width: 1000px) {*/
-/*    .add-portfolio-button {*/
-/*        margin-top: 20px; !* Hide text when screen is small *!*/
-/*        bottom: 20px; !* Hide text when screen is small *!*/
-/*    }*/
 
 .add-portfolio-button:hover {
-    background-color: #5029A7; /* Slightly darker purple on hover */
+    background-color: #5029A7;
 }
 
 .button-icon {
-    width: 24px; /* Icon width */
-    height: 24px; /* Icon height */
-    margin-right: 10px; /* Space between icon and text */
+    width: 24px;
+    height: 24px;
+    margin-right: 10px;
 }
 
-/**************************************************************************************************************/
 .modal {
-    display: none; /* Hidden by default */
+    display: none;
     position: fixed;
-    z-index: 1000; /* Higher z-index to ensure it's on top */
+    z-index: 1000;
     left: 0;
     top: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0,0,0,0.8); /* Dimmed background */
+    background-color: rgba(0,0,0,0.8);
 }
-
 
 .modal-content {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 50%; /* Adjust based on your preference */
+    width: 50%;
     background-color: #131C2F;
     padding: 20px;
     border-radius: 10px;
@@ -174,11 +172,6 @@ header h1 {
 
 .close:hover {
     color: #fff;
-}
-.close:focus {
-    color: black;
-    text-decoration: none;
-    cursor: pointer;
 }
 
 h2#stockName {
@@ -201,14 +194,12 @@ h2#stockName {
 
 .analyzer-gauge {
     margin: 20px auto;
-    width: 100%; /* Full width to center the SVG */
-    height: 150px; /* Fixed height for the gauge */
+    width: 100%;
+    height: 150px;
     display: flex;
-    justify-content: center; /* Center SVG horizontally */
-    align-items: center; /* Center SVG vertically */
+    justify-content: center;
+    align-items: center;
 }
-
-/**************************************************************************************************************/
 
 .port-modal {
     display: none;
@@ -227,7 +218,7 @@ h2#stockName {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 550px; /* Increase width from 50% to 60% */
+    width: 550px;
     height: 190px;
     background-color: #131C2F;
     padding: 15px;
@@ -235,12 +226,6 @@ h2#stockName {
     box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-@media only screen and (max-width: 600px) {
-    .port-modal-content {
-        width: 90%; /* Adjust width to 90% of the screen */
-        max-width: 500px; /* Ensure it does not exceed the maximum width */
-    }
-}
 .port-modal-content h1 {
     padding-left: 10px;
     margin-top: 10px;
@@ -265,29 +250,29 @@ input[type="text"] {
     border: none;
     border-radius: 4px;
     font-size: 15px;
-    background-color: #252c48; /* Darker background for input */
+    background-color: #252c48;
     color: #fff;
 }
 
 .add-button {
     position: absolute;
-    bottom: 15px; /* 20px from the bottom */
-    right: 15px; /* Align to the right side */
-    background-color: #613DE4; /* Dark purple background */
+    bottom: 15px;
+    right: 15px;
+    background-color: #613DE4;
     border: none;
-    border-radius: 10px; /* Rounded corners */
-    color: white; /* White text */
-    padding: 10px 20px; /* Top and bottom padding, left and right padding */
-    font-size: 14px; /* Text size */
-    cursor: pointer; /* Indicates it's clickable */
-    display: flex; /* Aligns the icon and text */
-    align-items: center; /* Centers items vertically */
-    justify-content: center; /* Centers items horizontally */
-    transition: background-color 0.3s; /* Smooth transition for hover */
+    border-radius: 10px;
+    color: white;
+    padding: 10px 20px;
+    font-size: 14px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.3s;
 }
 
 .add-button:hover {
-    background-color: #5029A7; /* Slightly darker purple on hover */
+    background-color: #5029A7;
 }
 
 .port-icon-style {
@@ -303,37 +288,27 @@ input[type="text"] {
     cursor: pointer;
 }
 
-.close:hover {
-    color: #fff;
-}
-
-
-/**************************************************************************************************************/
-
-
-
-/*here start the sidebar design*/
-
 .sidebar {
     width: 15%;
     background-color: #131C2F;
     height: 100vh;
     position: fixed;
-    min-width: 180px; /* Set a minimum width for the sidebar */
+    min-width: 180px;
     max-width: 180px;
     float: left;
 }
 
 .profile-icon {
-    position: absolute; /* Absolute position within the main-content */
-    top: 10px; /* Spacing from the top */
-    right: 10px; /* Spacing from the right */
+    position: absolute;
+    top: 10px;
+    right: 10px;
 }
 
 .profile-icon img {
-    width: 40px; /* Adjust size as needed */
-    height: 40px; /* Adjust size as needed */
+    width: 40px;
+    height: 40px;
 }
+
 .menu {
     padding: 20px;
 }
@@ -344,21 +319,20 @@ input[type="text"] {
     margin-right: 10px;
 }
 
-/* Assuming your links are inside list items */
 #a li a {
-    color: #ffffff; /* White text color */
-    transition: background-color 0.3s, color 0.3s, border-radius 0.3s; /* Smooth transition for background and text color */
+    color: #ffffff;
+    transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
     border-radius: 10px;
 }
 
 #a li a:hover {
-    background-color: #613DE4; /* Darker shade when hovered */
-    color: #E2E2E2; /* Slightly lighter text color for contrast */
+    background-color: #613DE4;
+    color: #E2E2E2;
     border-radius: 10px;
 }
 
 ul#a li {
-    margin-bottom: 10px; /* Adjust as needed */
+    margin-bottom: 10px;
 }
 
 ul#a li a {
@@ -368,9 +342,8 @@ ul#a li a {
 }
 
 ul#a li .text {
-    margin-left: 10px; /* Adjust as needed */
+    margin-left: 10px;
 }
-
 
 .logout {
     margin-left: 14px;
@@ -383,31 +356,32 @@ ul#a li .text {
     align-items: center;
 }
 
-.logout .text{
-    margin-left: 6px; /* Adjust as needed */
+.logout .text {
+    margin-left: 6px;
 }
 
 .logout img.iconStyle {
-    transition: transform 0.3s ease; /* Add a transition effect for smooth movement */
+    transition: transform 0.3s ease;
 }
 
 .logout:hover img.iconStyle {
-    transform: translate(2px, -2px); /* Move the image 5px to the right and 5px up on hover */
+    transform: translate(2px, -2px);
 }
+
 @media only screen and (max-height: 343px) {
     .logout {
-        position: relative; /* Reset position property to default */
+        position: relative;
     }
 }
-/* Media query for small screens */
+
 @media only screen and (max-width: 1000px) {
     ul#a li .text {
-        display: none; /* Hide text when screen is small */
+        display: none;
     }
 
     .sidebar {
         width: 50px;
-        min-width: 50px; /* Set a minimum width for the sidebar */
+        min-width: 50px;
         background-color: #131C2F;
         height: 100vh;
         position: fixed;
@@ -415,12 +389,12 @@ ul#a li .text {
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        transition: width 0.3s ease; /* Add smooth transition for width */
+        transition: width 0.3s ease;
     }
 
     .menu {
         padding: 20px;
-        flex-grow: 1; /* Allow the menu to grow to fill the remaining space */
+        flex-grow: 1;
     }
 
     .iconStyle {
@@ -428,24 +402,22 @@ ul#a li .text {
     }
 
     .logout {
-        position: relative; /* Reset position property to default */
-
+        position: relative;
     }
 
     .logout .text {
-        display: none; /* Hide text when screen is small */
+        display: none;
     }
+
     .logout img.iconStyle {
         margin-right: 45px;
     }
 
     .main-content {
         margin-left: 40px;
-
     }
-
 }
 
 .sidebar, .menu, ul#a li .text, .logout img.iconStyle {
-    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease; /* Adjust properties as needed */
-}/* Media query for large screens */
+    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
+}

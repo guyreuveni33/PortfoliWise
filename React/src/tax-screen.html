@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="TaxScreen.module.css">
+    <title>Portfolios</title>
+</head>
+
+<body>
+<div class="sidebar">
+    <div class="menu">
+        <ul id="a">
+            <li>
+                <a id="home-link">
+                    <img class="iconStyle" src="../public/home.png" alt="Home Icon">
+                    <span class="text">Home</span>
+                </a>
+            </li>
+            <li>
+                <a id="portfolios-link">
+                    <img class="iconStyle" src="../public/hand.png" alt="Hand Icon">
+                    <span class="text">Portfolios</span>
+                </a>
+            </li>
+            <li>
+                <a id="tax-link">
+                    <img class="iconStyle" src="../public/tax.png" alt="Tax Icon">
+                    <span class="text">Tax</span>
+                </a>
+            </li>
+            <li>
+                <a id="settings-link">
+                    <img class="iconStyle" src="../public/settings.png" alt="Settings Icon">
+                    <span class="text">Settings</span>
+                </a>
+            </li>
+        </ul>
+
+    </div>
+    <a class="logout"><img class="iconStyle" src="../public/exit.png" alt="Exit Icon"><span
+            class="text">Logout</span></a>
+</div>
+
+<div class="main-content">
+    <div class="profile-icon">
+        <img src="../public/User-profile-pic.png" alt="User Profile">
+    </div>
+    <div class="portfolio-list ">
+        <div class="portfolio-card section">
+            <div class="portfolio-header">
+                <div class="header-content">
+                    <h1>Your Portfolio</h1>
+                    <div class="right-header-container">
+                        <span class="year">Year: 2024</span>
+                        <img src="../public/rotate-right.png" class="iconStyleArrow">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="profit">Total Profit:</span>
+                <span class="profit positive"> +$1300</span>
+            </div>
+        </div>
+        <div class="portfolio-card section">
+            <div class="portfolio-header">
+                <div class="header-content">
+                    <h1>Your Portfolio</h1>
+                    <div class="right-header-container">
+                        <span class="year">Year: 2024</span>
+                        <img src="../public/rotate-right.png" class="iconStyleArrow">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <span class="profit">Total Profit:</span>
+                <span class="profit negative"> +$1300</span>
+            </div>
+        </div>
+
+        <button id="calculate-tax" class="calculate-tax-button">
+            <img class="iconStyle" src="../public/tax-icon.png" alt="Calculate Tax Icon">
+            Calculate Tax
+        </button>
+    </div>
+</div>
+
+<!-- Tax Modal -->
+<div id="tax-modal" class="port-modal">
+    <div class="port-modal-content">
+        <div class="port-close" id="close-modal">&times;</div>
+        <h1 class="borderLine">Tax Summary for This Year</h1>
+        <p class="tax-modal-text">Your combined portfolios profit for the year is <span
+                class="profit-amount">$1,570</span></p>
+        <p class="tax-modal-text">Tax due: <span class="tax-due">$392.50</span></p>
+        <span class="tax-modal-text">Keep up the great work!</span>
+        <button id="got-it">
+            <img class="iconStyleLike" src="../public/like.png" alt="Calculate Tax Icon">Got it
+        </button>
+    </div>
+</div>
+
+<!-- Script -->
+<script>
+    // Open modal
+    document.getElementById('calculate-tax').addEventListener('click', function () {
+        document.getElementById('tax-modal').style.display = 'flex';
+    });
+
+    // Close modal with 'Got it' button
+    document.getElementById('got-it').addEventListener('click', function () {
+        document.getElementById('tax-modal').style.display = 'none';
+    });
+
+    // Close modal with 'X' button
+    document.getElementById('close-modal').addEventListener('click', function () {
+        document.getElementById('tax-modal').style.display = 'none';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentUrl = window.location.pathname;
+
+        if (currentUrl.includes('home')) {
+            document.getElementById('home-link').classList.add('active');
+        } else if (currentUrl.includes('portfolios')) {
+            document.getElementById('portfolios-link').classList.add('active');
+        } else if (currentUrl.includes('tax')) {
+            document.getElementById('tax-link').classList.add('active');
+        } else if (currentUrl.includes('settings')) {
+            document.getElementById('settings-link').classList.add('active');
+        }
+    });
+</script>
+</body>
+</html>
