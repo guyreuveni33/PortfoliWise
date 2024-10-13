@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="tax-screen.css">
+    <link rel="stylesheet" href="TaxScreen.module.css">
     <title>Portfolios</title>
 </head>
 
@@ -12,30 +12,31 @@
     <div class="menu">
         <ul id="a">
             <li>
-                <a class="active">
+                <a id="home-link">
                     <img class="iconStyle" src="../public/home.png" alt="Home Icon">
                     <span class="text">Home</span>
                 </a>
             </li>
             <li>
-                <a class="active">
+                <a id="portfolios-link">
                     <img class="iconStyle" src="../public/hand.png" alt="Hand Icon">
                     <span class="text">Portfolios</span>
                 </a>
             </li>
             <li>
-                <a class="active">
+                <a id="tax-link">
                     <img class="iconStyle" src="../public/tax.png" alt="Tax Icon">
                     <span class="text">Tax</span>
                 </a>
             </li>
             <li>
-                <a class="active">
+                <a id="settings-link">
                     <img class="iconStyle" src="../public/settings.png" alt="Settings Icon">
                     <span class="text">Settings</span>
                 </a>
             </li>
         </ul>
+
     </div>
     <a class="logout"><img class="iconStyle" src="../public/exit.png" alt="Exit Icon"><span
             class="text">Logout</span></a>
@@ -89,7 +90,8 @@
     <div class="port-modal-content">
         <div class="port-close" id="close-modal">&times;</div>
         <h1 class="borderLine">Tax Summary for This Year</h1>
-        <p class="tax-modal-text">Your combined portfolios profit for the year is <span class="profit-amount">$1,570</span></p>
+        <p class="tax-modal-text">Your combined portfolios profit for the year is <span
+                class="profit-amount">$1,570</span></p>
         <p class="tax-modal-text">Tax due: <span class="tax-due">$392.50</span></p>
         <span class="tax-modal-text">Keep up the great work!</span>
         <button id="got-it">
@@ -113,6 +115,20 @@
     // Close modal with 'X' button
     document.getElementById('close-modal').addEventListener('click', function () {
         document.getElementById('tax-modal').style.display = 'none';
+    });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const currentUrl = window.location.pathname;
+
+        if (currentUrl.includes('home')) {
+            document.getElementById('home-link').classList.add('active');
+        } else if (currentUrl.includes('portfolios')) {
+            document.getElementById('portfolios-link').classList.add('active');
+        } else if (currentUrl.includes('tax')) {
+            document.getElementById('tax-link').classList.add('active');
+        } else if (currentUrl.includes('settings')) {
+            document.getElementById('settings-link').classList.add('active');
+        }
     });
 </script>
 </body>

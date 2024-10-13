@@ -1,5 +1,5 @@
-body, html {
-    height: 100%;
+.registerWrapper {
+    height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: #0C1120;
@@ -9,14 +9,14 @@ body, html {
     align-items: center;
 }
 
-.form-container {
+.form_container {
     width: 400px;
     background-color: #16213e;
     padding: 20px;
     border-radius: 8px;
 }
 
-.button-group {
+.button_group {
     display: flex;
     justify-content: center;
 }
@@ -29,7 +29,7 @@ body, html {
     cursor: pointer;
 }
 
-.form-container h2 {
+.form_container h2 {
     margin-top: 20px;
 }
 
@@ -38,7 +38,8 @@ form {
     flex-direction: column;
 }
 
-input[type="email"], input[type="password"] {
+input[type="email"],
+input[type="password"] {
     padding: 10px;
     margin: 0 0 10px 0;
     background-color: #1D2939;
@@ -48,7 +49,7 @@ input[type="email"], input[type="password"] {
     border-width: 2px;
 }
 
-.google-btn {
+.google_btn {
     background-color: #CE3B3B;
     color: white;
     padding: 10px;
@@ -67,7 +68,7 @@ button {
     border-radius: 5px;
 }
 
-a {
+.register_link {
     color: #613DE4;
     text-decoration: none;
     font-size: 10px;
@@ -96,16 +97,16 @@ hr {
     border-top-left-radius: 0;
 }
 
-.button-group {
+.button_group {
     display: flex;
     justify-content: space-between;
 }
 
-.enterTitle {
+.enter_title {
     font-size: 14px;
 }
 
-.detailsTitle {
+.details_title {
     font-size: 10px;
     margin: 0 0 3px 0;
     padding: 0;
