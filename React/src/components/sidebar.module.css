@@ -1,24 +1,23 @@
-body, html {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
- }
+:root {
+    --sidebar-width: 15%;
+}
 
 .sidebar {
-    width: 15%;
+    width: var(--sidebar-width);
     background-color: #131C2F;
     height: 100vh;
     position: fixed;
     min-width: 180px;
     max-width: 180px;
-    float: left;
+    display: flex;
+    flex-direction: column;
 }
 
 .menu {
     padding: 20px;
 }
 
-.menu ul {
+.menuList {
     list-style: none;
     padding: 0;
 }
@@ -29,7 +28,7 @@ body, html {
     margin-right: 10px;
 }
 
-#a li a {
+.menuListItem a {
     color: #ffffff;
     background-color: transparent;
     transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
@@ -37,35 +36,20 @@ body, html {
     display: flex;
     align-items: center;
     text-decoration: none;
-    padding: 10px;
+    padding: 15px;
 }
 
-/* Remove the default active state */
-#a li a.active {
+.active {
     background-color: transparent;
 }
 
-/* Only apply purple background when specifically hovering */
-#a li a:hover {
+.menuListItem a:hover {
     background-color: #613DE4;
     color: #E2E2E2;
 }
-
-/* Apply purple background only to the clicked/selected item */
-#a li a:active,
-#a li a.active:hover {
-    background-color: #613DE4;
-    color: #E2E2E2;
-}
-
 ul#a li {
-    margin-bottom: 10px;
+    margin-bottom: 15px; /* Adjusted for consistent spacing */
 }
-
-ul#a li .text {
-    margin-left: 10px;
-}
-
 .logout {
     margin-left: 14px;
     margin-bottom: 20px;
@@ -92,23 +76,14 @@ ul#a li .text {
 }
 
 @media only screen and (max-width: 1000px) {
-    ul#a li .text {
+    .text {
         display: none;
     }
 
     .sidebar {
         width: 50px;
         min-width: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
         align-items: center;
-        transition: width 0.3s ease;
-    }
-
-    .menu {
-        padding: 20px;
-        flex-grow: 1;
     }
 
     .iconStyle {
@@ -116,15 +91,8 @@ ul#a li .text {
     }
 
     .logout {
-        position: relative;
-    }
-
-    .logout .text {
-        display: none;
-    }
-
-    .logout img.iconStyle {
-        margin-right: 45px;
+        margin-bottom: 10px;
+        margin-left: 0; /* Center it horizontally */
     }
 }
 
@@ -132,8 +100,4 @@ ul#a li .text {
     .logout {
         position: relative;
     }
-}
-
-.sidebar, .menu, ul#a li .text, .logout img.iconStyle {
-    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
 }

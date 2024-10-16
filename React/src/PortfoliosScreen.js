@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import './portfolios-screen.css';
+import styles from './styleMenu/portfoliosScreen.module.css';
+import Sidebar from "./components/Sidebar";
 
 function PortfolioScreen() {
     const [showAddPortfolioModal, setShowAddPortfolioModal] = useState(false);
     const [showAnalyzerModal, setShowAnalyzerModal] = useState(false);
-    const [activeLink, setActiveLink] = useState('home'); // Default active link
+    const [activeLink, setActiveLink] = useState('home');
 
     const handleLinkClick = (link) => {
         setActiveLink(link);
@@ -15,10 +16,9 @@ function PortfolioScreen() {
     const handleAnalyzerClick = () => setShowAnalyzerModal(true);
     const handleCloseAnalyzer = () => setShowAnalyzerModal(false);
 
-    // Example function to draw the gauge in the analyzer modal
     const drawGauge = (value) => {
         const svg = document.getElementById('gauge');
-        svg.innerHTML = ''; // Clear previous contents
+        svg.innerHTML = '';
 
         const width = 200;
         const height = 100;
@@ -59,121 +59,74 @@ function PortfolioScreen() {
 
     useEffect(() => {
         if (showAnalyzerModal) {
-            drawGauge(Math.random()); // Random value for demonstration
+            drawGauge(Math.random());
         }
     }, [showAnalyzerModal]);
 
     return (
-        <div className="app">
-            <div className="sidebar">
-                <div className="menu">
-                    <ul id="a">
-                        <li>
-                            <a
-                                id="home-link"
-                                className={activeLink === 'home' ? 'active' : ''}
-                                onClick={() => handleLinkClick('home')}
-                            >
-                                <img className="iconStyle" src="/home.png" alt="Home Icon" />
-                                <span className="text">Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                id="portfolios-link"
-                                className={activeLink === 'portfolios' ? 'active' : ''}
-                                onClick={() => handleLinkClick('portfolios')}
-                            >
-                                <img className="iconStyle" src="/hand.png" alt="Hand Icon" />
-                                <span className="text">Portfolios</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                id="tax-link"
-                                className={activeLink === 'tax' ? 'active' : ''}
-                                onClick={() => handleLinkClick('tax')}
-                            >
-                                <img className="iconStyle" src="/tax.png" alt="Tax Icon" />
-                                <span className="text">Tax</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a
-                                id="settings-link"
-                                className={activeLink === 'settings' ? 'active' : ''}
-                                onClick={() => handleLinkClick('settings')}
-                            >
-                                <img className="iconStyle" src="/settings.png" alt="Settings Icon" />
-                                <span className="text">Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <a className="logout">
-                    <img className="iconStyle" src="/exit.png" alt="Exit Icon" />
-                    <span className="text">Logout</span>
-                </a>
-            </div>
+        <div className={styles.wrapper}>
+            <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
 
-            <div className="main-content">
-                <div className="profile-icon">
+            <div className={styles.mainContent}>
+                <div className={styles.profileIcon}>
                     <img src="/User-profile-pic.png" alt="User Profile" />
                 </div>
-                <div className="graphs">
-                    <div className="portfolio section">
-                        <header className="borderLine"><h1>Your Portfolio</h1></header>
-                        <table className="portfolio-table">
+                <div className={styles.graphs}>
+                    <div className={`${styles.portfolio} ${styles.section}`}>
+                        <header className={styles.borderLine}><h1>Your Portfolio</h1></header>
+                        <table className={styles.portfolioTable}>
+                            <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Balance</th>
                                 <th>Price</th>
                                 <th>Today</th>
                                 <th>Week</th>
-                                <th className="centerAnalyzer">Price Analyzer</th>
+                                <th className={styles.centerAnalyzer}>Price Analyzer</th>
                             </tr>
+                            </thead>
+                            <tbody>
                             <tr>
                                 <td>AMZ</td>
                                 <td>$5,722</td>
                                 <td>$360</td>
-                                <td className="negative">-2.4%</td>
-                                <td className="positive">+2.12%</td>
-                                <td className="centerAnalyzer">
-                                    <button className="analyzerButton" onClick={handleAnalyzerClick}>
-                                        <img className="analyzerStyle" src="/price-analyzer.png" alt="Analyzer Icon" />
+                                <td className={styles.negative}>-2.4%</td>
+                                <td className={styles.positive}>+2.12%</td>
+                                <td className={styles.centerAnalyzer}>
+                                    <button className={styles.analyzerButton} onClick={handleAnalyzerClick}>
+                                        <img className={styles.analyzerStyle} src="/price-analyzer.png" alt="Analyzer Icon" />
                                     </button>
                                 </td>
                             </tr>
-                            {/* Repeat table rows as needed */}
+                            </tbody>
                         </table>
                     </div>
-                    <button className="add-portfolio-button" onClick={handleAddPortfolio}>
-                        <img className="iconStyle" src="/plus.png" alt="Add Portfolio Icon" />Add Portfolio
+                    <button className={styles.addPortfolioButton} onClick={handleAddPortfolio}>
+                        <img className={styles.iconStyle} src="/plus.png" alt="Add Portfolio Icon" />Add Portfolio
                     </button>
                 </div>
             </div>
 
-            {/* Modals */}
             {showAddPortfolioModal && (
-                <div id="addPortfolioModal" className="port-modal">
-                    <div className="port-modal-content">
-                        <div className="port-close" onClick={handleCloseAddPortfolio}>&times;</div>
-                        <h1 className="borderLine">Add a new portfolio</h1>
+                <div className={styles.portModal}>
+                    <div className={styles.portModalContent}>
+                        <div className={styles.portClose} onClick={handleCloseAddPortfolio}>&times;</div>
+                        <h1 className={styles.borderLine}>Add a new portfolio</h1>
                         <label htmlFor="apiAddress">API Address</label>
-                        <input type="text" id="apiAddress" name="apiAddress" />
-                        <button className="add-button" onClick={handleCloseAddPortfolio}>
-                            <img className="port-icon-style" src="/plus.png" alt="Add Portfolio Icon" />Add
+                        <input type="text" id="apiAddress" name="apiAddress" className={styles.inputText} />
+                        <button className={styles.addButton} onClick={handleCloseAddPortfolio}>
+                            <img className={styles.portIconStyle} src="/plus.png" alt="Add Portfolio Icon" />Add
                         </button>
                     </div>
                 </div>
             )}
             {showAnalyzerModal && (
-                <div id="analyzerModal" className="modal">
-                    <div className="modal-content">
-                        <span className="close" onClick={handleCloseAnalyzer}>&times;</span>
-                        <h2 id="stockName">AMZ</h2>
+                <div className={styles.modal}>
+                    <div className={styles.modalContent}>
+                        <span className={styles.close} onClick={handleCloseAnalyzer}>&times;</span>
+                        <h2 className={styles.stockName}>AMZ</h2>
                         <svg id="gauge" width="200" height="100"></svg>
-                        <p className="disclaimer">This should not be seen as an investment recommendation</p>
+                        <p className={styles.disclaimer}>This should not be seen as an investment recommendation</p>
                     </div>
                 </div>
             )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import styles from './TaxScreen.module.css';
+import styles from './styleMenu/taxScreen.module.css';
+import Sidebar from "./components/Sidebar";
 
 const TaxScreen = () => {
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
@@ -38,40 +39,7 @@ const TaxScreen = () => {
     return (
         <div className={styles.wrapper}>
             {/* Sidebar */}
-            <div className={styles.sidebar}>
-                <div className={styles.menu}>
-                    <ul id={styles.a}>
-                        <li>
-                            <a id={styles.home_link}>
-                                <img className={styles.icon_style} src="/home.png" alt="Home Icon" />
-                                <span className={styles.text}>Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id={styles.portfolios_link}>
-                                <img className={styles.icon_style} src="/hand.png" alt="Hand Icon" />
-                                <span className={styles.text}>Portfolios</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id={styles.tax_link}>
-                                <img className={styles.icon_style} src="/tax.png" alt="Tax Icon" />
-                                <span className={styles.text}>Tax</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a id={styles.settings_link}>
-                                <img className={styles.icon_style} src="/settings.png" alt="Settings Icon" />
-                                <span className={styles.text}>Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <a className={styles.logout}>
-                    <img className={styles.icon_style} src="/exit.png" alt="Exit Icon" />
-                    <span className={styles.text}>Logout</span>
-                </a>
-            </div>
+            <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
 
             {/* Main Content */}
             <div className={styles.main_content}>

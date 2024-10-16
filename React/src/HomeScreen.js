@@ -1,155 +1,113 @@
-import React, { useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
-import Chart from 'chart.js/auto';
-import './home-screen.css'; // Include your CSS file
+import React, {useState} from 'react';
+import styles from './styleMenu/homeScreen.module.css'; // Make sure this matches the exact file name
+import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
+import Sidebar from "./components/Sidebar";
+
+Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
 const HomeScreen = () => {
-    const navigate = useNavigate();
+const [activeLink, setActiveLink] = React.useState('home');
 
-    useEffect(() => {
-        // Check if token exists in local storage, redirect to login if not
-        const token = localStorage.getItem('token');
-        if (!token) {
-            navigate('/login');
-        }
-
-        // Initialize Chart.js for the portfolio chart
+    const handleLinkClick = (link) => {
+        setActiveLink(link);}
+    React.useEffect(() => {
+        // Portfolio chart setup
         const ctx = document.getElementById('portfolioChart').getContext('2d');
         new Chart(ctx, {
             type: 'doughnut',
             data: {
                 labels: ['AMZ', 'TSLA'],
-                datasets: [{
-                    label: 'Portfolio Distribution',
-                    data: [60, 40], // Example data
-                    backgroundColor: ['rgb(210,48,48)', 'rgb(248,203,2)'],
-                    borderColor: ['rgba(210,48,48)', 'rgb(248,203,2)'],
-                    borderWidth: 1,
-                }]
+                datasets: [
+                    {
+                        label: 'Portfolio Distribution',
+                        data: [60, 40], // Example data
+                        backgroundColor: ['rgb(210,48,48)', 'rgb(248,203,2)'],
+                        borderColor: ['rgba(210,48,48)', 'rgb(248,203,2)'],
+                        borderWidth: 1,
+                    },
+                ],
             },
             options: {
                 responsive: true,
                 maintainAspectRatio: false,
-                legend: {
-                    position: 'bottom',
-                    labels: {
-                        fontColor: 'white'
-                    }
-                }
-            }
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: 'white',
+                        },
+                    },
+                },
+            },
         });
-    }, [navigate]);
-
-    const handleLogout = () => {
-        localStorage.removeItem('token'); // Remove token on logout
-        navigate('/login'); // Redirect to login page
-    };
+    }, []);
 
     return (
-        <div>
-            <div className="sidebar">
-                <div className="menu">
-                    <ul id="a">
-                        <li>
-                            <a href="/dashboard" className="active">
-                                <img className="iconStyle" src="/home.png" alt="Home Icon" />
-                                <span className="text">Home</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/portfolios" className="active">
-                                <img className="iconStyle" src="/hand.png" alt="Portfolios Icon" />
-                                <span className="text">Portfolios</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/tax" className="active">
-                                <img className="iconStyle" src="/tax.png" alt="Tax Icon" />
-                                <span className="text">Tax</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="/settings" className="active">
-                                <img className="iconStyle" src="/settings.png" alt="Settings Icon" />
-                                <span className="text">Settings</span>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-                <button className="logout" onClick={handleLogout}>
-                    <img className="iconStyle" src="/exit.png" alt="Logout Icon" />
-                    <span className="text">Logout</span>
-                </button>
-            </div>
+        <div className={styles.app_container}>
+            <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
 
-            <div className="main-content">
-                <div className="profile-icon">
-                    <img src="/User-profile-pic.png" alt="User Profile" />
+            <div className={styles.main_content}>
+                <div className={styles.profile_icon}>
+                    <img src="/User-profile-pic.png" alt="User Profile" className={styles.profile_image} />
                 </div>
 
-                <div className="graphs">
-                    <div className="balance-graph section">
+                <div className={styles.graphs_container}>
+                    <div className={`${styles.balance_graph} ${styles.section_container}`}>
                         <header>
                             <p>Your Balance</p>
-                            <h1 className="balance">$7,033.22</h1>
+                            <h1 className={styles.balance_text}>$7,033.22</h1>
                         </header>
-                        <canvas id="balanceChart"></canvas> {/* Placeholder for a chart */}
-                        <div className="time-filters borderLineTop">
-                            <button id="t1" className="filter active">Today</button>
-                            <button id="t2" className="filter">Week</button>
-                            <button id="t3" className="filter">Month</button>
-                            <button id="t4" className="filter">Year</button>
+                        <canvas id="balanceChart"></canvas>
+                        <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
+                            <button id="t1" className={`${styles.filter_button} ${styles.filter_button_active}`}>Today</button>
+                            <button id="t2" className={styles.filter_button}>Week</button>
+                            <button id="t3" className={styles.filter_button}>Month</button>
+                            <button id="t4" className={styles.filter_button}>Year</button>
                         </div>
                     </div>
 
-                    <div className="watchlist section">
-                        <header className="borderLine"><h1>Watchlist</h1></header>
-                        <table className="watchlist-table">
-                            <thead>
+                    <div className={`${styles.watchlist_section} ${styles.section_container}`}>
+                        <header className={styles.border_line}><h1>Watchlist</h1></header>
+                        <table className={styles.watchlist_table}>
+                            <tbody>
                             <tr>
                                 <th>Symbol</th>
                                 <th>Price</th>
                                 <th>%Change</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>NVDA</td><td>919.13</td><td className="positive">+7.16%</td></tr>
-                            <tr><td>MMM</td><td>21.1</td><td className="negative">-3.22%</td></tr>
-                            <tr><td>RUM</td><td>34.3</td><td className="positive">+2.11%</td></tr>
-                            <tr><td>TSLA</td><td>223.3</td><td className="positive">+5.1%</td></tr>
-                            <tr><td>PLTR</td><td>1.2</td><td className="positive">+2.9%</td></tr>
-                            <tr><td>BZ</td><td>144.4</td><td className="positive">+1.7%</td></tr>
-                            <tr><td>AMD</td><td>1500.4</td><td className="negative">-0.46%</td></tr>
-                            <tr><td>SOUN</td><td>12.3</td><td className="negative">-12.23%</td></tr>
+                            {/* Example data */}
+                            <tr>
+                                <td>NVDA</td>
+                                <td>919.13</td>
+                                <td className={styles.positive_change}>+7.16%</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div className="marketplace section">
-                        <header className="borderLine"><h1>Marketplace</h1></header>
-                        <table className="market-table">
-                            <thead>
+                    <div className={`${styles.marketplace_section} ${styles.section_container}`}>
+                        <header className={styles.border_line}><h1>Marketplace</h1></header>
+                        <table className={styles.market_table}>
+                            <tbody>
                             <tr>
                                 <th>Symbol</th>
                                 <th>Price</th>
                                 <th>%Change</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>S&amp;P</td><td>919.13</td><td className="positive">+7.16%</td></tr>
-                            <tr><td>Dow</td><td>21.1</td><td className="negative">-3.22%</td></tr>
-                            <tr><td>Nasdaq</td><td>34.3</td><td className="positive">+2.11%</td></tr>
-                            <tr><td>Russel</td><td>223.3</td><td className="positive">+5.1%</td></tr>
-                            <tr><td>BTC</td><td>1.2</td><td className="positive">+2.9%</td></tr>
-                            <tr><td>ETH</td><td>144.4</td><td className="positive">+1.7%</td></tr>
+                            {/* Example data */}
+                            <tr>
+                                <td>S&P</td>
+                                <td>919.13</td>
+                                <td className={styles.positive_change}>+7.16%</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div className="portfolio section">
-                        <header className="borderLine"><h1>Your Portfolio</h1></header>
-                        <table className="portfolio-table">
-                            <thead>
+                    <div className={`${styles.portfolio_container} ${styles.section_container}`}>
+                        <header className={styles.border_line}><h1>Your Portfolio</h1></header>
+                        <table className={styles.portfolio_table}>
+                            <tbody>
                             <tr>
                                 <th>Name</th>
                                 <th>Balance</th>
@@ -157,19 +115,20 @@ const HomeScreen = () => {
                                 <th>Today</th>
                                 <th>Week</th>
                             </tr>
-                            </thead>
-                            <tbody>
-                            <tr><td>AMD</td><td>$5,777</td><td>$200.77</td><td className="positive">+5.21%</td><td className="negative">-7.4%</td></tr>
-                            <tr><td>AMZ</td><td>$5,722</td><td>$360</td><td className="negative">-2.4%</td><td className="positive">+2.12%</td></tr>
-                            <tr><td>BLK</td><td>$377</td><td>$678</td><td className="positive">+1.1%</td><td className="negative">-27.4%</td></tr>
-                            <tr><td>MAR</td><td>$676</td><td>$334.09</td><td className="positive">+3.3%</td><td className="positive">+4.23%</td></tr>
-                            <tr><td>MMM</td><td>$137</td><td>$12.8</td><td className="positive">+2.13%</td><td className="negative">-2.2%</td></tr>
+                            {/* Example data */}
+                            <tr>
+                                <td>AMD</td>
+                                <td>$5,777</td>
+                                <td>$200.77</td>
+                                <td className={styles.positive_change}>+5.21%</td>
+                                <td className={styles.negative_change}>-7.4%</td>
+                            </tr>
                             </tbody>
                         </table>
                     </div>
 
-                    <div className="circle-chart section">
-                        <canvas id="portfolioChart"></canvas>
+                    <div className={`${styles.circle_chart_container} ${styles.section_container}`}>
+                        <canvas id="portfolioChart" className={styles.portfolio_chart}></canvas>
                     </div>
                 </div>
             </div>
