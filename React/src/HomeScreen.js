@@ -1,58 +1,46 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 import styles from './styleMenu/homeScreen.module.css';
 import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
 import Sidebar from "./components/Sidebar";
+import BalanceCard from './components/BalanceCard';
+import WatchlistCard from './components/WatchlistCard';
+import MarketplaceCard from './components/MarketplaceCard';
+import PortfolioTable from './components/PortfolioTable';
+import PortfolioChart from './components/PortfolioChart';
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
 const HomeScreen = () => {
-    const [activeLink, setActiveLink] = React.useState('home');
-    const [activeTimeFilter, setActiveTimeFilter] = useState('today'); // Add state for time filter
+    const [activeLink, setActiveLink] = useState('home');
+    const [activeTimeFilter, setActiveTimeFilter] = useState('today');
 
-    const handleLinkClick = (link) => {
-        setActiveLink(link);
-    }
-
-    const handleTimeFilterClick = (filter) => {
-        setActiveTimeFilter(filter);
-        // Here you can add logic to update the chart based on the selected time filter
-    }
-
-    React.useEffect(() => {
-        // Portfolio chart setup
-        const ctx = document.getElementById('portfolioChart').getContext('2d');
-        new Chart(ctx, {
-            type: 'doughnut',
-            data: {
-                labels: ['AMZ', 'TSLA'],
-                datasets: [
-                    {
-                        label: 'Portfolio Distribution',
-                        data: [60, 40],
-                        backgroundColor: ['rgb(210,48,48)', 'rgb(248,203,2)'],
-                        borderColor: ['rgba(210,48,48)', 'rgb(248,203,2)'],
-                        borderWidth: 1,
-                    },
-                ],
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: 'white',
-                        },
-                    },
-                },
-            },
-        });
-    }, []);
+    // Mock data - In a real app, this would come from an API or props
+    const mockData = {
+        balance: '$7,033.22',
+        watchlist: [{ symbol: 'NVDA', price: '919.13', change: 7.16 }],
+        market: [{ symbol: 'S&P', price: '919.13', change: 7.16 }],
+        portfolio: [{
+            name: 'AMD',
+            balance: '$5,777',
+            price: '$200.77',
+            todayChange: 5.21,
+            weekChange: -7.4
+        }],
+        chartData: {
+            labels: ['AMZ', 'TSLA'],
+            datasets: [{
+                label: 'Portfolio Distribution',
+                data: [60, 40],
+                backgroundColor: ['rgb(210,48,48)', 'rgb(248,203,2)'],
+                borderColor: ['rgba(210,48,48)', 'rgb(248,203,2)'],
+                borderWidth: 1,
+            }]
+        }
+    };
 
     return (
         <div className={styles.app_container}>
-            <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
+            <Sidebar activeLink={activeLink} handleLinkClick={setActiveLink} />
 
             <div className={styles.main_content}>
                 <div className={styles.profile_icon}>
@@ -60,101 +48,15 @@ const HomeScreen = () => {
                 </div>
 
                 <div className={styles.graphs_container}>
-                    <div className={`${styles.balance_graph} ${styles.section_container}`}>
-                        <header>
-                            <p>Your Balance</p>
-                            <h1 className={styles.balance_text}>$7,033.22</h1>
-                        </header>
-                        <canvas id="balanceChart"></canvas>
-                        <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
-                            <button
-                                onClick={() => handleTimeFilterClick('today')}
-                                className={`${styles.filter_button} ${activeTimeFilter === 'today' ? styles.filter_button_active : ''}`}
-                            >
-                                Today
-                            </button>
-                            <button
-                                onClick={() => handleTimeFilterClick('week')}
-                                className={`${styles.filter_button} ${activeTimeFilter === 'week' ? styles.filter_button_active : ''}`}
-                            >
-                                Week
-                            </button>
-                            <button
-                                onClick={() => handleTimeFilterClick('month')}
-                                className={`${styles.filter_button} ${activeTimeFilter === 'month' ? styles.filter_button_active : ''}`}
-                            >
-                                Month
-                            </button>
-                            <button
-                                onClick={() => handleTimeFilterClick('year')}
-                                className={`${styles.filter_button} ${activeTimeFilter === 'year' ? styles.filter_button_active : ''}`}
-                            >
-                                Year
-                            </button>
-                        </div>
-                    </div>
-
-                    <div className={`${styles.watchlist_section} ${styles.section_container}`}>
-                        <header className={styles.border_line}><h1>Watchlist</h1></header>
-                        <table className={styles.watchlist_table}>
-                            <tbody>
-                            <tr>
-                                <th>Symbol</th>
-                                <th>Price</th>
-                                <th>%Change</th>
-                            </tr>
-                            <tr>
-                                <td>NVDA</td>
-                                <td>919.13</td>
-                                <td className={styles.positive_change}>+7.16%</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className={`${styles.marketplace_section} ${styles.section_container}`}>
-                        <header className={styles.border_line}><h1>Marketplace</h1></header>
-                        <table className={styles.market_table}>
-                            <tbody>
-                            <tr>
-                                <th>Symbol</th>
-                                <th>Price</th>
-                                <th>%Change</th>
-                            </tr>
-                            <tr>
-                                <td>S&P</td>
-                                <td>919.13</td>
-                                <td className={styles.positive_change}>+7.16%</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className={`${styles.portfolio_container} ${styles.section_container}`}>
-                        <header className={styles.border_line}><h1>Your Portfolio</h1></header>
-                        <table className={styles.portfolio_table}>
-                            <tbody>
-                            <tr>
-                                <th>Name</th>
-                                <th>Balance</th>
-                                <th>Price</th>
-                                <th>Today</th>
-                                <th>Week</th>
-                            </tr>
-                            <tr>
-                                <td>AMD</td>
-                                <td>$5,777</td>
-                                <td>$200.77</td>
-                                <td className={styles.positive_change}>+5.21%</td>
-                                <td className={styles.negative_change}>-7.4%</td>
-                            </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    <div className={`${styles.circle_chart_container} ${styles.section_container}`}>
-                        <canvas id="portfolioChart" className={styles.portfolio_chart}></canvas>
-                    </div>
+                    <BalanceCard
+                        balance={mockData.balance}
+                        activeTimeFilter={activeTimeFilter}
+                        onTimeFilterClick={setActiveTimeFilter}
+                    />
+                    <WatchlistCard watchlistData={mockData.watchlist} />
+                    <MarketplaceCard marketData={mockData.market} />
+                    <PortfolioTable portfolioData={mockData.portfolio} />
+                    <PortfolioChart chartData={mockData.chartData} />
                 </div>
             </div>
         </div>
