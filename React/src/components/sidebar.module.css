@@ -39,17 +39,22 @@
     padding: 15px;
 }
 
-.active {
-    background-color: transparent;
+.menuListItem a.active {
+    background-color: #613DE4; /* Highlight active item */
+    color: #ffffff;
+    font-weight: bold;
+    border-radius: 10px;
 }
 
 .menuListItem a:hover {
     background-color: #613DE4;
     color: #E2E2E2;
 }
+
 ul#a li {
     margin-bottom: 15px; /* Adjusted for consistent spacing */
 }
+
 .logout {
     margin-left: 14px;
     margin-bottom: 20px;

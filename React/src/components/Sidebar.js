@@ -1,15 +1,24 @@
 import React from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import styles from './sidebar.module.css';
 
-const Sidebar = ({ activeLink, handleLinkClick }) => {
+const Sidebar = () => {
+    const navigate = useNavigate();
+    const location = useLocation(); // Get the current route
+
+    // Function to handle navigation and link click
+    const handleLinkClick = (link) => {
+        navigate(link); // Navigate to the specified route
+    };
+
     return (
         <div className={styles.sidebar}>
             <div className={styles.menu}>
                 <ul className={styles.menuList}>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${activeLink === 'home' ? styles.active : ''}`}
-                            onClick={() => handleLinkClick('home')}
+                            className={`${location.pathname === '/home' ? styles.active : ''}`} // Make Home active if current route is /home
+                            onClick={() => handleLinkClick('/home')}
                         >
                             <img className={styles.iconStyle} src="/home.png" alt="Home Icon" />
                             <span className={styles.text}>Home</span>
@@ -17,8 +26,8 @@ const Sidebar = ({ activeLink, handleLinkClick }) => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${activeLink === 'portfolios' ? styles.active : ''}`}
-                            onClick={() => handleLinkClick('portfolios')}
+                            className={`${location.pathname === '/portfolios' ? styles.active : ''}`} // Make Portfolios active if current route is /portfolios
+                            onClick={() => handleLinkClick('/portfolios')}
                         >
                             <img className={styles.iconStyle} src="/hand.png" alt="Hand Icon" />
                             <span className={styles.text}>Portfolios</span>
@@ -26,8 +35,8 @@ const Sidebar = ({ activeLink, handleLinkClick }) => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${activeLink === 'tax' ? styles.active : ''}`}
-                            onClick={() => handleLinkClick('tax')}
+                            className={`${location.pathname === '/tax' ? styles.active : ''}`} // Make Tax active if current route is /tax
+                            onClick={() => handleLinkClick('/tax')}
                         >
                             <img className={styles.iconStyle} src="/tax.png" alt="Tax Icon" />
                             <span className={styles.text}>Tax</span>
@@ -35,8 +44,8 @@ const Sidebar = ({ activeLink, handleLinkClick }) => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${activeLink === 'settings' ? styles.active : ''}`}
-                            onClick={() => handleLinkClick('settings')}
+                            className={`${location.pathname === '/settings' ? styles.active : ''}`} // Settings route, will redirect to /home
+                            onClick={() => handleLinkClick('/home')}
                         >
                             <img className={styles.iconStyle} src="/settings.png" alt="Settings Icon" />
                             <span className={styles.text}>Settings</span>
@@ -44,7 +53,10 @@ const Sidebar = ({ activeLink, handleLinkClick }) => {
                     </li>
                 </ul>
             </div>
-            <a className={styles.logout}>
+            <a
+                className={styles.logout}
+                onClick={() => handleLinkClick('/login')} // Navigate to /login on Logout click
+            >
                 <img className={styles.iconStyle} src="/exit.png" alt="Exit Icon" />
                 <span className={styles.text}>Logout</span>
             </a>

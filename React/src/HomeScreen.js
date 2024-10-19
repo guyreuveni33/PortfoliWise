@@ -1,15 +1,23 @@
 import React, {useState} from 'react';
-import styles from './styleMenu/homeScreen.module.css'; // Make sure this matches the exact file name
+import styles from './styleMenu/homeScreen.module.css';
 import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
 import Sidebar from "./components/Sidebar";
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
 const HomeScreen = () => {
-const [activeLink, setActiveLink] = React.useState('home');
+    const [activeLink, setActiveLink] = React.useState('home');
+    const [activeTimeFilter, setActiveTimeFilter] = useState('today'); // Add state for time filter
 
     const handleLinkClick = (link) => {
-        setActiveLink(link);}
+        setActiveLink(link);
+    }
+
+    const handleTimeFilterClick = (filter) => {
+        setActiveTimeFilter(filter);
+        // Here you can add logic to update the chart based on the selected time filter
+    }
+
     React.useEffect(() => {
         // Portfolio chart setup
         const ctx = document.getElementById('portfolioChart').getContext('2d');
@@ -20,7 +28,7 @@ const [activeLink, setActiveLink] = React.useState('home');
                 datasets: [
                     {
                         label: 'Portfolio Distribution',
-                        data: [60, 40], // Example data
+                        data: [60, 40],
                         backgroundColor: ['rgb(210,48,48)', 'rgb(248,203,2)'],
                         borderColor: ['rgba(210,48,48)', 'rgb(248,203,2)'],
                         borderWidth: 1,
@@ -59,10 +67,30 @@ const [activeLink, setActiveLink] = React.useState('home');
                         </header>
                         <canvas id="balanceChart"></canvas>
                         <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
-                            <button id="t1" className={`${styles.filter_button} ${styles.filter_button_active}`}>Today</button>
-                            <button id="t2" className={styles.filter_button}>Week</button>
-                            <button id="t3" className={styles.filter_button}>Month</button>
-                            <button id="t4" className={styles.filter_button}>Year</button>
+                            <button
+                                onClick={() => handleTimeFilterClick('today')}
+                                className={`${styles.filter_button} ${activeTimeFilter === 'today' ? styles.filter_button_active : ''}`}
+                            >
+                                Today
+                            </button>
+                            <button
+                                onClick={() => handleTimeFilterClick('week')}
+                                className={`${styles.filter_button} ${activeTimeFilter === 'week' ? styles.filter_button_active : ''}`}
+                            >
+                                Week
+                            </button>
+                            <button
+                                onClick={() => handleTimeFilterClick('month')}
+                                className={`${styles.filter_button} ${activeTimeFilter === 'month' ? styles.filter_button_active : ''}`}
+                            >
+                                Month
+                            </button>
+                            <button
+                                onClick={() => handleTimeFilterClick('year')}
+                                className={`${styles.filter_button} ${activeTimeFilter === 'year' ? styles.filter_button_active : ''}`}
+                            >
+                                Year
+                            </button>
                         </div>
                     </div>
 
@@ -75,7 +103,6 @@ const [activeLink, setActiveLink] = React.useState('home');
                                 <th>Price</th>
                                 <th>%Change</th>
                             </tr>
-                            {/* Example data */}
                             <tr>
                                 <td>NVDA</td>
                                 <td>919.13</td>
@@ -94,7 +121,6 @@ const [activeLink, setActiveLink] = React.useState('home');
                                 <th>Price</th>
                                 <th>%Change</th>
                             </tr>
-                            {/* Example data */}
                             <tr>
                                 <td>S&P</td>
                                 <td>919.13</td>
@@ -115,7 +141,6 @@ const [activeLink, setActiveLink] = React.useState('home');
                                 <th>Today</th>
                                 <th>Week</th>
                             </tr>
-                            {/* Example data */}
                             <tr>
                                 <td>AMD</td>
                                 <td>$5,777</td>
