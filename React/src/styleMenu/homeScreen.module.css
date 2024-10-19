@@ -70,6 +70,27 @@
 
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
+    table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
+    border-collapse: collapse; /* Ensures there are no gaps between cells */
+}
+
+.watchlist_table th, .market_table th, .portfolio_table th,
+.watchlist_table td, .market_table td, .portfolio_table td {
+    padding: 8px; /* Consistent padding for headers and cells */
+    text-align: left; /* Left-align all table cells */
+    border-bottom: 1px solid #2f3951; /* Border for separation */
+    box-sizing: border-box; /* Make sure padding doesn't affect the width */
+}
+.watchlist_table tr:hover, .market_table tr:hover, .portfolio_table tr:hover {
+    background-color: #1e2a3a;
+}
+
+.watchlist_table th, .market_table th, .portfolio_table th {
+    font-weight: bold; /* Make headers bold */
+}
+
+.watchlist_table td, .market_table td, .portfolio_table td {
+    width: 33.33%; /* Ensures columns take up equal space */
 }
 
 .portfolio_table_header, .portfolio_table_cell {

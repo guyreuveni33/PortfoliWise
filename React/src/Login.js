@@ -12,12 +12,11 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('http://localhost:3001/login', { email, password });
-            console.log(response.data);
-            localStorage.setItem('token', response.data.token);
-            navigate('/dashboard');
+            localStorage.setItem('token', response.data.token); // Store token in localStorage
+            navigate('/home'); // Redirect to HomeScreen on success
         } catch (error) {
-            console.error('Login error:', error.response ? error.response.data : error.message);
-            alert('Invalid email or password');
+            const errorResponse = error.response ? error.response.data.message : 'Login failed. Please try again.';
+            alert(errorResponse); // Show error in an alert
         }
     };
 
