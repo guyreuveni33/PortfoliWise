@@ -1,0 +1,66 @@
+.marketplace_section {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 5%;
+    margin-right: 3%;
+    max-height: 30%;
+    flex: 1 1 auto;
+    width: 100px;
+}
+
+.market_table {
+    width: 100%;
+    table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
+    border-collapse: separate; /* Ensures there are gaps between rows */
+    border-spacing: 0 10px; /* Add spacing between rows */
+}
+
+.market_table th {
+    pointer-events: none; /* Disable hovering and events for table headers */
+    font-weight: bold;
+}
+
+.market_table td, .market_table th {
+    padding: 8px; /* Consistent padding for headers and cells */
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
+    box-sizing: border-box;
+}
+
+.row_spacing {
+    margin-bottom: 10px; /* Add spacing between rows */
+}
+
+.positive_background {
+    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
+    color: #4caf50;  /* Green text */
+}
+
+.negative_background {
+    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
+    color: #f44336;  /* Red text */
+}
+
+.reload_button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.reload_button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.loading_spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 18px;
+    color: #ccc;
+}

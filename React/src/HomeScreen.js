@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import axios from 'axios';
 import styles from './styleMenu/homeScreen.module.css';
 import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
 import Sidebar from "./components/Sidebar";
@@ -13,19 +14,55 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 const HomeScreen = () => {
     const [activeLink, setActiveLink] = useState('home');
     const [activeTimeFilter, setActiveTimeFilter] = useState('today');
+    const [watchlist, setWatchlist] = useState([{ symbol: 'NVDA', price: '919.13', change: 7.16 }]);
+    const [userToken, setUserToken] = useState(null); // Initialize state for token
+    const [email, setEmail] = useState(''); // Initialize state for email
 
-    // Mock data - In a real app, this would come from an API or props
+    // useEffect to handle token retrieval
+    useEffect(() => {
+        const tempToken = localStorage.getItem('token');
+        setUserToken(tempToken);
+    }, []); // Runs only once when the component mounts
+
+    // useEffect to handle email retrieval
+    useEffect(() => {
+        const tempEmail = localStorage.getItem('email');
+        setEmail(tempEmail);
+    }, []); // Runs only once when the component mounts
+
+    // useEffect to log changes to userToken and email
+    useEffect(() => {
+        if (userToken) {
+            console.log('Token:', userToken);
+        }
+    }, [userToken]); // Runs whenever userToken is updated
+
+    useEffect(() => {
+        if (email) {
+            console.log('Email:', email);
+        }
+    }, [email]); // Runs whenever email is updated
+
+
+
+
+    const fetchMarketData = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/api/get-stocks');
+            return response.data;
+        } catch (error) {
+            console.error('Error fetching market data:', error);
+            return {};
+        }
+    };
+
+    const addSymbolToWatchlist = async (symbol) => {
+
+    };
+
     const mockData = {
         balance: '$7,033.22',
-        watchlist: [{ symbol: 'NVDA', price: '919.13', change: 7.16 }],
-        market: [{ symbol: 'S&P', price: '919.13', change: 7.16 }],
-        portfolio: [{
-            name: 'AMD',
-            balance: '$5,777',
-            price: '$200.77',
-            todayChange: 5.21,
-            weekChange: -7.4
-        }],
+        portfolio: [{ name: 'AMD', balance: '$5,777', price: '$200.77', todayChange: 5.21, weekChange: -7.4 }],
         chartData: {
             labels: ['AMZ', 'TSLA'],
             datasets: [{
@@ -41,20 +78,14 @@ const HomeScreen = () => {
     return (
         <div className={styles.app_container}>
             <Sidebar activeLink={activeLink} handleLinkClick={setActiveLink} />
-
             <div className={styles.main_content}>
                 <div className={styles.profile_icon}>
                     <img src="/User-profile-pic.png" alt="User Profile" className={styles.profile_image} />
                 </div>
-
                 <div className={styles.graphs_container}>
-                    <BalanceCard
-                        balance={mockData.balance}
-                        activeTimeFilter={activeTimeFilter}
-                        onTimeFilterClick={setActiveTimeFilter}
-                    />
-                    <WatchlistCard watchlistData={mockData.watchlist} />
-                    <MarketplaceCard marketData={mockData.market} />
+                    <BalanceCard balance={mockData.balance} activeTimeFilter={activeTimeFilter} onTimeFilterClick={setActiveTimeFilter} />
+                    <WatchlistCard watchlistData={watchlist} addSymbol={addSymbolToWatchlist} email={email}/>
+                    <MarketplaceCard fetchMarketData={fetchMarketData} />
                     <PortfolioTable portfolioData={mockData.portfolio} />
                     <PortfolioChart chartData={mockData.chartData} />
                 </div>

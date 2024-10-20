@@ -32,6 +32,10 @@
 
 .border_line {
     border-bottom: 1px solid #ffffff;
+    display: flex;
+    justify-content: space-between;  /* Align heading and button to opposite ends */
+    align-items: center;  /* Vertically center the button */
+    border-bottom: 1px solid #ffffff;
 }
 
 .border_line_top {
@@ -68,6 +72,9 @@
     flex: 1 1 auto;
 }
 
+.market_table th {
+    pointer-events: none;  /* Disable hovering and events for table headers */
+}
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
@@ -278,4 +285,47 @@
 
 .sidebar_container, .menu_container, .link_text, .logout_icon {
     transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
+}
+
+/* Add background colors for positive and negative change columns */
+.positive_background {
+    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
+    color: #4caf50;  /* Green text */
+}
+
+.negative_background {
+    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
+    color: #f44336;  /* Red text */
+}
+
+/* Add space between rows */
+.row_spacing {
+    margin-bottom: 10px;  /* Add spacing between rows */
+}
+
+/* Optional: Ensure table rows have some spacing */
+.market_table {
+    border-collapse: separate;
+ }
+.reload_button {
+    background: none;
+    border: none;
+    color: #fff;
+    cursor: pointer;
+    padding: 5px;
+    border-radius: 50%;
+    transition: background-color 0.3s;
+}
+
+.reload_button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.loading_spinner {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 200px;
+    font-size: 18px;
+    color: #ccc;
 }
