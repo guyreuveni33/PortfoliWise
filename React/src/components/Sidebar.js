@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import styles from './sidebar.module.css';
+import styles from '../components_style/sidebar.module.css';
 
 const Sidebar = () => {
     const navigate = useNavigate();

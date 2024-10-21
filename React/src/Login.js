@@ -11,8 +11,9 @@ const Login = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3001/login', { email, password });
+            const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
             localStorage.setItem('token', response.data.token); // Store token in localStorage
+
             navigate('/home'); // Redirect to HomeScreen on success
         } catch (error) {
             const errorResponse = error.response ? error.response.data.message : 'Login failed. Please try again.';
