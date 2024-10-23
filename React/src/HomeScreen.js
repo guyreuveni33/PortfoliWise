@@ -14,8 +14,7 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 const HomeScreen = () => {
     const [activeLink, setActiveLink] = useState('home');
     const [activeTimeFilter, setActiveTimeFilter] = useState('today');
-    const [watchlist, setWatchlist] = useState([{ symbol: 'NVDA', price: '919.13', change: 7.16 }]);
-    const [userToken, setUserToken] = useState(null); // Initialize state for token
+     const [userToken, setUserToken] = useState(null); // Initialize state for token
     const [email, setEmail] = useState(''); // Initialize state for email
 
     // useEffect to handle token retrieval
@@ -84,7 +83,7 @@ const HomeScreen = () => {
                 </div>
                 <div className={styles.graphs_container}>
                     <BalanceCard balance={mockData.balance} activeTimeFilter={activeTimeFilter} onTimeFilterClick={setActiveTimeFilter} />
-                    <WatchlistCard watchlistData={watchlist} addSymbol={addSymbolToWatchlist} email={email}/>
+                    <WatchlistCard  addSymbol={addSymbolToWatchlist} email={email}/>
                     <MarketplaceCard fetchMarketData={fetchMarketData} />
                     <PortfolioTable portfolioData={mockData.portfolio} />
                     <PortfolioChart chartData={mockData.chartData} />

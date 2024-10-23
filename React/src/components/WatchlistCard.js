@@ -1,11 +1,10 @@
-// components/WatchlistCard.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import WatchlistService from '../services/WatchlistService';
 import styles from '../styleMenu/homeScreen.module.css';
 
-const WatchlistCard = ({ watchlistData, email }) => {
+const WatchlistCard = ({ email }) => {
     const [newSymbol, setNewSymbol] = useState('');
-    const [watchlist, setWatchlist] = useState(watchlistData);
+    const [watchlist, setWatchlist] = useState([]);
 
     // Function to handle adding a symbol
     const handleAddSymbol = async () => {
@@ -20,6 +19,23 @@ const WatchlistCard = ({ watchlistData, email }) => {
             }
         }
     };
+
+    // Fetch the watchlist when the email changes or when the component mounts
+    useEffect(() => {
+        const fetchWatchlist = async () => {
+            try {
+                if (email) {  // Ensure email is available before fetching
+                    const fetchedWatchlist = await WatchlistService.getWatchlist(email);
+                    console.log(fetchedWatchlist);  // Debugging: check the fetched watchlist
+                    setWatchlist(fetchedWatchlist);
+                }
+            } catch (error) {
+                console.error('Error fetching watchlist:', error);
+            }
+        };
+
+        fetchWatchlist();
+    }, [email]); // Depend on email so that the effect re-runs if email changes
 
     return (
         <div className={`${styles.watchlist_section} ${styles.section_container}`}>
@@ -40,15 +56,21 @@ const WatchlistCard = ({ watchlistData, email }) => {
                     <th>Price</th>
                     <th>%Change</th>
                 </tr>
-                {watchlist.map((item, index) => (
-                    <tr key={index}>
-                        <td>{item.symbol}</td>
-                        <td>{item.price}</td>
-                        <td className={item.change >= 0 ? styles.positive_change : styles.negative_change}>
-                            {item.change}%
-                        </td>
+                {watchlist.length === 0 ? (
+                    <tr>
+                        <td colSpan="3">No symbols in watchlist</td>
                     </tr>
-                ))}
+                ) : (
+                    watchlist.map((item, index) => (
+                        <tr key={index}>
+                            <td>{item.symbol}</td>
+                            <td>{item.price}</td>
+                            <td className={item.change >= 0 ? styles.positive_change : styles.negative_change}>
+                                {item.change}%
+                            </td>
+                        </tr>
+                    ))
+                )}
                 </tbody>
             </table>
         </div>
