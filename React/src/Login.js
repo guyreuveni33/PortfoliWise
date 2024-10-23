@@ -13,6 +13,7 @@ const Login = () => {
         try {
             const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
             localStorage.setItem('token', response.data.token); // Store token in localStorage
+            localStorage.setItem('email', email)
 
             navigate('/home'); // Redirect to HomeScreen on success
         } catch (error) {
