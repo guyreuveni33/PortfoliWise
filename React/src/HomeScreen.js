@@ -3,11 +3,11 @@ import axios from 'axios';
 import styles from './styleMenu/homeScreen.module.css';
 import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
 import Sidebar from "./components/Sidebar";
-import BalanceCard from './components/BalanceCard';
-import WatchlistCard from './components/WatchlistCard';
-import MarketplaceCard from './components/MarketplaceCard';
-import PortfolioTable from './components/PortfolioTable';
-import PortfolioChart from './components/PortfolioChart';
+import BalanceCard from './components/home_screen_components/BalanceCard';
+import WatchlistCard from './components/home_screen_components/WatchlistCard';
+import MarketplaceCard from './components/home_screen_components/MarketplaceCard';
+import PortfolioTable from './components/home_screen_components/PortfolioTable';
+import PortfolioChart from './components/home_screen_components/PortfolioChart';
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 

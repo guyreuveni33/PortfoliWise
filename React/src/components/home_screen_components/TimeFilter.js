@@ -1,11 +1,11 @@
 import React from 'react';
-import styles from '../styleMenu/homeScreen.module.css';
-import Sidebar from "./Sidebar";
+import styles from '../../styleMenu/homeScreen.module.css';
+import Sidebar from "../Sidebar";
 
 const TimeFilter = ({ activeTimeFilter, onFilterClick }) => {
     return (
         <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
-            {['today', 'week', 'month', 'year'].map((filter) => (
+            {['today', 'month', 'year', 'all'].map((filter) => (
                 <button
                     key={filter}
                     onClick={() => onFilterClick(filter)}

@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../styleMenu/homeScreen.module.css';
+import styles from '../../styleMenu/homeScreen.module.css';
 import TimeFilter from './TimeFilter';
 
 const BalanceCard = ({ balance, activeTimeFilter, onTimeFilterClick }) => {

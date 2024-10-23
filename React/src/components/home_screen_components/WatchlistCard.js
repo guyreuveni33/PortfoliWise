@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import WatchlistService from '../services/WatchlistService';
-import styles from '../styleMenu/homeScreen.module.css';
+import WatchlistService from '../../services/WatchlistService';
+import styles from '../../styleMenu/homeScreen.module.css';
 
 const WatchlistCard = ({ email }) => {
     const [newSymbol, setNewSymbol] = useState('');
