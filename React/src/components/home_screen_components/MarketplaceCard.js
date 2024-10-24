@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import styles from '../styleMenu/homeScreen.module.css';  // Import the main CSS file
+import styles from '../../styleMenu/homeScreen.module.css';  // Import the main CSS file
 
 const MarketplaceCard = ({ fetchMarketData }) => {
     const [marketData, setMarketData] = useState({});

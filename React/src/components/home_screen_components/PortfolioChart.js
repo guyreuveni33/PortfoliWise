@@ -1,7 +1,7 @@
 // Components/PortfolioChart.js
 import React, { useEffect, useRef } from 'react';
 import { Chart } from 'chart.js';
-import styles from '../styleMenu/homeScreen.module.css';
+import styles from '../../styleMenu/homeScreen.module.css';
 
 const PortfolioChart = ({ chartData }) => {
     const chartRef = useRef(null);

@@ -1,11 +1,12 @@
-// server.js (or app.js)
+// app.js
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const cors = require('cors');
 const userRoutes = require('./routes/userRoutes');
 const stockRoutes = require('./routes/stockRoutes');
-const watchlistRoutes = require('./routes/watchlistRoutes'); // Import watchlist routes
+const watchlistRoutes = require('./routes/watchlistRoutes');
+const alpacaRoutes = require('./routes/portfolioRoutes'); // Import Alpaca routes
 
 const app = express();
 const port = 3001;
@@ -21,7 +22,8 @@ mongoose.connect('mongodb://localhost:27017/userDB', { useNewUrlParser: true, us
 // Routes
 app.use('/api/users', userRoutes);
 app.use('/api', stockRoutes);
-app.use('/api/watchlist', watchlistRoutes); // Use watchlist routes
+app.use('/api/watchlist', watchlistRoutes);
+app.use('/api/alpaca', alpacaRoutes); // Use Alpaca routes
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
