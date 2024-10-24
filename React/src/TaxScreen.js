@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import styles from './styleMenu/taxScreen.module.css';
 import Sidebar from "./components/Sidebar";
+import PortfolioCard from './components/tax_screen_components/PortfolioCard';
+import TaxButton from './components/tax_screen_components/TaxButton';
+import TaxModal from './components/tax_screen_components/TaxModal';
 
 const TaxScreen = () => {
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
@@ -9,8 +12,10 @@ const TaxScreen = () => {
     const handleLinkClick = (link) => {
         setActiveLink(link);
     };
+
     const handleCalculateTax = () => {
         setIsTaxModalOpen(true);
+        console.log(isTaxModalOpen)
     };
 
     const handleCloseModal = () => {
@@ -47,45 +52,13 @@ const TaxScreen = () => {
                     <img src="/User-profile-pic.png" alt="User Profile" />
                 </div>
                 <div className={styles.portfolio_list}>
-                    <div className={`${styles.portfolio_card} ${styles.section}`}>
-                        <div className={styles.portfolio_header}>
-                            <div className={styles.header_content}>
-                                <h1>Your Portfolio</h1>
-                                <div className={styles.right_header_container}>
-                                    <span className={styles.year}>Year: 2024</span>
-                                    <img src="/rotate-right.png" className={styles.icon_style_arrow} alt="Rotate Icon" />
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <span className={styles.profit}>Total Profit:</span>
-                            <span className={`${styles.profit} ${styles.positive}`}> +$1300</span>
-                        </div>
-                    </div>
-                    <button id={styles.calculate_tax} className={styles.calculate_tax_button} onClick={handleCalculateTax}>
-                        <img className={styles.icon_style} src="/tax-icon.png" alt="Calculate Tax Icon" />
-                        Calculate Tax
-                    </button>
+                    <PortfolioCard />
+                    <TaxButton handleCalculateTax={handleCalculateTax} />
                 </div>
             </div>
 
             {/* Tax Modal */}
-            {isTaxModalOpen && (
-                <div id={styles.tax_modal} className={styles.port_modal} onClick={handleCloseModal}>
-                    <div className={styles.port_modal_content} onClick={(e) => e.stopPropagation()}>
-                        <div className={styles.port_close} id={styles.close_modal} onClick={handleCloseModal}>&times;</div>
-                        <h1 className={styles.border_line}>Tax Summary for This Year</h1>
-                        <p className={styles.tax_modal_text}>
-                            Your combined portfolios profit for the year is <span className={styles.profit_amount}>$1,570</span>
-                        </p>
-                        <p className={styles.tax_modal_text}>Tax due: <span className={styles.tax_due}>$392.50</span></p>
-                        <button id={styles.got_it} onClick={handleCloseModal}>
-                            <img className={styles.icon_style_like} src="/like.png" alt="Like Icon" />
-                            Got it
-                        </button>
-                    </div>
-                </div>
-            )}
+            <TaxModal isTaxModalOpen={isTaxModalOpen} handleCloseModal={handleCloseModal} />
         </div>
     );
 };
