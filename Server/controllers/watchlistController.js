@@ -1,46 +1,34 @@
-// controllers/watchlistController.js
-const User = require('../models/User'); // Import the User model
+const watchlistService = require('../services/watchlistService'); // Import the service
+const { spawn } = require('child_process');
 
 // Controller to add a symbol to the user's watchlist
 exports.addSymbolToWatchlist = async (req, res) => {
     const { email, symbol } = req.body;
 
     try {
-        // Find the user by email and add the symbol to the watchlist
-        const user = await User.findOneAndUpdate(
-            { email: email },
-            { $push: { watchlist: { symbol: symbol } } },
-            { new: true }
-        );
-
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
+        // Call the service function to add the symbol
+        const updatedWatchlist = await watchlistService.addSymbolToWatchlist(email, symbol);
 
         // Return the updated watchlist
-        return res.json(user.watchlist);
+        return res.json(updatedWatchlist);
     } catch (error) {
-        console.error('Error adding symbol to watchlist:', error);
-        return res.status(500).json({ message: 'Error adding symbol to watchlist', error });
+        return res.status(500).json({ message: error.message });
     }
 };
 
-// Controller to fetch the user's watchlist by email
+// Controller to fetch the user's watchlist by email and include stock prices
 exports.getWatchlistByEmail = async (req, res) => {
     const { email } = req.params;
 
     try {
-        // Find the user by email
-        const user = await User.findOne({ email });
+        // Call the service function to get the watchlist with stock prices
+        const watchlistWithPrices = await watchlistService.getWatchlistByEmail(email);
 
-        if (!user) {
-            return res.status(404).json({ message: 'User not found' });
-        }
-
-        // Return the user's watchlist
-        return res.json(user.watchlist);
+        // Return the watchlist with stock prices
+        return res.json(watchlistWithPrices);
     } catch (error) {
-        console.error('Error fetching watchlist:', error);
-        return res.status(500).json({ message: 'Error fetching watchlist', error });
+        return res.status(500).json({ message: error.message });
     }
 };
+
+
