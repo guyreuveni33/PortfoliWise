@@ -49,3 +49,38 @@ exports.getWatchlistByEmail = async (email) => {
         throw error;
     }
 };
+
+const { spawn } = require('child_process');
+
+exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
+    return new Promise((resolve, reject) => {
+        // Spawn the Python process
+        const pythonProcess = spawn('python', ['../Server/scripts/stockSuggestionsScript.py', symbolPrefix, '5']); // Call the Python script
+
+        let resultData = '';
+
+        // Collect data from the Python script
+        pythonProcess.stdout.on('data', (data) => {
+            resultData += data.toString();
+        });
+
+        // Capture errors from the Python script's stderr
+        pythonProcess.stderr.on('data', (data) => {
+            console.error(`Python stderr: ${data}`);
+        });
+
+        // Handle script completion and send the response
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                try {
+                    const suggestions = JSON.parse(resultData);
+                    resolve(suggestions);  // Resolve with the suggestions
+                } catch (err) {
+                    reject(new Error('Error parsing Python script output'));
+                }
+            } else {
+                reject(new Error('Python script exited with error'));
+            }
+        });
+    });
+};

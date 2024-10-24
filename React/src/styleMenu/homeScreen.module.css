@@ -12,7 +12,16 @@
     color: #fff;
     text-decoration: none;
 }
-
+.section_container_balance {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 5%;
+    margin-right: 3%;
+    max-height: 30%;
+    flex: 1 1 auto;
+    max-width: 40%;
+}
 .menu_list {
     list-style: none;
     padding: 0;
@@ -662,3 +671,162 @@
 }
 
 
+
+.search_container {
+    display: flex;
+    gap: 10px;
+    align-items: center; /* Ensure the input and button align vertically */
+    margin: 0 0 15px 15px; /* Added margin-bottom of 15px to raise the input and button */
+    width: 100%;
+}
+
+
+/* Search input styling */
+.search_input {
+    height: 10px; /* Ensure the input is the same height as the button */
+    flex: 1;
+    background-color: #1E2A3A;
+    border: 1px solid #2f3951;
+    border-radius: 6px;
+    color: #fff;
+    padding: 10px 16px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.search_input::placeholder {
+    color: #8b9196;
+}
+
+.search_input:focus {
+    outline: none;
+    border-color: #613DE4;
+    box-shadow: 0 0 0 2px rgba(97, 61, 228, 0.2);
+}
+
+.add_button {
+    height: 30px; /* Maintain the same height as the input */
+    background-color: #613DE4;
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 20px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.add_button:hover {
+    background-color: #4f31bd;
+}
+
+.add_button:active {
+    transform: scale(0.98);
+}
+
+/* Optional: Add loading state */
+.add_button:disabled {
+    background-color: #2f3951;
+    cursor: not-allowed;
+    opacity: 0.7;
+}
+
+.suggestions_dropdown {
+    background-color: white;
+    border: 1px solid #ccc;
+    max-height: 150px;
+    overflow-y: auto;
+    position: absolute;
+    z-index: 1000;
+    width: calc(100% - 20px); /* Adjust dropdown to the width of the input */
+    margin-top: 5px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.suggestion_item {
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid #eee;
+}
+
+.suggestion_item:hover {
+    background-color: #f0f0f0;
+}
+
+/* Add these new styles to your existing CSS file */
+
+.search_wrapper {
+    position: relative;
+    flex: 1;
+}
+
+.suggestions_dropdown {
+    position: absolute;
+    top: calc(100% + 8px);
+    left: 0;
+    right: 0;
+    background-color: #1E2A3A;
+    border: 1px solid #2f3951;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    max-height: 300px;
+    overflow-y: auto;
+    z-index: 1000;
+}
+
+.suggestion_item {
+    padding: 12px 16px;
+    cursor: pointer;
+    border-bottom: 1px solid #2f3951;
+    transition: background-color 0.2s ease;
+}
+
+.suggestion_item:last-child {
+    border-bottom: none;
+}
+
+.suggestion_item:hover {
+    background-color: #2f3951;
+}
+
+.suggestion_symbol {
+    color: #fff;
+    font-weight: 500;
+    font-size: 14px;
+    margin-bottom: 4px;
+}
+
+.suggestion_name {
+    color: #8b9196;
+    font-size: 12px;
+}
+
+/* Update existing search container styles */
+.search_container {
+    position: relative;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    margin: 0 0 15px 15px;
+    width: calc(100% - 30px); /* Adjust width to account for margins */
+}
+
+/* Customize scrollbar for the dropdown */
+.suggestions_dropdown::-webkit-scrollbar {
+    width: 8px;
+}
+
+.suggestions_dropdown::-webkit-scrollbar-track {
+    background: #1E2A3A;
+    border-radius: 4px;
+}
+
+.suggestions_dropdown::-webkit-scrollbar-thumb {
+    background: #2f3951;
+    border-radius: 4px;
+}
+
+.suggestions_dropdown::-webkit-scrollbar-thumb:hover {
+    background: #404b66;
+}

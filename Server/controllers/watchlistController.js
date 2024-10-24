@@ -32,3 +32,18 @@ exports.getWatchlistByEmail = async (req, res) => {
 };
 
 
+exports.getStockSuggestions = async (req, res) => {
+    const symbolPrefix = req.params.symbol || '';
+    const limit = req.query.limit || 5;
+
+    try {
+        // Call the service function to get stock suggestions
+        const suggestions = await watchlistService.getStockSuggestions(symbolPrefix, limit);
+
+        // Send back the suggestions
+        return res.json(suggestions);
+    } catch (error) {
+        console.error(error.message);
+        return res.status(500).json({ message: 'Error getting stock suggestions' });
+    }
+};
