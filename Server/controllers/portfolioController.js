@@ -99,7 +99,7 @@ const getHistoricalData = async (req, res) => {
                 });
 
                 // Debug log to see the full data structure
-                console.log(`Data for ${symbol}:`, JSON.stringify(response.data, null, 2));
+                // console.log(`Data for ${symbol}:`, JSON.stringify(response.data, null, 2));
 
                 if (!response.data.bars || !response.data.bars[symbol]) {
                     console.log(`No data returned for ${symbol}`);
