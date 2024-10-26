@@ -14,7 +14,7 @@ function PortfolioRow({ item, formatCurrency, handleAnalyzerClick }) {
                 {item.weekChange.toFixed(2)}%
             </td>
             <td className={styles.centerAnalyzer}>
-                <button className={styles.analyzerButton} onClick={handleAnalyzerClick}>
+                <button className={styles.analyzerButton} onClick={() => handleAnalyzerClick(item.name)}>
                     <img className={styles.analyzerStyle} src="/price-analyzer.png" alt="Analyzer Icon" />
                 </button>
             </td>
