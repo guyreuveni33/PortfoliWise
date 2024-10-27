@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import WatchlistService from '../../services/WatchlistService';
 import styles from '../../styleMenu/homeScreen.module.css';
+import StocksTable from './StocksTable';  // Import the new table component
+//import styles from '../../components_style/watchlistCard.module.css';
 
 const WatchlistCard = ({ email }) => {
     const [newSymbol, setNewSymbol] = useState('');
@@ -10,7 +12,7 @@ const WatchlistCard = ({ email }) => {
     const [showSuggestions, setShowSuggestions] = useState(false);
     const dropdownRef = useRef(null);
     const inputRef = useRef(null);
-    // Function to handle adding a symbol
+
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
@@ -31,8 +33,8 @@ const WatchlistCard = ({ email }) => {
 
             setWatchlist(optimisticWatchlist);
             setNewSymbol('');
-            setSymbolSuggestions([]); // Clear suggestions once a symbol is added
-            setShowSuggestions(false); // Hide suggestions dropdown
+            setSymbolSuggestions([]);
+            setShowSuggestions(false);
 
             try {
                 await WatchlistService.addSymbol(email, trimmedSymbol);
@@ -47,19 +49,17 @@ const WatchlistCard = ({ email }) => {
         }
     };
 
-    // Function to handle fetching symbol suggestions
     const fetchSymbolSuggestions = async (symbolPrefix) => {
         if (symbolPrefix.trim()) {
             const suggestions = await WatchlistService.getSymbolSuggestions(symbolPrefix);
-            setSymbolSuggestions(suggestions); // Set suggestions to state
-            setShowSuggestions(true); // Show the suggestions dropdown
+            setSymbolSuggestions(suggestions);
+            setShowSuggestions(true);
         } else {
-            setSymbolSuggestions([]); // Clear suggestions if no input
-            setShowSuggestions(false); // Hide the suggestions dropdown
+            setSymbolSuggestions([]);
+            setShowSuggestions(false);
         }
     };
 
-    // Fetch the watchlist when the email changes or when the component mounts
     useEffect(() => {
         const fetchWatchlist = async () => {
             try {
@@ -74,6 +74,14 @@ const WatchlistCard = ({ email }) => {
 
         fetchWatchlist();
     }, [email]);
+
+    // Map watchlist data to match StocksTable expected format, with price rounded to 2 decimal places
+    const watchlistData = watchlist.map((item) => ({
+        symbol: item.symbol,
+        price: item.price?.price ? item.price.price.toFixed(2) : 'N/A',  // Ensure two decimal places
+        percentageChange: item.price?.percentage_change,
+    }));
+
 
     return (
         <div className={`${styles.watchlist_section} ${styles.section_container}`}>
@@ -125,36 +133,11 @@ const WatchlistCard = ({ email }) => {
                     </button>
                 </div>
             </header>
-            <table className={styles.watchlist_table}>
-                <tbody>
-                <tr>
-                    <th>Symbol</th>
-                    <th>Price</th>
-                    <th>%Change</th>
-                </tr>
-                {watchlist.length === 0 ? (
-                    <tr>
-                        <td colSpan="3">No symbols in watchlist</td>
-                    </tr>
-                ) : (
-                    watchlist.map((item, index) => (
-                        <tr key={index} className={styles.row_spacing}>
-                            <td>{item.symbol}</td>
-                            <td>
-                                {item.price && typeof item.price.price === 'number'
-                                    ? `$${item.price.price.toFixed(2)}`
-                                    : 'N/A'}
-                            </td>
-                            <td className={item.price?.percentage_change >= 0 ? styles.positive_background : styles.negative_background}>
-                                {item.price && typeof item.price.percentage_change === 'number'
-                                    ? `${item.price.percentage_change.toFixed(2)}%`
-                                    : 'N/A'}
-                            </td>
-                        </tr>
-                    ))
-                )}
-                </tbody>
-            </table>
+            {watchlistData.length === 0 ? (
+                <div>No symbols in watchlist</div>
+            ) : (
+                <StocksTable marketDataArray={watchlistData} />  // Render the StocksTable
+            )}
         </div>
     );
 };

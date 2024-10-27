@@ -36,8 +36,13 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                             borderColor: 'rgba(75, 192, 192, 1)',
                             tension: 0.1,
                         }
-                    ]
+                    ],
+                    options: {
+                        responsive: true, // Ensures chart resizes with container
+                        maintainAspectRatio: false, // Disables fixed aspect ratio for better flexibility
+                    }
                 });
+
 
                 setLoading(false);
             } catch (error) {
@@ -50,6 +55,7 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
     }, [activeTimeFilter]);
 
     return (
+
         <div className={`${styles.balance_graph} ${styles.section_container}`}>
             <header>
                 <p>Your Balance</p>
@@ -72,7 +78,7 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                 onFilterClick={onTimeFilterClick}
             />
         </div>
-    );
+     );
 };
 
 export default BalanceCard;

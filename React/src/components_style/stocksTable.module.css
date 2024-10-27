@@ -1,0 +1,39 @@
+.market_table {
+    width: 100%;
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0 4px;
+}
+
+.market_table th {
+    font-weight: bold;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
+    pointer-events: none;
+}
+
+.market_table td {
+    width: 33.33%;
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
+}
+
+.market_table tr:hover {
+    background-color: #1e2a3a;
+}
+
+.row_spacing {
+    margin-bottom: 10px;
+}
+
+.positive_background {
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
+}
+
+.negative_background {
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
+}

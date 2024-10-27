@@ -7,6 +7,27 @@
     max-height: 30%;
     flex: 1 1 auto;
     width: 100px;
+    min-width: 260px;
+    max-width: 260px;
+}
+
+.section_container {
+    background-color: #131C2F;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 5%;
+    margin-right: 3%;
+    max-height: 30%;
+    flex: 1 1 auto;
+}
+
+
+.border_line {
+    border-bottom: 1px solid #ffffff;
+    display: flex;
+    justify-content: space-between; /* Align heading and button to opposite ends */
+    align-items: center; /* Vertically center the button */
+    border-bottom: 1px solid #ffffff;
 }
 
 .market_table {
@@ -14,6 +35,9 @@
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
     border-collapse: separate; /* Ensures there are gaps between rows */
     border-spacing: 0 10px; /* Add spacing between rows */
+}
+ .market_table td{
+    width: 33.33%; /* Ensures columns take up equal space */
 }
 
 .market_table th {
@@ -28,18 +52,22 @@
     box-sizing: border-box;
 }
 
+.market_table tr:hover {
+    background-color: #1e2a3a;
+}
+
 .row_spacing {
-    margin-bottom: 10px; /* Add spacing between rows */
+    margin-bottom: 5px; /* Add spacing between rows */
 }
 
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
-    color: #4caf50;  /* Green text */
+    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
+    color: #4caf50; /* Green text */
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
-    color: #f44336;  /* Red text */
+    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
+    color: #f44336; /* Red text */
 }
 
 .reload_button {

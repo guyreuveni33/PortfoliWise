@@ -69,18 +69,24 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-}
+}.section_container {
+     background-color: #131C2F;
+     border-radius: 8px;
+     padding: 20px;
+     margin-bottom: 5%;
+     margin-right: 3%;
+     max-height: 30%;
+     flex: 1 1 100%; /* Adjusts to 100% width on smaller screens */
+     max-width: 100%; /* Limits width to container width */
+ }
 
-.section_container {
-    background-color: #131C2F;
-    border-radius: 8px;
-    padding: 20px;
-    margin-bottom: 5%;
-    margin-right: 3%;
-    max-height: 30%;
-    flex: 1 1 auto;
+@media only screen and (max-width: 768px) {
+    .section_container {
+        max-width: 100%; /* Ensure full width on smaller screens */
+        margin-right: 0; /* Removes side margin for a full-width layout */
+        padding: 10px; /* Reduce padding for a more compact view */
+    }
 }
-
 .market_table th {
     pointer-events: none;  /* Disable hovering and events for table headers */
 }
@@ -88,7 +94,7 @@
     width: 100%;
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
     border-collapse: collapse; /* Ensures there are no gaps between cells */
- }
+}
 
 .watchlist_table th, .market_table th, .portfolio_table th,
 .watchlist_table td, .market_table td, .portfolio_table td {
@@ -141,6 +147,7 @@
 .header_title, .balance_text {
     margin: 0;
     padding-bottom: 10px;
+
 }
 
 .canvas_style {
@@ -150,8 +157,9 @@
 
 .balance_graph {
     position: relative;
+    width: 40%; /* Ensures full width of container */
+    height: auto; /* Allows for proportional scaling */
 }
-
 .time_filters_container, .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     margin-top: 20px;
@@ -204,15 +212,6 @@
     color: #f44336;
 }
 
-.sidebar_container {
-    width: 15%;
-    background-color: #131C2F;
-    height: 100vh;
-    position: fixed;
-    min-width: 180px;
-    max-width: 180px;
-    float: left;
-}
 
 .profile_icon {
     position: absolute;
@@ -263,30 +262,8 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    .link_text {
-        display: none;
-    }
-    .sidebar_container {
-        width: 50px;
-        min-width: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: width 0.3s ease;
-    }
-    .icon_style {
-        margin-right: 2px;
-    }
-    .logout_container {
-        position: relative;
-    }
-    .logout_text {
-        display: none;
-    }
-    .logout_icon {
-        margin-right: 45px;
-    }
+
+
     .main_content {
         margin-left: 40px;
     }
@@ -534,16 +511,6 @@
     color: #f44336;
 }
 
-.sidebar_container {
-    width: 15%;
-    background-color: #131C2F;
-    height: 100vh;
-    position: fixed;
-    min-width: 180px;
-    max-width: 180px;
-    float: left;
-}
-
 .profile_icon {
     position: absolute;
     top: 10px;
@@ -593,30 +560,7 @@
 }
 
 @media only screen and (max-width: 1000px) {
-    .link_text {
-        display: none;
-    }
-    .sidebar_container {
-        width: 50px;
-        min-width: 50px;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: width 0.3s ease;
-    }
-    .icon_style {
-        margin-right: 2px;
-    }
-    .logout_container {
-        position: relative;
-    }
-    .logout_text {
-        display: none;
-    }
-    .logout_icon {
-        margin-right: 45px;
-    }
+
     .main_content {
         margin-left: 40px;
     }
