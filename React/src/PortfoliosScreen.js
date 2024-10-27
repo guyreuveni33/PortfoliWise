@@ -10,12 +10,16 @@ function PortfolioScreen() {
     const [showAnalyzerModal, setShowAnalyzerModal] = useState(false);
     const [activeLink, setActiveLink] = useState('home');
     const [portfolioData, setPortfolioData] = useState([]);
+    const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
 
     const handleLinkClick = (link) => setActiveLink(link);
     const handleAddPortfolio = () => setShowAddPortfolioModal(true);
     const handleCloseAddPortfolio = () => setShowAddPortfolioModal(false);
 
-    const handleAnalyzerClick = () => setShowAnalyzerModal(true);
+    const handleAnalyzerClick = (symbol) => {
+        setSelectedStockSymbol(symbol);
+        setShowAnalyzerModal(true);
+    };
     const handleCloseAnalyzer = () => setShowAnalyzerModal(false);
 
     useEffect(() => {
@@ -55,7 +59,11 @@ function PortfolioScreen() {
             )}
 
             {showAnalyzerModal && (
-                <AnalyzerModal handleClose={handleCloseAnalyzer} isVisible={showAnalyzerModal} />
+                <AnalyzerModal
+                    handleClose={handleCloseAnalyzer}
+                    isVisible={showAnalyzerModal}
+                    stockSymbol={selectedStockSymbol} // Pass selected stock symbol
+                />
             )}
         </div>
     );
