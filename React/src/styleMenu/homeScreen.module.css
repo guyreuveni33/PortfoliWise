@@ -12,6 +12,7 @@
     color: #fff;
     text-decoration: none;
 }
+
 .section_container_balance {
     background-color: #131C2F;
     border-radius: 8px;
@@ -22,6 +23,7 @@
     flex: 1 1 auto;
     max-width: 40%;
 }
+
 .menu_list {
     list-style: none;
     padding: 0;
@@ -42,8 +44,8 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between;  /* Align heading and button to opposite ends */
-    align-items: center;  /* Vertically center the button */
+    justify-content: space-between; /* Align heading and button to opposite ends */
+    align-items: center; /* Vertically center the button */
     border-bottom: 1px solid #ffffff;
 }
 
@@ -69,16 +71,7 @@
     display: flex;
     flex-wrap: wrap;
     justify-content: space-between;
-}.section_container {
-     background-color: #131C2F;
-     border-radius: 8px;
-     padding: 20px;
-     margin-bottom: 5%;
-     margin-right: 3%;
-     max-height: 30%;
-     flex: 1 1 100%; /* Adjusts to 100% width on smaller screens */
-     max-width: 100%; /* Limits width to container width */
- }
+}
 
 @media only screen and (max-width: 768px) {
     .section_container {
@@ -86,10 +79,30 @@
         margin-right: 0; /* Removes side margin for a full-width layout */
         padding: 10px; /* Reduce padding for a more compact view */
     }
+
+    @media only screen and (max-width: 768px) {
+        .graphs_container {
+            flex-direction: column; /* Stack elements vertically on small screens */
+            align-items: center; /* Center items if necessary */
+        }
+
+        .watchlist_section, .marketplace_section .circle_chart_container .balance_graph {
+            flex-basis: 100%; /* Full width for smaller screens */
+            max-width: 100%; /* Ensure full width on smaller screens */
+            margin-bottom: 20px; /* Add some spacing between stacked elements */
+        }
+
+        .section_container {
+            max-width: 100%; /* Ensure full width for section containers */
+            margin-right: 0; /* Remove right margin on smaller screens */
+        }
+    }
 }
+
 .market_table th {
-    pointer-events: none;  /* Disable hovering and events for table headers */
+    pointer-events: none; /* Disable hovering and events for table headers */
 }
+
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
@@ -101,8 +114,10 @@
     padding: 8px; /* Consistent padding for headers and cells */
     text-align: left; /* Left-align all table cells */
     border-bottom: 1px solid #2f3951; /* Border for separation */
+    overflow: hidden;
     box-sizing: border-box; /* Make sure padding doesn't affect the width */
 }
+
 .watchlist_table tr:hover, .market_table tr:hover, .portfolio_table tr:hover {
     background-color: #1e2a3a;
 }
@@ -157,9 +172,10 @@
 
 .balance_graph {
     position: relative;
-    width: 40%; /* Ensures full width of container */
+    /*width: 40%; !* Ensures full width of container *!*/
     height: auto; /* Allows for proportional scaling */
 }
+
 .time_filters_container, .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     margin-top: 20px;
@@ -275,13 +291,13 @@
 
 /* Add background colors for positive and negative change columns */
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
-    color: #4caf50;  /* Green text */
+    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
+    color: #4caf50; /* Green text */
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
-    color: #f44336;  /* Red text */
+    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
+    color: #f44336; /* Red text */
 }
 
 
@@ -289,6 +305,7 @@
 .market_table {
     border-collapse: separate;
 }
+
 .reload_button {
     background: none;
     border: none;
@@ -311,6 +328,7 @@
     font-size: 18px;
     color: #ccc;
 }
+
 /* appContainer will replace body and html */
 .app_container {
     margin: 0;
@@ -346,8 +364,8 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between;  /* Align heading and button to opposite ends */
-    align-items: center;  /* Vertically center the button */
+    justify-content: space-between; /* Align heading and button to opposite ends */
+    align-items: center; /* Vertically center the button */
     border-bottom: 1px solid #ffffff;
 }
 
@@ -386,8 +404,9 @@
 }
 
 .market_table th {
-    pointer-events: none;  /* Disable hovering and events for table headers */
+    pointer-events: none; /* Disable hovering and events for table headers */
 }
+
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
@@ -404,6 +423,7 @@
     box-sizing: border-box; /* Make sure padding doesn't affect the width */
 
 }
+
 .watchlist_table tr:hover, .market_table tr:hover, .portfolio_table tr:hover {
     background-color: #1e2a3a;
 }
@@ -425,6 +445,7 @@
 }
 
 .watchlist_section, .marketplace_section {
+    /*overflow-x: auto;*/
     flex-basis: 10%;
 }
 
@@ -456,7 +477,8 @@
 }
 
 .balance_graph {
-    position: relative;
+    overflow-x: auto;
+    flex-basis: 30%;
 }
 
 .time_filters_container, .watchlist_table, .market_table, .portfolio_table {
@@ -572,18 +594,18 @@
 
 /* Add background colors for positive and negative change columns */
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
-    color: #4caf50;  /* Green text */
+    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
+    color: #4caf50; /* Green text */
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
-    color: #f44336;  /* Red text */
+    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
+    color: #f44336; /* Red text */
 }
 
 /* Add space between rows */
 .row_spacing {
-    margin-bottom: 10px;  /* Add spacing between rows */
+    margin-bottom: 10px; /* Add spacing between rows */
 
 }
 
@@ -591,6 +613,7 @@
 .market_table {
     border-collapse: separate;
 }
+
 .reload_button {
     background: none;
     border: none;
@@ -615,7 +638,6 @@
 }
 
 
-
 .search_container {
     display: flex;
     gap: 10px;
@@ -627,6 +649,7 @@
 
 /* Search input styling */
 .search_input {
+    width: 39px;
     height: 10px; /* Ensure the input is the same height as the button */
     flex: 1;
     background-color: #1E2A3A;
@@ -683,7 +706,7 @@
     overflow-y: auto;
     position: absolute;
     z-index: 1000;
-    width: calc(100% - 20px); /* Adjust dropdown to the width of the input */
+    width: 200px; /* Adjust dropdown to the width of the input */
     margin-top: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }

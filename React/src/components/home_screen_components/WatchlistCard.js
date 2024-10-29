@@ -2,7 +2,6 @@ import React, { useState, useEffect, useRef } from 'react';
 import WatchlistService from '../../services/WatchlistService';
 import styles from '../../styleMenu/homeScreen.module.css';
 import StocksTable from './StocksTable';  // Import the new table component
-//import styles from '../../components_style/watchlistCard.module.css';
 
 const WatchlistCard = ({ email }) => {
     const [newSymbol, setNewSymbol] = useState('');
@@ -97,7 +96,7 @@ const WatchlistCard = ({ email }) => {
                                 setNewSymbol(e.target.value);
                                 fetchSymbolSuggestions(e.target.value);
                             }}
-                            placeholder="Enter stock symbol..."
+                            placeholder="symbol..."
                             className={styles.search_input}
                             onKeyPress={(e) => e.key === 'Enter' && handleAddSymbol()}
                         />
@@ -124,13 +123,6 @@ const WatchlistCard = ({ email }) => {
                             </div>
                         )}
                     </div>
-                    <button
-                        onClick={() => handleAddSymbol()}
-                        className={styles.add_button}
-                        disabled={isLoading}
-                    >
-                        {isLoading ? 'Adding...' : 'Add'}
-                    </button>
                 </div>
             </header>
             {watchlistData.length === 0 ? (
