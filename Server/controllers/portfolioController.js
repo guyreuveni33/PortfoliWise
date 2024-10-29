@@ -1,5 +1,6 @@
 // controllers/portfolioController.js
 const axios = require('axios');
+const { getStockRecommendation } = require('../services/stockService');
 
 const API_KEY = 'PKSFUVG2319Z6IHQ3SY0';
 const API_SECRET = 'vaq7UpjhRKhROTRLppSfRxNDGrXQchxOogivOFAS';
@@ -165,4 +166,19 @@ const getHistoricalData = async (req, res) => {
 };
 
 
-module.exports = { getPortfolioData, getHistoricalData };
+async function getRecommendation(req, res) {
+    const symbol = req.params.symbol;
+
+    if (!symbol) {
+        return res.status(400).json({ error: 'Stock symbol is required' });
+    }
+
+    try {
+        const recommendation = await getStockRecommendation(symbol);
+        res.json(recommendation);
+    } catch (error) {
+        console.error(`Error getting recommendation: ${error}`);
+        res.status(500).json({ error: 'Failed to get recommendation' });
+    }
+}
+module.exports = { getPortfolioData, getHistoricalData,getRecommendation };

@@ -1,6 +1,6 @@
 const { spawn } = require('child_process');
 
-exports.getMultipleStockPrices = async (symbols) => {
+const getMultipleStockPrices = async (symbols) => {
     return new Promise((resolve, reject) => {
         // Pass the symbols as arguments to the Python script
         const pythonProcess = spawn('python', ['../Server/scripts/stockScript.py', ...symbols]);
@@ -28,4 +28,42 @@ exports.getMultipleStockPrices = async (symbols) => {
             }
         });
     });
+};
+
+const getStockRecommendation = (symbol) => {
+    return new Promise((resolve, reject) => {
+        const pythonProcess = spawn('python', ['../Server/scripts/stockAnalyzer.py', symbol]);
+
+        let output = '';
+        let errorOutput = '';
+
+        // Collect data from the Python script
+        pythonProcess.stdout.on('data', (data) => {
+            output += data.toString();
+        });
+
+        // Capture any error output
+        pythonProcess.stderr.on('data', (data) => {
+            errorOutput += data.toString();
+        });
+
+        // Handle process exit
+        pythonProcess.on('close', (code) => {
+            if (code === 0) {
+                try {
+                    const recommendation = JSON.parse(output);
+                    resolve(recommendation);
+                } catch (error) {
+                    reject(`Parsing error: ${error.message}`);
+                }
+            } else {
+                reject(`Process exited with code ${code}: ${errorOutput}`);
+            }
+        });
+    });
+};
+
+module.exports = {
+    getMultipleStockPrices,
+    getStockRecommendation
 };
