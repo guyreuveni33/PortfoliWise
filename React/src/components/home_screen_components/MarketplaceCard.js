@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
 //import styles from '../../components_style/marketplaceCard.module.css';
 import StocksTable from './StocksTable';  // Import the new table component
+import { FaSync } from 'react-icons/fa';
 
 const MarketplaceCard = ({ fetchMarketData }) => {
     const [marketData, setMarketData] = useState({});
@@ -34,18 +35,24 @@ const MarketplaceCard = ({ fetchMarketData }) => {
         <div className={`${styles.marketplace_section} ${styles.section_container}`}>
             <header className={styles.border_line}>
                 <h1>Marketplace</h1>
-                <button onClick={loadData} className={styles.reload_button}>
-                    &#x21bb;
+                <button
+                    onClick={loadData}
+                    className={styles.reload_button}
+                    aria-label="Reload market data"
+                    disabled={loading}
+                >
+                    <span className={`${styles.reload_icon} ${loading ? styles.spin_animation : ''}`}>
+                        &#x21bb;
+                    </span>
                 </button>
             </header>
 
             {loading || marketDataArray.length === 0 ? (
                 <div className={styles.loading_spinner}>Loading...</div>
             ) : (
-                <StocksTable marketDataArray={marketDataArray} />  // Use the new table component
+                <StocksTable marketDataArray={marketDataArray} />
             )}
         </div>
     );
 };
-
 export default MarketplaceCard;

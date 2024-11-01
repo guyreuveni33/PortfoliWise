@@ -276,7 +276,6 @@
 .logout_icon:hover {
     transform: translate(2px, -2px);
 }
-
 @media only screen and (max-width: 1000px) {
 
 
@@ -311,23 +310,44 @@
     border: none;
     color: #fff;
     cursor: pointer;
-    padding: 5px;
+    padding: 8px;
     border-radius: 50%;
-    transition: background-color 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 4px;
 }
 
 .reload_button:hover {
     background-color: rgba(255, 255, 255, 0.1);
 }
 
-.loading_spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    font-size: 18px;
-    color: #ccc;
+.reload_icon {
+    font-size: 20px;
+    transition: transform 0.3s ease;
 }
+
+/* Define the spin animation here */
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+/* Class to apply the spin animation */
+.spin_animation {
+    animation: spin 1.5s linear infinite;
+}
+
+
 
 /* appContainer will replace body and html */
 .app_container {
@@ -614,28 +634,6 @@
     border-collapse: separate;
 }
 
-.reload_button {
-    background: none;
-    border: none;
-    color: #fff;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 50%;
-    transition: background-color 0.3s;
-}
-
-.reload_button:hover {
-    background-color: rgba(255, 255, 255, 0.1);
-}
-
-.loading_spinner {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 200px;
-    font-size: 18px;
-    color: #ccc;
-}
 
 
 .search_container {
