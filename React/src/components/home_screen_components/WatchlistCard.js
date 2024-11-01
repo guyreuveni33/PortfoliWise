@@ -77,9 +77,10 @@ const WatchlistCard = ({ email }) => {
     // Map watchlist data to match StocksTable expected format, with price rounded to 2 decimal places
     const watchlistData = watchlist.map((item) => ({
         symbol: item.symbol,
-        price: item.price?.price ? item.price.price.toFixed(2) : 'N/A',  // Ensure two decimal places
+        price: item.price && typeof item.price.price === 'number' ? item.price.price.toFixed(2) : 'N/A',
         percentageChange: item.price?.percentage_change,
     }));
+
 
 
     return (
