@@ -17,7 +17,9 @@ const StocksTable = ({ marketDataArray }) => {
                     <td>{item.symbol}</td>
                     <td>{item.price ? item.price : 'N/A'}</td>
                     <td className={item.percentageChange >= 0 ? styles.positive_background : styles.negative_background}>
-                        {item.percentageChange ? `${item.percentageChange.toFixed(2)}%` : 'N/A'}
+                        {typeof item.percentageChange === 'number'
+                            ? `${item.percentageChange.toFixed(2)}%`
+                            : 'N/A'}
                     </td>
                 </tr>
             ))}
