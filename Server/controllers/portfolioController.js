@@ -291,9 +291,38 @@ const addPortfolio = async (req, res) => {
     }
 };
 
+// **New Controller: Delete a Portfolio**
+const deletePortfolio = async (req, res) => {
+    const userId = req.user._id;
+    const portfolioId = req.params.id;
+
+    try {
+        // Find the portfolio by ID
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ error: 'Portfolio not found' });
+        }
+
+        // Check if the portfolio belongs to the authenticated user
+        if (portfolio.user.toString() !== userId.toString()) {
+            return res.status(403).json({ error: 'Unauthorized to delete this portfolio' });
+        }
+
+        // Delete the portfolio
+        await Portfolio.findByIdAndDelete(portfolioId);
+
+        res.json({ message: 'Portfolio deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting portfolio:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+// Export the new controller
 module.exports = {
     getPortfolioData,
     getHistoricalData,
     getRecommendation,
-    addPortfolio
+    addPortfolio,
+    deletePortfolio // Export the deletePortfolio controller
 };

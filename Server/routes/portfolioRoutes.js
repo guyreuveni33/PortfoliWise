@@ -5,7 +5,8 @@ const {
     getPortfolioData,
     getHistoricalData,
     getRecommendation,
-    addPortfolio
+    addPortfolio,
+    deletePortfolio // Import the deletePortfolio controller
 } = require('../controllers/portfolioController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 const router = express.Router();
@@ -21,5 +22,8 @@ router.get('/portfolio/recommendation/:symbol', getRecommendation);
 
 // Route to add a new portfolio
 router.post('/portfolios', authMiddleware, addPortfolio);
+
+// **New Route: Delete a portfolio by ID**
+router.delete('/portfolios/:id', authMiddleware, deletePortfolio);
 
 module.exports = router;

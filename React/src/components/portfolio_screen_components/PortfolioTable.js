@@ -1,8 +1,10 @@
+// PortfolioTable.js
+
 import React from 'react';
 import PortfolioRow from './PortfolioRow';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
 
-function PortfolioTable({ portfolioData, handleAnalyzerClick, index }) {
+function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId, deletePortfolio }) {
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -10,10 +12,15 @@ function PortfolioTable({ portfolioData, handleAnalyzerClick, index }) {
         }).format(value);
     };
 
+    const handleDelete = () => {
+        deletePortfolio(portfolioId);
+    };
+
     return (
         <div className={`${styles.portfolio} ${styles.section}`}>
-            <header className={styles.borderLine}>
-                <h1>Portfolio {index + 1}</h1> {/* Using index + 1 to start numbering from 1 */}
+            <header className={styles.header}>
+                <h1>Portfolio {index + 1}</h1>
+                <button className={styles.deleteButton} onClick={handleDelete} title="Delete Portfolio">×</button>
             </header>
             <table className={styles.portfolioTable}>
                 <thead>

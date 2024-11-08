@@ -24,6 +24,34 @@ function PortfolioScreen() {
     };
     const handleCloseAnalyzer = () => setShowAnalyzerModal(false);
 
+    // Function to delete a portfolio
+    const deletePortfolio = async (portfolioId) => {
+        const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
+        if (!confirmDelete) return;
+
+        try {
+            const response = await fetch(`http://localhost:3001/api/portfolios/${portfolioId}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                // Remove the deleted portfolio from the state
+                setPortfoliosData(portfoliosData.filter(p => p.portfolioId !== portfolioId));
+            } else {
+                const errorData = await response.json();
+                console.error('Error deleting portfolio:', errorData);
+                alert('Failed to delete portfolio.');
+            }
+        } catch (error) {
+            console.error('Error deleting portfolio:', error);
+            alert('An error occurred while deleting the portfolio.');
+        }
+    };
+
     useEffect(() => {
         const fetchPortfolioData = async () => {
             try {
@@ -56,8 +84,6 @@ function PortfolioScreen() {
         fetchPortfolioData();
     }, [showAddPortfolioModal]);
 
-
-
     return (
         <div className={styles.wrapper}>
             <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
@@ -69,9 +95,12 @@ function PortfolioScreen() {
                 <div className={styles.graphs}>
                     {portfoliosData.map((portfolio, index) => (
                         <PortfolioTable
+                            key={portfolio.portfolioId}
                             index={index}
+                            portfolioId={portfolio.portfolioId}
                             portfolioData={portfolio.positions}
                             handleAnalyzerClick={handleAnalyzerClick}
+                            deletePortfolio={deletePortfolio} // Pass the delete function as a prop
                         />
                     ))}
                     <button className={styles.addPortfolioButton} onClick={handleAddPortfolio}>
@@ -88,7 +117,7 @@ function PortfolioScreen() {
                 <AnalyzerModal
                     handleClose={handleCloseAnalyzer}
                     isVisible={showAnalyzerModal}
-                    stockSymbol={selectedStockSymbol} // Pass selected stock symbol
+                    stockSymbol={selectedStockSymbol}
                 />
             )}
         </div>
