@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import WatchlistService from '../../services/WatchlistService';
 import styles from '../../styleMenu/homeScreen.module.css';
-import StocksTable from './StocksTable';  // Import the new table component
+import StocksTable from './StocksTable';
+import LoadingSpinner from './LoadingSpinner';
 
 const WatchlistCard = ({ email }) => {
     const [newSymbol, setNewSymbol] = useState('');
@@ -26,7 +27,7 @@ const WatchlistCard = ({ email }) => {
 
     const handleAddSymbol = async (symbol = newSymbol) => {
         if (symbol.trim()) {
-            setIsLoading(true);
+            setIsLoading(true);  // Start loading
             const trimmedSymbol = symbol.trim().toUpperCase();
             const optimisticWatchlist = [...watchlist, { symbol: trimmedSymbol, price: { price: 'N/A', percentage_change: 'N/A' } }];
 
@@ -43,7 +44,7 @@ const WatchlistCard = ({ email }) => {
                 console.error('Error adding symbol to watchlist', error);
                 setWatchlist(watchlist);
             } finally {
-                setIsLoading(false);
+                setIsLoading(false);  // End loading
             }
         }
     };
@@ -61,6 +62,7 @@ const WatchlistCard = ({ email }) => {
 
     useEffect(() => {
         const fetchWatchlist = async () => {
+            setIsLoading(true);  // Start loading before fetching watchlist
             try {
                 if (email) {
                     const fetchedWatchlist = await WatchlistService.getWatchlist(email);
@@ -68,6 +70,8 @@ const WatchlistCard = ({ email }) => {
                 }
             } catch (error) {
                 console.error('Error fetching watchlist:', error);
+            } finally {
+                setIsLoading(false);  // End loading after fetching
             }
         };
 
@@ -80,8 +84,6 @@ const WatchlistCard = ({ email }) => {
         price: item.price && typeof item.price.price === 'number' ? item.price.price.toFixed(2) : 'N/A',
         percentageChange: item.price?.percentage_change,
     }));
-
-
 
     return (
         <div className={`${styles.watchlist_section} ${styles.section_container}`}>
@@ -126,13 +128,20 @@ const WatchlistCard = ({ email }) => {
                     </div>
                 </div>
             </header>
-            {watchlistData.length === 0 ? (
-                <div>No symbols in watchlist</div>
+            {isLoading ? (
+                <div className={styles.loading_container}>  {/* Center the loading spinner */}
+                    <LoadingSpinner />
+                </div>
             ) : (
-                <StocksTable marketDataArray={watchlistData} />  // Render the StocksTable
+                watchlistData.length === 0 ? (
+                    <div>No symbols in watchlist</div>
+                ) : (
+                    <StocksTable marketDataArray={watchlistData} />
+                )
             )}
         </div>
     );
+
 };
 
 export default WatchlistCard;

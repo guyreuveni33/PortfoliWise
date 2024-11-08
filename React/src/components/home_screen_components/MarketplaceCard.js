@@ -2,8 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
 //import styles from '../../components_style/marketplaceCard.module.css';
 import StocksTable from './StocksTable';  // Import the new table component
-import { FaSync } from 'react-icons/fa';
-
+import LoadingSpinner from './LoadingSpinner';  // Import the loading spinner
 const MarketplaceCard = ({ fetchMarketData }) => {
     const [marketData, setMarketData] = useState({});
     const [loading, setLoading] = useState(true);
@@ -48,11 +47,14 @@ const MarketplaceCard = ({ fetchMarketData }) => {
             </header>
 
             {loading || marketDataArray.length === 0 ? (
-                <div className={styles.loading_spinner}>Loading...</div>
+                <div className={styles.loading_container}>  {/* Centered loading spinner */}
+                    <LoadingSpinner />
+                </div>
             ) : (
                 <StocksTable marketDataArray={marketDataArray} />
             )}
         </div>
     );
 };
+
 export default MarketplaceCard;

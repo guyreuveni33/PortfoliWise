@@ -4,6 +4,7 @@ import axios from 'axios';
 import { Chart, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js';
 import styles from '../../styleMenu/homeScreen.module.css';
 import TimeFilter from './TimeFilter';
+import LoadingSpinner from './LoadingSpinner';
 
 // Register necessary chart components
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
@@ -14,6 +15,7 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
 
     useEffect(() => {
         const fetchData = async () => {
+            setLoading(true);  // Start loading
             try {
                 const response = await axios.get('http://localhost:3001/api/alpaca/portfolio/historical_data', {
                     params: {
@@ -38,16 +40,15 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                         }
                     ],
                     options: {
-                        responsive: true, // Ensures chart resizes with container
-                        maintainAspectRatio: false, // Disables fixed aspect ratio for better flexibility
+                        responsive: true,
+                        maintainAspectRatio: false,
                     }
                 });
 
-
-                setLoading(false);
+                setLoading(false);  // End loading
             } catch (error) {
                 console.error('Error fetching historical data:', error);
-                setLoading(false);
+                setLoading(false);  // End loading on error
             }
         };
 
@@ -55,12 +56,13 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
     }, [activeTimeFilter]);
 
     return (
-
         <div className={`${styles.balance_graph} ${styles.section_container}`}>
             <header>
                 <p>Your Balance</p>
                 {loading ? (
-                    <h1>Loading...</h1>
+                    <div className={styles.loading_container}>
+                        <LoadingSpinner />
+                    </div>
                 ) : (
                     <h1 className={styles.balance_text}>
                         {chartData ? chartData.datasets[0].data.slice(-1)[0] : 'N/A'}
@@ -68,17 +70,18 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                 )}
             </header>
 
-            {/* Display line chart */}
+            {/* Display line chart and time filter only when not loading */}
             {!loading && chartData && (
-                <Line data={chartData} />
+                <>
+                    <Line data={chartData} />
+                    <TimeFilter
+                        activeTimeFilter={activeTimeFilter}
+                        onFilterClick={onTimeFilterClick}
+                    />
+                </>
             )}
-
-            <TimeFilter
-                activeTimeFilter={activeTimeFilter}
-                onFilterClick={onTimeFilterClick}
-            />
         </div>
-     );
+    );
 };
 
 export default BalanceCard;

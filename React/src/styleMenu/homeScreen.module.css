@@ -304,6 +304,14 @@
 .market_table {
     border-collapse: separate;
 }
+/* homeScreen.module.css */
+.loading_container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;  /* Full height to center it within the section */
+    width: 100%;
+}
 
 .reload_button {
     background: none;
