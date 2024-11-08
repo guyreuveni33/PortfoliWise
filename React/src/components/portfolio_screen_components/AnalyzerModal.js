@@ -14,7 +14,7 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
                 setIsLoading(true);
                 try {
                     const response = await fetch(
-                        `http://localhost:3001/api/alpaca/portfolio/recommendation/${stockSymbol}`
+                        `http://localhost:3001/api/portfolio/recommendation/${stockSymbol}`
                     );
                     const data = await response.json();
                     setRecommendationData(data);

@@ -1,12 +1,14 @@
+// app.js
+
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const connectDB = require('./config/db'); // Path to the new MongoDB config file
+const connectDB = require('./config/db'); // Path to your MongoDB config file
 
 const userRoutes = require('./routes/userRoutes');
 const stockRoutes = require('./routes/stockRoutes');
 const watchlistRoutes = require('./routes/watchlistRoutes');
-const alpacaRoutes = require('./routes/portfolioRoutes');
+const portfolioRoutes = require('./routes/portfolioRoutes'); // Corrected variable name
 
 // Connect to Database
 connectDB();
@@ -21,7 +23,7 @@ app.use(bodyParser.json());
 app.use('/api/users', userRoutes);
 app.use('/api', stockRoutes);
 app.use('/api/watchlist', watchlistRoutes);
-app.use('/api/alpaca', alpacaRoutes);
+app.use('/api', portfolioRoutes); // Adjusted to match the routes
 
 app.listen(port, () => {
     console.log(`Server is running on http://localhost:${port}`);
