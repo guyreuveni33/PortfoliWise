@@ -64,22 +64,21 @@ const getPortfolioData = async (req, res) => {
 const getHistoricalData = async (req, res) => {
     const userId = req.user._id;
     const { timeframe } = req.query;
-
     const now = new Date();
     let startDate;
     let barTimeframe;
 
     switch (timeframe) {
         case 'today':
-            startDate = new Date(now.setHours(0, 0, 0, 0));
-            barTimeframe = '1D';
+            startDate = new Date(now.getTime() - (24 * 60 * 60 * 1000));
+            barTimeframe = '1D'; // Hourly data
             break;
         case 'month':
             startDate = new Date(now.setMonth(now.getMonth() - 1));
             barTimeframe = '1D';
             break;
         case 'year':
-            startDate = new Date(now.setFullYear(now.getFullYear() - 1));
+            startDate = new Date(now.setMonth(now.getMonth() - 1));
             barTimeframe = '1D';
             break;
         case 'all':
@@ -87,7 +86,7 @@ const getHistoricalData = async (req, res) => {
             barTimeframe = '1D';
             break;
         default:
-            startDate = new Date(now.setMonth(now.getMonth() - 1));
+            startDate = new Date(new Date().getTime() - (24 * 60 * 60 * 1000));
             barTimeframe = '1D';
     }
 
