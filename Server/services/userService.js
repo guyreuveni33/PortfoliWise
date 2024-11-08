@@ -1,8 +1,10 @@
+// userService.js
+
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User'); // Assuming you have a User model
+const User = require('../models/User');
 
-const secretKey = 'your_secret_key'; // Replace with your own secret key
+const secretKey = process.env.JWT_SECRET || 'your_secret_key'; // Use environment variable
 
 exports.registerUser = async (email, password) => {
     const hashedPassword = await bcrypt.hash(password, 10);
