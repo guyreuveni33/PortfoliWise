@@ -1,5 +1,3 @@
-// HomeScreen.js
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import styles from './styleMenu/homeScreen.module.css';
@@ -15,7 +13,7 @@ Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
 const HomeScreen = () => {
     const [activeLink, setActiveLink] = useState('home');
-    const [activeTimeFilter, setActiveTimeFilter] = useState('today');
+    const [activeTimeFilter, setActiveTimeFilter] = useState('week');
     const [userToken, setUserToken] = useState(null);
     const [email, setEmail] = useState('');
     const [portfolioData, setPortfolioData] = useState([]);
@@ -23,7 +21,6 @@ const HomeScreen = () => {
     useEffect(() => {
         const tempToken = localStorage.getItem('token');
         setUserToken(tempToken);
-        console.log(tempToken)
     }, []);
 
     useEffect(() => {
@@ -34,14 +31,15 @@ const HomeScreen = () => {
     useEffect(() => {
         const fetchPortfolioData = async () => {
             try {
+                const activePortfolioId = localStorage.getItem('activePortfolioId');
                 const response = await axios.get('http://localhost:3001/api/portfolios', {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
                 });
                 if (response.data.length > 0) {
-                    // Take the first portfolio's positions
-                    setPortfolioData(response.data[0].positions);
+                    const activePortfolio = response.data.find(portfolio => portfolio.portfolioId === activePortfolioId);
+                    setPortfolioData(activePortfolio ? activePortfolio.positions : response.data[0].positions);
                 } else {
                     setPortfolioData([]);
                 }

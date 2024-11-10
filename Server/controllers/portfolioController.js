@@ -69,16 +69,16 @@ const getHistoricalData = async (req, res) => {
     let barTimeframe;
 
     switch (timeframe) {
-        case 'today':
-            startDate = new Date(now.getTime() - (24 * 60 * 60 * 1000));
-            barTimeframe = '1D'; // Hourly data
+        case 'week':
+            startDate = new Date(now.setDate(now.getDate() - 7));
+            barTimeframe = '1D';
             break;
         case 'month':
             startDate = new Date(now.setMonth(now.getMonth() - 1));
             barTimeframe = '1D';
             break;
         case 'year':
-            startDate = new Date(now.setMonth(now.getMonth() - 1));
+            startDate = new Date(now.setMonth(now.getMonth() - 12));
             barTimeframe = '1D';
             break;
         case 'all':

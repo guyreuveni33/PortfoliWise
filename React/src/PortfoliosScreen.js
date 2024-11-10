@@ -1,5 +1,3 @@
-// PortfolioScreen.js
-
 import React, { useState, useEffect } from 'react';
 import styles from './styleMenu/portfoliosScreen.module.css';
 import Sidebar from "./components/Sidebar";
@@ -13,6 +11,7 @@ function PortfolioScreen() {
     const [activeLink, setActiveLink] = useState('home');
     const [portfoliosData, setPortfoliosData] = useState([]);
     const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
+    const [activePortfolioId, setActivePortfolioId] = useState(localStorage.getItem('activePortfolioId') || null);
 
     const handleLinkClick = (link) => setActiveLink(link);
     const handleAddPortfolio = () => setShowAddPortfolioModal(true);
@@ -24,7 +23,11 @@ function PortfolioScreen() {
     };
     const handleCloseAnalyzer = () => setShowAnalyzerModal(false);
 
-    // Function to delete a portfolio
+    const setActivePortfolio = (portfolioId) => {
+        setActivePortfolioId(portfolioId);
+        localStorage.setItem('activePortfolioId', portfolioId);
+    };
+
     const deletePortfolio = async (portfolioId) => {
         const confirmDelete = window.confirm('Are you sure you want to delete this portfolio?');
         if (!confirmDelete) return;
@@ -39,8 +42,16 @@ function PortfolioScreen() {
             });
 
             if (response.ok) {
-                // Remove the deleted portfolio from the state
-                setPortfoliosData(portfoliosData.filter(p => p.portfolioId !== portfolioId));
+                const updatedPortfolios = portfoliosData.filter(p => p.portfolioId !== portfolioId);
+                setPortfoliosData(updatedPortfolios);
+
+                // If only one portfolio remains after deletion, set it as active
+                if (updatedPortfolios.length === 1) {
+                    setActivePortfolio(updatedPortfolios[0].portfolioId);
+                } else if (portfolioId === activePortfolioId) {
+                    setActivePortfolioId(null); // Clear active portfolio if it was deleted
+                    localStorage.removeItem('activePortfolioId');
+                }
             } else {
                 const errorData = await response.json();
                 console.error('Error deleting portfolio:', errorData);
@@ -72,6 +83,11 @@ function PortfolioScreen() {
 
                 if (Array.isArray(data)) {
                     setPortfoliosData(data);
+
+                    // If there is only one portfolio, set it as active
+                    if (data.length === 1) {
+                        setActivePortfolio(data[0].portfolioId);
+                    }
                 } else {
                     console.error('Unexpected data format:', data);
                     setPortfoliosData([]);
@@ -100,7 +116,9 @@ function PortfolioScreen() {
                             portfolioId={portfolio.portfolioId}
                             portfolioData={portfolio.positions}
                             handleAnalyzerClick={handleAnalyzerClick}
-                            deletePortfolio={deletePortfolio} // Pass the delete function as a prop
+                            deletePortfolio={deletePortfolio}
+                            isActive={activePortfolioId === portfolio.portfolioId}
+                            setActivePortfolio={setActivePortfolio}
                         />
                     ))}
                     <button className={styles.addPortfolioButton} onClick={handleAddPortfolio}>
