@@ -1,10 +1,10 @@
-// PortfolioTable.js
-
-import React from 'react';
+import React, { useState } from 'react';
 import PortfolioRow from './PortfolioRow';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
 
-function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId, deletePortfolio }) {
+function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId, deletePortfolio, isActive, setActivePortfolio }) {
+    const [showTooltip, setShowTooltip] = useState(false);
+
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -16,11 +16,30 @@ function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId
         deletePortfolio(portfolioId);
     };
 
+    const handleActivate = () => {
+        setActivePortfolio(portfolioId);
+    };
+
     return (
         <div className={`${styles.portfolio} ${styles.section}`}>
             <header className={styles.header}>
                 <h1>Portfolio {index + 1}</h1>
-                <button className={styles.deleteButton} onClick={handleDelete} title="Delete Portfolio">×</button>
+                <div className={styles.buttonContainer}>
+                    <div
+                        className={isActive ? styles.activeButton : styles.inactiveButton}
+                        onClick={handleActivate}
+                        onMouseEnter={() => !isActive && setShowTooltip(true)}  // Show tooltip only if inactive
+                        onMouseLeave={() => setShowTooltip(false)}
+                    >
+                        {isActive ? "Display in Home" : "Set to Display in Home"}
+                        {showTooltip && !isActive && ( // Show tooltip only if inactive
+                            <div className={styles.tooltip}>
+                                Clicking on this button will display this portfolio in the Home Screen
+                            </div>
+                        )}
+                    </div>
+                    <button className={styles.deleteButton} onClick={handleDelete} title="Delete Portfolio">×</button>
+                </div>
             </header>
             <table className={styles.portfolioTable}>
                 <thead>

@@ -5,7 +5,7 @@ import Sidebar from "../Sidebar";
 const TimeFilter = ({ activeTimeFilter, onFilterClick }) => {
     return (
         <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
-            {['today', 'month', 'year', 'all'].map((filter) => (
+            {['week', 'month', 'year', 'all'].map((filter) => (
                 <button
                     key={filter}
                     onClick={() => onFilterClick(filter)}

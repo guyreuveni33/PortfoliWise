@@ -130,6 +130,7 @@ header h1 {
     color: white;
     padding: 10px 20px;
     font-size: 16px;
+    font-weight: bold;
     cursor: pointer;
     display: flex;
     align-items: center;
@@ -353,6 +354,56 @@ header h1 {
 }
 
 /* portfoliosScreen.module.css */
+.buttonContainer {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between the buttons */
+}
+
+.activeButton,
+.inactiveButton {
+    position: relative;
+    padding: 10px;
+    border: none;
+    cursor: pointer;
+    color: white;
+    border-radius: 10px;
+    font-weight: bold;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.activeButton {
+    background-color: #1c8d1c;
+}
+
+.activeButton:hover {
+    background-color: darkgreen;
+}
+
+.inactiveButton {
+    background-color: grey;
+}
+
+.inactiveButton:hover {
+    background-color: #545d62;
+}
+
+.tooltip {
+    position: absolute;
+    top: -30px;
+    /*left: 50%;*/
+    transform: translateX(-50%);
+    background-color: black;
+    color: white;
+    padding: 5px;
+    border-radius: 3px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1;
+    opacity: 0.8;
+}
+
+
 
 .header {
     display: flex;
@@ -371,6 +422,7 @@ header h1 {
     cursor: pointer;
     padding: 0;
     line-height: 1;
+    margin-left: 20px;
 }
 
 .deleteButton:hover {
