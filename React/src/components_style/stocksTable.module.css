@@ -20,6 +20,11 @@
     border-bottom: 1px solid #2f3951;
 }
 
+/* Center-align percentage column */
+.market_table td.percentage_cell {
+    text-align: center !important;
+}
+
 .market_table tr:hover {
     background-color: #1e2a3a;
 }
@@ -36,4 +41,30 @@
 .negative_background {
     background-color: rgba(244, 67, 54, 0.2);
     color: #f44336;
+}
+
+/* Blink animations for price changes */
+@keyframes blinkRed {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(244, 67, 54, 0.3); }
+    100% { background-color: transparent; }
+}
+
+@keyframes blinkGreen {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(76, 175, 80, 0.3); }
+    100% { background-color: transparent; }
+}
+
+.price_blink_red {
+    animation: blinkRed 0.5s ease-in-out;
+}
+
+.price_blink_green {
+    animation: blinkGreen 0.5s ease-in-out;
+}
+
+/* Ensure the cell transition is smooth */
+.price_cell {
+    transition: background-color 0.3s;
 }

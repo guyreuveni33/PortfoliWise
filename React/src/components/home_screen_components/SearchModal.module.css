@@ -1,0 +1,151 @@
+.modalBackdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modalContent {
+    background-color: #131C2F;
+    padding: 20px;
+    border-radius: 10px;
+    width: 550px;
+    height: 280px;
+    position: relative;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    overflow: visible;
+}
+
+.modalHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ffffff;
+    padding-bottom: 10px;
+    margin-bottom: 15px;
+}
+
+.modalHeader h1 {
+    color: #fff;
+    margin: 0;
+}
+
+.closeButton {
+    cursor: pointer;
+    font-size: 24px;
+    color: #aaa;
+    background: none;
+    border: none;
+    padding: 0;
+}
+
+.closeButton:hover {
+    color: #fff;
+}
+
+.searchInputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    margin-top: 20px;
+    position: relative;
+}
+
+.searchInput {
+    width: 90%;
+    padding: 10px;
+    border-radius: 4px;
+    border: none;
+    text-align: left;
+    font-size: 20px;
+}
+
+.suggestionsContainer {
+    position: relative;
+    width: 90%;
+    margin: 0 auto;
+}
+
+.suggestionsDropdown {
+    position: absolute;
+    width: 100%;
+    max-height: 150px;
+    overflow-y: auto;
+    background-color: #1e293b;
+    border-radius: 4px;
+    padding: 5px;
+    margin-top: 10px;
+    z-index: 10;
+    top: 0;
+    left: 0;
+}
+
+.suggestionItem {
+    padding: 10px;
+    cursor: pointer;
+    color: #ffffff;
+}
+
+.suggestionItem:hover {
+    background-color: #613de4;
+}
+
+.selectedSymbolContainer {
+    margin-top: 15px;
+    text-align: left;
+    color: #ffffff;
+    padding-left: 5%;
+}
+
+.addButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #613de4;
+    color: #ffffff;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    width: 70px;
+    height: 40px;
+    font-size: 16px;
+    transition: background-color 0.2s;
+    z-index: 1;
+}
+
+.addButton:hover {
+    background-color: #5029A7;
+}
+
+.addButtonDisabled {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+    background-color: #4a5568;
+    color: #a0aec0;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 10px;
+    width: 70px;
+    height: 40px;
+    font-size: 16px;
+    cursor: not-allowed;
+    z-index: 1;
+}
+
+.alreadyAddedMessage {
+    color: #ff6363;
+    font-size: 14px;
+    margin-top: 10px;
+    padding-left: 5%;
+    text-align: center;
+}
+

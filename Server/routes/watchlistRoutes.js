@@ -10,5 +10,7 @@ router.get('/symbol-suggestions/:symbol', watchlistController.getStockSuggestion
 
 // Route to fetch the user's watchlist by email
 router.get('/:email', watchlistController.getWatchlistByEmail);
+// Route to remove a symbol from the user's watchlist
+router.delete('/remove-symbol', watchlistController.removeSymbolFromWatchlist);
 
 module.exports = router;

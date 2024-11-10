@@ -139,6 +139,7 @@
 }
 
 .watchlist_section, .marketplace_section {
+    min-width: 250px;
     flex-basis: 10%;
 }
 
@@ -276,6 +277,7 @@
 .logout_icon:hover {
     transform: translate(2px, -2px);
 }
+
 @media only screen and (max-width: 1000px) {
 
 
@@ -304,12 +306,13 @@
 .market_table {
     border-collapse: separate;
 }
+
 /* homeScreen.module.css */
 .loading_container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%;  /* Full height to center it within the section */
+    height: 100%; /* Full height to center it within the section */
     width: 100%;
 }
 
@@ -354,7 +357,6 @@
 .spin_animation {
     animation: spin 1.5s linear infinite;
 }
-
 
 
 /* appContainer will replace body and html */
@@ -643,7 +645,6 @@
 }
 
 
-
 .search_container {
     display: flex;
     gap: 10px;
@@ -802,4 +803,45 @@
 
 .suggestions_dropdown::-webkit-scrollbar-thumb:hover {
     background: #404b66;
+}
+
+.iconButton {
+    background: transparent; /* Set background to transparent */
+    border: none;
+    color: #fff; /* Adjust color if needed */
+    cursor: pointer;
+    padding: 8px;
+    border-radius: 50%; /* Optional: keep rounded edges */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    transition: background-color 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 4px;
+}
+
+.iconButton:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Optional: subtle hover effect */
+}
+
+.iconContainer {
+    display: flex;
+    gap: 30px; /* Add some space between the icons */
+    align-items: center; /* Align icons vertically if needed */
+    margin-left: 15px;
+    margin-bottom: 4px;
+}
+
+.iconImage {
+    width: 22px; /* Set desired width */
+    height: 22px; /* Set desired height */
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.iconImage:hover {
+    transform: scale(1.1); /* Optional: zoom effect on hover */
 }

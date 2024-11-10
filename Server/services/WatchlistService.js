@@ -84,3 +84,23 @@ exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
         });
     });
 };
+
+// Service to remove a symbol from the user's watchlist
+exports.removeSymbolFromWatchlist = async (email, symbol) => {
+    try {
+        const user = await User.findOneAndUpdate(
+            { email: email },
+            { $pull: { watchlist: { symbol: symbol } } },
+            { new: true }
+        );
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        return user.watchlist;
+    } catch (error) {
+        console.error('Error in removeSymbolFromWatchlist service:', error);
+        throw error;
+    }
+};

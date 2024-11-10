@@ -1,53 +1,72 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
-//import styles from '../../components_style/marketplaceCard.module.css';
-import StocksTable from './StocksTable';  // Import the new table component
-import LoadingSpinner from './LoadingSpinner';  // Import the loading spinner
+import StocksTable from './StocksTable';
+import LoadingSpinner from './LoadingSpinner';
+
 const MarketplaceCard = ({ fetchMarketData }) => {
     const [marketData, setMarketData] = useState({});
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(true); // Controls initial loading spinner
+    const [blink, setBlink] = useState(false); // Controls periodic "blink" refresh
+    const previousDataRef = useRef({});
+    const firstLoad = useRef(true);
 
     const loadData = async () => {
-        setLoading(true);
+        if (firstLoad.current) {
+            setLoading(true);
+            firstLoad.current = false;
+        } else {
+            setBlink(true); // Trigger "blink" on subsequent loads
+        }
+
         try {
-            const data = await fetchMarketData();
-            setMarketData(data);
+            const newData = await fetchMarketData();
+
+            // Compare with previous data and add price direction
+            const processedData = Object.keys(newData).reduce((acc, symbol) => {
+                const currentPrice = newData[symbol]?.price;
+                const previousPrice = previousDataRef.current[symbol]?.price;
+
+                acc[symbol] = {
+                    ...newData[symbol],
+                    priceDirection: previousPrice !== undefined && currentPrice !== previousPrice
+                        ? currentPrice > previousPrice ? 'green' : 'red'
+                        : null
+                };
+                return acc;
+            }, {});
+
+            previousDataRef.current = newData;
+            setMarketData(processedData);
         } catch (error) {
             console.error('Error fetching market data:', error);
         } finally {
             setLoading(false);
+            setTimeout(() => setBlink(false), 500); // Turn off "blink" after 500ms
         }
     };
 
     useEffect(() => {
         loadData();
+        const interval = setInterval(loadData, 3000);
+        return () => clearInterval(interval);
     }, []);
 
     const marketDataArray = Object.keys(marketData).map((symbol) => ({
         symbol,
         price: marketData[symbol]?.price?.toFixed(2),
-        change: marketData[symbol]?.change?.toFixed(2),
         percentageChange: marketData[symbol]?.percentage_change,
+        priceDirection: marketData[symbol]?.priceDirection
     }));
 
     return (
         <div className={`${styles.marketplace_section} ${styles.section_container}`}>
             <header className={styles.border_line}>
                 <h1>Marketplace</h1>
-                <button
-                    onClick={loadData}
-                    className={styles.reload_button}
-                    aria-label="Reload market data"
-                    disabled={loading}
-                >
-                    <span className={`${styles.reload_icon} ${loading ? styles.spin_animation : ''}`}>
-                        &#x21bb;
-                    </span>
-                </button>
+
             </header>
 
-            {loading || marketDataArray.length === 0 ? (
-                <div className={styles.loading_container}>  {/* Centered loading spinner */}
+            {loading ? (
+                <div className={styles.loading_container}>
                     <LoadingSpinner />
                 </div>
             ) : (

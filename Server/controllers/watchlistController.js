@@ -31,6 +31,20 @@ exports.getWatchlistByEmail = async (req, res) => {
     }
 };
 
+// Controller to remove a symbol from the user's watchlist
+exports.removeSymbolFromWatchlist = async (req, res) => {
+    const { email, symbol } = req.body;
+
+    try {
+        // Call the service function to remove the symbol
+        const updatedWatchlist = await watchlistService.removeSymbolFromWatchlist(email, symbol);
+
+        // Return the updated watchlist
+        return res.json(updatedWatchlist);
+    } catch (error) {
+        return res.status(500).json({ message: error.message });
+    }
+};
 
 exports.getStockSuggestions = async (req, res) => {
     const symbolPrefix = req.params.symbol || '';

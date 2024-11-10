@@ -1,5 +1,5 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3001/api/watchlist'; // Adjust this based on your server
+const BASE_URL = 'http://localhost:3001/api/watchlist';
 
 const WatchlistService = {
     getSymbolSuggestions: async (prefix) => {
@@ -14,7 +14,7 @@ const WatchlistService = {
 
     addSymbol: async (email, symbol) => {
         try {
-            const response = await axios.post('http://localhost:3001/api/watchlist/add-symbol', { email, symbol });
+            const response = await axios.post(`${BASE_URL}/add-symbol`, { email, symbol });
             return response.data;
         } catch (error) {
             console.error('Error adding symbol to watchlist:', error);
@@ -24,7 +24,7 @@ const WatchlistService = {
 
     getWatchlist: async (email) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/watchlist/${email}`);
+            const response = await axios.get(`${BASE_URL}/${email}`);
             return response.data;
         } catch (error) {
             console.error('Error fetching watchlist:', error);
@@ -32,16 +32,17 @@ const WatchlistService = {
         }
     },
 
-    // New method to search for stock symbols
-    searchSymbols: async (query) => {
+    removeSymbol: async (email, symbol) => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/watchlist/search?query=${query}`);
-            return response.data; // Expecting an array of stock suggestions
+            const response = await axios.delete(`${BASE_URL}/remove-symbol`, {
+                data: { email, symbol },
+            });
+            return response.data;
         } catch (error) {
-            console.error('Error fetching stock suggestions:', error);
+            console.error('Error removing symbol from watchlist:', error);
             throw error;
         }
-    }
+    },
 };
 
 export default WatchlistService;

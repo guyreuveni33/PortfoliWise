@@ -3,145 +3,138 @@ import WatchlistService from '../../services/WatchlistService';
 import styles from '../../styleMenu/homeScreen.module.css';
 import StocksTable from './StocksTable';
 import LoadingSpinner from './LoadingSpinner';
+import SearchModal from './SearchModal';
+import ModifyWatchlistModal from "./ModifyWatchlistModal";
 
 const WatchlistCard = ({ email }) => {
-    const [newSymbol, setNewSymbol] = useState('');
+    const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
+    const [isModifyModalOpen, setIsModifyModalOpen] = useState(false); // State for modification modal
     const [watchlist, setWatchlist] = useState([]);
     const [isLoading, setIsLoading] = useState(false);
-    const [symbolSuggestions, setSymbolSuggestions] = useState([]);
-    const [showSuggestions, setShowSuggestions] = useState(false);
-    const dropdownRef = useRef(null);
-    const inputRef = useRef(null);
+    const previousWatchlistRef = useRef({});
+    const isFirstLoad = useRef(true); // Track if it's the initial load
 
-    useEffect(() => {
-        const handleClickOutside = (event) => {
-            if (dropdownRef.current && !dropdownRef.current.contains(event.target) &&
-                inputRef.current && !inputRef.current.contains(event.target)) {
-                setShowSuggestions(false);
-            }
-        };
+    const handleRemoveSymbol = async (symbol) => {
+        await WatchlistService.removeSymbol(email, symbol);
+        await fetchWatchlist();
+    };
 
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => document.removeEventListener('mousedown', handleClickOutside);
-    }, []);
+    const handleUpdateSymbol = (symbol) => {
+        // Implement update logic or open a new modal for editing if needed
+    };
 
-    const handleAddSymbol = async (symbol = newSymbol) => {
-        if (symbol.trim()) {
-            setIsLoading(true);  // Start loading
-            const trimmedSymbol = symbol.trim().toUpperCase();
-            const optimisticWatchlist = [...watchlist, { symbol: trimmedSymbol, price: { price: 'N/A', percentage_change: 'N/A' } }];
-
-            setWatchlist(optimisticWatchlist);
-            setNewSymbol('');
-            setSymbolSuggestions([]);
-            setShowSuggestions(false);
-
-            try {
-                await WatchlistService.addSymbol(email, trimmedSymbol);
-                const updatedWatchlist = await WatchlistService.getWatchlist(email);
-                setWatchlist(updatedWatchlist);
-            } catch (error) {
-                console.error('Error adding symbol to watchlist', error);
-                setWatchlist(watchlist);
-            } finally {
-                setIsLoading(false);  // End loading
-            }
+    const handleAddSymbol = async (symbol) => {
+        setIsLoading(true);
+        try {
+            await WatchlistService.addSymbol(email, symbol);
+            await fetchWatchlist();
+        } catch (error) {
+            console.error('Error adding symbol:', error);
+        } finally {
+            setIsLoading(false);
+            setIsSearchModalOpen(false);
         }
     };
 
-    const fetchSymbolSuggestions = async (symbolPrefix) => {
-        if (symbolPrefix.trim()) {
-            const suggestions = await WatchlistService.getSymbolSuggestions(symbolPrefix);
-            setSymbolSuggestions(suggestions);
-            setShowSuggestions(true);
-        } else {
-            setSymbolSuggestions([]);
-            setShowSuggestions(false);
+    const fetchWatchlist = async () => {
+        if (isFirstLoad.current) {
+            setIsLoading(true); // Set loading only for the first load
+            isFirstLoad.current = false; // Mark first load as complete
+        }
+
+        try {
+            const fetchedWatchlist = await WatchlistService.getWatchlist(email);
+
+            const updatedWatchlist = fetchedWatchlist.map((item) => {
+                const currentPrice = item.price?.price ?? 'N/A';
+                const previousPrice = previousWatchlistRef.current[item.symbol]?.price ?? 'N/A';
+
+                const priceDirection =
+                    previousPrice !== 'N/A' && currentPrice !== 'N/A' && currentPrice !== previousPrice
+                        ? parseFloat(currentPrice) > parseFloat(previousPrice) ? 'green' : 'red'
+                        : null;
+
+                return {
+                    symbol: item.symbol,
+                    price: currentPrice,
+                    percentageChange: item.price?.percentage_change ?? 'N/A',
+                    priceDirection,
+                };
+            });
+
+            previousWatchlistRef.current = fetchedWatchlist.reduce((acc, item) => ({
+                ...acc,
+                [item.symbol]: { price: item.price?.price },
+            }), {});
+
+            setWatchlist(updatedWatchlist);
+        } catch (error) {
+            console.error('Error fetching watchlist:', error);
+        } finally {
+            setIsLoading(false); // Ensure loading is set to false after the first load
         }
     };
 
     useEffect(() => {
-        const fetchWatchlist = async () => {
-            setIsLoading(true);  // Start loading before fetching watchlist
-            try {
-                if (email) {
-                    const fetchedWatchlist = await WatchlistService.getWatchlist(email);
-                    setWatchlist(fetchedWatchlist);
-                }
-            } catch (error) {
-                console.error('Error fetching watchlist:', error);
-            } finally {
-                setIsLoading(false);  // End loading after fetching
-            }
-        };
-
         fetchWatchlist();
+        const interval = setInterval(fetchWatchlist, 5000); // Fetch updated prices every 5 seconds
+        return () => clearInterval(interval); // Clean up on unmount
     }, [email]);
-
-    // Map watchlist data to match StocksTable expected format, with price rounded to 2 decimal places
-    const watchlistData = watchlist.map((item) => ({
-        symbol: item.symbol,
-        price: item.price && typeof item.price.price === 'number' ? item.price.price.toFixed(2) : 'N/A',
-        percentageChange: item.price?.percentage_change,
-    }));
 
     return (
         <div className={`${styles.watchlist_section} ${styles.section_container}`}>
             <header className={styles.border_line}>
                 <h1>Watchlist</h1>
-                <div className={styles.search_container}>
-                    <div className={styles.search_wrapper}>
-                        <input
-                            ref={inputRef}
-                            type="text"
-                            value={newSymbol}
-                            onChange={(e) => {
-                                setNewSymbol(e.target.value);
-                                fetchSymbolSuggestions(e.target.value);
-                            }}
-                            placeholder="symbol..."
-                            className={styles.search_input}
-                            onKeyPress={(e) => e.key === 'Enter' && handleAddSymbol()}
-                        />
-                        {showSuggestions && symbolSuggestions.length > 0 && (
-                            <div className={styles.suggestions_dropdown} ref={dropdownRef}>
-                                {symbolSuggestions.map((suggestion, index) => (
-                                    <div
-                                        key={index}
-                                        className={styles.suggestion_item}
-                                        onClick={() => {
-                                            handleAddSymbol(suggestion.symbol);
-                                            setSymbolSuggestions([]);
-                                            setShowSuggestions(false);
-                                        }}
-                                    >
-                                        <div className={styles.suggestion_symbol}>
-                                            {suggestion.symbol}
-                                        </div>
-                                        <div className={styles.suggestion_name}>
-                                            {suggestion.name}
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        )}
-                    </div>
+                <div className={styles.iconContainer}>
+                    <img
+                        src="/pencil.png" // Absolute path starting from the root of the public folder
+                        alt="Search"
+                        className={styles.iconImage}
+                        title="Modify"
+                        onClick={() => {
+                            console.log("Modify icon clicked"); // Debugging log
+                            setIsModifyModalOpen(true);
+                        }}
+                    />
+                    <img
+                        title="Search"
+                        src="/search.png" // Absolute path starting from the root of the public folder
+                        alt="Modify"
+                        className={styles.iconImage}
+                        onClick={() => setIsSearchModalOpen(true)}
+
+                    />
                 </div>
             </header>
+
             {isLoading ? (
-                <div className={styles.loading_container}>  {/* Center the loading spinner */}
+                <div className={styles.loading_container}>
                     <LoadingSpinner />
                 </div>
             ) : (
-                watchlistData.length === 0 ? (
+                watchlist.length === 0 ? (
                     <div>No symbols in watchlist</div>
                 ) : (
-                    <StocksTable marketDataArray={watchlistData} />
+                    <StocksTable marketDataArray={watchlist} />
                 )
             )}
+
+            <ModifyWatchlistModal
+                isOpen={isModifyModalOpen}
+                onClose={() => setIsModifyModalOpen(false)} // Close modify modal
+                watchlist={watchlist}
+                onRemoveSymbol={handleRemoveSymbol}
+                onUpdateSymbol={handleUpdateSymbol}
+            />
+
+            <SearchModal
+                isOpen={isSearchModalOpen}
+                onClose={() => setIsSearchModalOpen(false)}
+                onAddSymbol={handleAddSymbol}
+                existingSymbols={watchlist.map(item => item.symbol)}
+            />
         </div>
     );
-
 };
 
 export default WatchlistCard;
