@@ -4,6 +4,7 @@ import Sidebar from "./components/Sidebar";
 import PortfolioTable from './components/portfolio_screen_components/PortfolioTable';
 import AddPortfolioModal from './components/portfolio_screen_components/AddPortfolioModal';
 import AnalyzerModal from './components/portfolio_screen_components/AnalyzerModal';
+import { toast } from 'react-toastify';
 
 function PortfolioScreen() {
     const [showAddPortfolioModal, setShowAddPortfolioModal] = useState(false);
@@ -52,14 +53,15 @@ function PortfolioScreen() {
                     setActivePortfolioId(null); // Clear active portfolio if it was deleted
                     localStorage.removeItem('activePortfolioId');
                 }
+                toast.success('Portfolio Deleted Successfully');
             } else {
                 const errorData = await response.json();
                 console.error('Error deleting portfolio:', errorData);
-                alert('Failed to delete portfolio.');
+                toast.error(errorData.error || 'Failed to delete portfolio.');
             }
         } catch (error) {
             console.error('Error deleting portfolio:', error);
-            alert('An error occurred while deleting the portfolio.');
+            toast.error('An error occurred while deleting the portfolio.');
         }
     };
 

@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
+import { toast } from 'react-toastify';
 
 function AddPortfolioModal({ handleClose }) {
     const [apiKey, setApiKey] = useState('');
@@ -22,15 +23,15 @@ function AddPortfolioModal({ handleClose }) {
             if (response.ok) {
                 // Portfolio added successfully
                 handleClose();
-                window.location.reload(); // Reload to fetch the new portfolio
+                toast.success('Portfolio Added Successfully');
             } else {
                 const errorData = await response.json();
                 console.error('Error adding portfolio:', errorData);
-                alert(errorData.error || 'Failed to add portfolio');
+                toast.error(errorData.error || 'Failed to add portfolio');
             }
         } catch (error) {
             console.error('Error adding portfolio:', error);
-            alert('An error occurred while adding the portfolio');
+            toast.error('An error occurred while adding the portfolio');
         }
     };
 
