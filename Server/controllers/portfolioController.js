@@ -254,6 +254,12 @@ const addPortfolio = async (req, res) => {
     }
 
     try {
+        // Check if the portfolio already exists for this user
+        const existingPortfolio = await Portfolio.findOne({ user: userId, apiKey });
+        if (existingPortfolio) {
+            return res.status(400).json({ error: 'Portfolio with this API Key already exists.' });
+        }
+
         // Validate the API keys with Alpaca API
         const paperClient = axios.create({
             baseURL: PAPER_URL,
@@ -265,7 +271,6 @@ const addPortfolio = async (req, res) => {
 
         // Test the API keys by fetching the account
         const accountResponse = await paperClient.get('/v2/account');
-
         if (accountResponse.status !== 200) {
             return res.status(400).json({ error: 'Invalid API Key or Secret Key' });
         }
@@ -278,7 +283,6 @@ const addPortfolio = async (req, res) => {
         });
 
         await portfolio.save();
-
         res.status(201).json({ message: 'Portfolio added successfully' });
     } catch (error) {
         console.error('Error adding portfolio:', error.response?.data || error.message);
@@ -290,6 +294,7 @@ const addPortfolio = async (req, res) => {
         res.status(500).json({ error: 'Internal server error' });
     }
 };
+
 
 // **New Controller: Delete a Portfolio**
 const deletePortfolio = async (req, res) => {
