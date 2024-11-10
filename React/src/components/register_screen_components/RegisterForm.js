@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from '../login_screen_components/GoogleButton'; // GoogleButton is now imported here
 import styles from '../../Register.module.css';
+import {toast} from "react-toastify";
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
@@ -13,10 +14,10 @@ const RegisterForm = () => {
         e.preventDefault();
         try {
             await axios.post('http://localhost:3001/api/users/register', { email, password });
-            alert('User registered successfully');
+            toast.success('User registered successfully');
             navigate('/login');
         } catch (error) {
-            alert('Error registering user');
+            toast.error('Error registering user');
         }
     };
 

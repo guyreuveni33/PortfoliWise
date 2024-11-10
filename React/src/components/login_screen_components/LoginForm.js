@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from './GoogleButton'; // Move GoogleButton here
 import styles from '../../styleMenu/Login.module.css';
+import {toast} from "react-toastify";
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -18,7 +19,7 @@ const LoginForm = () => {
             navigate('/home');
         } catch (error) {
             const errorResponse = error.response ? error.response.data.message : 'Login failed. Please try again.';
-            alert(errorResponse);
+            toast.error(errorResponse);
         }
     };
 

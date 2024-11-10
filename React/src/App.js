@@ -1,5 +1,8 @@
 import React from 'react';
 import {BrowserRouter as Router, Route, Routes} from 'react-router-dom';
+import {ToastContainer, Zoom} from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
+
 import Login from './Login';
 import Register from './Register';
 import TaxScreen from './TaxScreen'; // Import HomeScreen component
@@ -18,6 +21,18 @@ import Sidebar from "./components/Sidebar";
                 <Route path="/tax" element={<TaxScreen/>}/> {/* Home Screen route */}
                 <Route path="/" element={<Login/>}/> {/* Default route */}
             </Routes>
+            <ToastContainer
+                position="top-center"
+                autoClose={3000} // Toast will auto-close after 3 seconds
+                hideProgressBar={true}
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                transition={Zoom}
+            />
         </Router>
     );
 };
