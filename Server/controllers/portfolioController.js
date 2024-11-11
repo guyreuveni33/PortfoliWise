@@ -100,6 +100,7 @@ const getHistoricalData = async (req, res) => {
 
         // Aggregate data from all portfolios
         let aggregatedBars = [];
+        let totalCryptoValue = 0;
 
         for (const portfolio of portfolios) {
             const { apiKey, secretKey } = portfolio;
@@ -128,8 +129,17 @@ const getHistoricalData = async (req, res) => {
                 continue; // Skip if no positions in this portfolio
             }
 
-            // Get historical data for each position
-            const historicalDataPromises = positions.map(async position => {
+            // Separate crypto and non-crypto positions
+            const cryptoPositions = positions.filter(position => position.asset_class === 'crypto');
+            const nonCryptoPositions = positions.filter(position => position.asset_class !== 'crypto');
+
+            // Add crypto positions' market value to the total if no historical bars are available
+            cryptoPositions.forEach(position => {
+                totalCryptoValue += parseFloat(position.market_value);
+            });
+
+            // Get historical data for each non-crypto position
+            const historicalDataPromises = nonCryptoPositions.map(async position => {
                 const symbol = position.symbol;
                 const quantity = parseFloat(position.qty);
 
@@ -192,6 +202,11 @@ const getHistoricalData = async (req, res) => {
                 .sort((a, b) => new Date(a.t) - new Date(b.t));
 
             aggregatedBars = mergeAggregatedBars(aggregatedBars, portfolioAggregatedBars);
+        }
+
+        // Add crypto total to the latest timestamp in aggregated bars
+        if (aggregatedBars.length > 0) {
+            aggregatedBars[aggregatedBars.length - 1].value += totalCryptoValue;
         }
 
         res.json({ bars: aggregatedBars });

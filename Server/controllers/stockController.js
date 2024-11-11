@@ -5,7 +5,7 @@ exports.getCommonStocks = async (req, res) => {
         '^GSPC', // S&P 500 Index
         '^IXIC', // NASDAQ Composite Index
         '^DJI',  // Dow Jones Industrial Average
-        'BTC-USD',  // Meta Platforms, Inc. (Facebook)
+        'BTC',  // Bitcoin USD
         'AAPL',  // Apple Inc.
         'MSFT',  // Microsoft Corporation
         'GOOGL', // Alphabet Inc. (Google)
