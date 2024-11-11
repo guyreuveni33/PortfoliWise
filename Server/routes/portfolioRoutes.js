@@ -6,7 +6,9 @@ const {
     getHistoricalData,
     getRecommendation,
     addPortfolio,
-    deletePortfolio // Import the deletePortfolio controller
+    deletePortfolio, // Import the deletePortfolio controller
+    calculateAnnualTax,
+    calculatePortfolioTax
 } = require('../controllers/portfolioController');
 const { authMiddleware } = require('../middleware/authMiddleware');
 const router = express.Router();
@@ -25,5 +27,11 @@ router.post('/portfolios', authMiddleware, addPortfolio);
 
 // **New Route: Delete a portfolio by ID**
 router.delete('/portfolios/:id', authMiddleware, deletePortfolio);
+
+router.get('/portfolio/annual-tax', authMiddleware, calculateAnnualTax);
+
+// portfolioRoutes.js
+router.get('/portfolio/annual-tax/:portfolioId', authMiddleware, calculatePortfolioTax);
+
 
 module.exports = router;
