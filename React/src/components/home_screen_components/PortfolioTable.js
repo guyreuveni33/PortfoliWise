@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
 
 const PortfolioTable = ({ portfolioData }) => {
+    const [blinkStates, setBlinkStates] = useState({});
+
+    useEffect(() => {
+        const newBlinkStates = {};
+
+        portfolioData.forEach(item => {
+            if (item.priceDirection) {
+                newBlinkStates[item.name] = item.priceDirection;
+            }
+        });
+
+        setBlinkStates(newBlinkStates);
+
+        // Clear blink states after animation
+        const timer = setTimeout(() => {
+            setBlinkStates({});
+        }, 1000);
+
+        return () => clearTimeout(timer);
+    }, [portfolioData]);
+
     const formatCurrency = (value) => {
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
@@ -22,10 +43,18 @@ const PortfolioTable = ({ portfolioData }) => {
                     <th>Week</th>
                 </tr>
                 {portfolioData.map((item, index) => (
-                    <tr key={index}>
+                    <tr key={`${item.name}-${item.priceDirection}-${index}`}>
                         <td>{item.name}</td>
                         <td>{formatCurrency(item.balance)}</td>
-                        <td>{formatCurrency(item.price)}</td>
+                        <td className={`${styles.price_cell} ${
+                            blinkStates[item.name] === 'green'
+                                ? styles.price_blink_green
+                                : blinkStates[item.name] === 'red'
+                                    ? styles.price_blink_red
+                                    : ''
+                        }`}>
+                            {formatCurrency(item.price)}
+                        </td>
                         <td className={item.todayChange >= 0 ? styles.positive_background : styles.negative_background}>
                             {item.todayChange.toFixed(2)}%
                         </td>

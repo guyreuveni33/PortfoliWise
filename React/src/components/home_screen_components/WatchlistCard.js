@@ -113,7 +113,7 @@ const WatchlistCard = ({ email }) => {
                 </div>
             ) : (
                 watchlist.length === 0 ? (
-                    <div>No symbols in watchlist</div>
+                    <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
                 ) : (
                     <StocksTable marketDataArray={watchlist} />
                 )

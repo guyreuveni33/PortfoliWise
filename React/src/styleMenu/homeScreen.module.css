@@ -142,7 +142,10 @@
     min-width: 250px;
     flex-basis: 10%;
 }
-
+.No_Symbol{
+    margin-top: 8px;
+    font-size: 18px;
+}
 .portfolio_container {
     overflow-x: auto;
     flex-basis: 48%;
@@ -180,6 +183,7 @@
 .time_filters_container, .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
     margin-top: 20px;
+
 }
 
 .time_filters {
@@ -219,6 +223,7 @@
 
 .watchlist_table_cell, .market_table_cell, .portfolio_table_cell {
     border-top: 1px solid #2f3951;
+
 }
 
 .positive_change {
@@ -441,7 +446,7 @@
     width: 100%;
     table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
     border-collapse: separate; /* Ensure border-spacing takes effect */
-    border-spacing: 0 3px; /* 0 for horizontal, 10px for vertical spacing */
+    border-spacing: 2px 2px; /* 0 for horizontal, 10px for vertical spacing */
 
 }
 
@@ -844,4 +849,28 @@
 
 .iconImage:hover {
     transform: scale(1.1); /* Optional: zoom effect on hover */
+}
+
+@keyframes blinkRed {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(244, 67, 54, 0.3); }
+    100% { background-color: transparent; }
+}
+
+@keyframes blinkGreen {
+    0% { background-color: transparent; }
+    50% { background-color: rgba(76, 175, 80, 0.3); }
+    100% { background-color: transparent; }
+}
+
+.price_blink_red {
+    animation: blinkRed 1s ease-in-out;
+}
+
+.price_blink_green {
+    animation: blinkGreen 1s ease-in-out;
+}
+
+.price_cell {
+    transition: background-color 0.3s;
 }
