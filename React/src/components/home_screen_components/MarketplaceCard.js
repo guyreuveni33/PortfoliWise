@@ -6,7 +6,7 @@ import LoadingSpinner from './LoadingSpinner';
 const symbolMapping = {
     '^GSPC': 'S&P 500',
     '^IXIC': 'NASDAQ',
-    '^DJI': 'Dow Jones'
+    '^DJI': 'Dow'
 };
 
 const MarketplaceCard = ({ fetchMarketData }) => {

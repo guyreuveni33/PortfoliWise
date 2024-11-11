@@ -10,10 +10,10 @@ const WatchlistCard = ({ email }) => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
     const [watchlist, setWatchlist] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Initially true for the initial load spinner
+    const [isLoading, setIsLoading] = useState(true); // Initially true to show spinner on mount
     const [blink, setBlink] = useState(false);
     const previousWatchlistRef = useRef({});
-    const isFirstLoad = useRef(true); // Track if it’s the initial load
+    const isFirstLoad = useRef(true);
 
     const handleRemoveSymbol = async (symbol) => {
         await WatchlistService.removeSymbol(email, symbol);
@@ -28,7 +28,6 @@ const WatchlistCard = ({ email }) => {
         } catch (error) {
             console.error('Error adding symbol:', error);
         } finally {
-            setIsLoading(false);
             setIsSearchModalOpen(false);
         }
     };
