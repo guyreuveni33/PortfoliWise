@@ -850,27 +850,3 @@
 .iconImage:hover {
     transform: scale(1.1); /* Optional: zoom effect on hover */
 }
-
-@keyframes blinkRed {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(244, 67, 54, 0.3); }
-    100% { background-color: transparent; }
-}
-
-@keyframes blinkGreen {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(76, 175, 80, 0.3); }
-    100% { background-color: transparent; }
-}
-
-.price_blink_red {
-    animation: blinkRed 1s ease-in-out;
-}
-
-.price_blink_green {
-    animation: blinkGreen 1s ease-in-out;
-}
-
-.price_cell {
-    transition: background-color 0.3s;
-}

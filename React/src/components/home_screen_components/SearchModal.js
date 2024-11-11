@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styles from './SearchModal.module.css';
 import WatchlistService from '../../services/WatchlistService';
 
@@ -7,6 +7,15 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [] }) => 
     const [symbolSuggestions, setSymbolSuggestions] = useState([]);
     const [selectedSymbol, setSelectedSymbol] = useState(null);
     const dropdownRef = useRef(null);
+
+    useEffect(() => {
+        // Clear state when the modal is closed
+        if (!isOpen) {
+            setSearchTerm('');
+            setSymbolSuggestions([]);
+            setSelectedSymbol(null);
+        }
+    }, [isOpen]);
 
     const fetchSymbolSuggestions = async (term) => {
         if (term.trim()) {
@@ -27,7 +36,7 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [] }) => 
         if (selectedSymbol && !isAlreadyAdded) {
             onAddSymbol(selectedSymbol);
             setSelectedSymbol(null);
-            onClose();
+            onClose(); // Close the modal after adding
         }
     };
 

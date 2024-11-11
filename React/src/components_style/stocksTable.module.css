@@ -1,3 +1,7 @@
+.tableWrapper {
+    width: 100%;
+}
+
 .market_table {
     width: 100%;
     table-layout: fixed;
@@ -20,8 +24,7 @@
     border-bottom: 1px solid #2f3951;
 }
 
-/* Center-align percentage column */
-.market_table td.percentage_cell {
+.percentage_cell {
     text-align: center !important;
 }
 
@@ -43,7 +46,6 @@
     color: #f44336;
 }
 
-/* Blink animations for price changes */
 @keyframes blinkRed {
     0% { background-color: transparent; }
     50% { background-color: rgba(244, 67, 54, 0.3); }
@@ -64,7 +66,41 @@
     animation: blinkGreen 0.5s ease-in-out;
 }
 
-/* Ensure the cell transition is smooth */
 .price_cell {
     transition: background-color 0.3s;
+}
+
+.scrollableBody {
+    width: 100%;
+    /* Remove the fixed max-height from CSS */
+    transition: max-height 0.3s ease;
+}
+
+/* Scrollbar styles */
+.scrollableBody::-webkit-scrollbar {
+    width: 8px;
+}
+
+.scrollableBody::-webkit-scrollbar-track {
+    background: transparent;
+    border-radius: 10px;
+    margin: 4px 0;
+}
+
+.scrollableBody::-webkit-scrollbar-thumb {
+    background: rgba(47, 57, 81, 0.6);
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+    transition: background-color 0.2s;
+}
+
+.scrollableBody::-webkit-scrollbar-thumb:hover {
+    background: rgba(64, 75, 102, 0.8);
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.scrollableBody::-webkit-scrollbar-corner {
+    background: transparent;
 }

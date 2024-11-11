@@ -3,10 +3,16 @@ import styles from '../../styleMenu/homeScreen.module.css';
 import StocksTable from './StocksTable';
 import LoadingSpinner from './LoadingSpinner';
 
+const symbolMapping = {
+    '^GSPC': 'S&P 500',
+    '^IXIC': 'NASDAQ',
+    '^DJI': 'Dow Jones'
+};
+
 const MarketplaceCard = ({ fetchMarketData }) => {
     const [marketData, setMarketData] = useState({});
-    const [loading, setLoading] = useState(true); // Controls initial loading spinner
-    const [blink, setBlink] = useState(false); // Controls periodic "blink" refresh
+    const [loading, setLoading] = useState(true);
+    const [blink, setBlink] = useState(false);
     const previousDataRef = useRef({});
     const firstLoad = useRef(true);
 
@@ -15,13 +21,12 @@ const MarketplaceCard = ({ fetchMarketData }) => {
             setLoading(true);
             firstLoad.current = false;
         } else {
-            setBlink(true); // Trigger "blink" on subsequent loads
+            setBlink(true);
         }
 
         try {
             const newData = await fetchMarketData();
 
-            // Compare with previous data and add price direction
             const processedData = Object.keys(newData).reduce((acc, symbol) => {
                 const currentPrice = newData[symbol]?.price;
                 const previousPrice = previousDataRef.current[symbol]?.price;
@@ -41,7 +46,7 @@ const MarketplaceCard = ({ fetchMarketData }) => {
             console.error('Error fetching market data:', error);
         } finally {
             setLoading(false);
-            setTimeout(() => setBlink(false), 500); // Turn off "blink" after 500ms
+            setTimeout(() => setBlink(false), 500);
         }
     };
 
@@ -52,17 +57,19 @@ const MarketplaceCard = ({ fetchMarketData }) => {
     }, []);
 
     const marketDataArray = Object.keys(marketData).map((symbol) => ({
-        symbol,
+        symbol: symbolMapping[symbol] || symbol, // Use mapped name or default to symbol
         price: marketData[symbol]?.price?.toFixed(2),
         percentageChange: marketData[symbol]?.percentage_change,
         priceDirection: marketData[symbol]?.priceDirection
     }));
 
+    console.log("Market Data Array:", marketDataArray); // Check if symbols are mapped
+
+
     return (
         <div className={`${styles.marketplace_section} ${styles.section_container}`}>
             <header className={styles.border_line}>
                 <h1>Marketplace</h1>
-
             </header>
 
             {loading ? (
