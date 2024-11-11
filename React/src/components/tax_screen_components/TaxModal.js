@@ -3,10 +3,13 @@
 import React from 'react';
 import styles from '../../styleMenu/taxScreen.module.css';
 
-const TaxModal = ({ isTaxModalOpen, handleCloseModal, annualTax, netGain, totalGains, totalLosses }) => {
+const TaxModal = ({isTaxModalOpen, handleCloseModal, annualTax, netGain, totalGains, totalLosses}) => {
     if (!isTaxModalOpen) return null;
 
-    const formatNumber = (number) => number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const formatNumber = (number) => number.toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
 
     return (
         <div className={`${styles.port_modal} ${isTaxModalOpen ? styles.show : ''}`} onClick={handleCloseModal}>
@@ -41,7 +44,7 @@ const TaxModal = ({ isTaxModalOpen, handleCloseModal, annualTax, netGain, totalG
                 </p>
 
                 <button id={styles.got_it} onClick={handleCloseModal}>
-                    <img className={styles.icon_style_like} src="/like.png" alt="Like Icon" />
+                    <img className={styles.icon_style_like} src="/like.png" alt="Like Icon"/>
                     Got it
                 </button>
             </div>
