@@ -1,4 +1,7 @@
-import React, { useState, useEffect } from 'react';
+// TaxScreen.js
+
+import React, {useState, useEffect} from 'react';
+import axios from 'axios';
 import styles from './styleMenu/taxScreen.module.css';
 import Sidebar from "./components/Sidebar";
 import PortfolioCard from './components/tax_screen_components/PortfolioCard';
@@ -7,58 +10,93 @@ import TaxModal from './components/tax_screen_components/TaxModal';
 
 const TaxScreen = () => {
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
-    const [activeLink, setActiveLink] = useState('tax'); // Set 'tax' as the default active link
+    const [portfolios, setPortfolios] = useState([]);
+    const [totalGains, setTotalGains] = useState(0);
+    const [totalLosses, setTotalLosses] = useState(0);
+    const [netGain, setNetGain] = useState(0);
+    const [annualTax, setAnnualTax] = useState(0);
 
-    const handleLinkClick = (link) => {
-        setActiveLink(link);
+    useEffect(() => {
+        const fetchPortfolios = async () => {
+            try {
+                const response = await axios.get('http://localhost:3001/api/portfolios', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('token')}`
+                    }
+                });
+                setPortfolios(response.data);
+            } catch (error) {
+                console.error('Error fetching portfolios:', error);
+            }
+        };
+
+        fetchPortfolios();
+    }, []);
+
+    const calculateTaxAcrossPortfolios = async () => {
+        let gains = 0;
+        let losses = 0;
+
+        try {
+            const response = await axios.get(`http://localhost:3001/api/portfolio/annual-tax`, {
+                headers: {
+                    'Authorization': `Bearer ${localStorage.getItem('token')}`
+                }
+            });
+            const {totalGains, totalLosses} = response.data;
+
+            gains += totalGains;
+            losses += totalLosses;
+        } catch (error) {
+            console.error('Error calculating tax:', error);
+        }
+
+        const net = gains - losses;
+        const tax = net > 0 ? net * 0.25 : 0;
+
+        setTotalGains(gains);
+        setTotalLosses(losses);
+        setNetGain(net);
+        setAnnualTax(tax);
+        setIsTaxModalOpen(true);
     };
 
     const handleCalculateTax = () => {
-        setIsTaxModalOpen(true);
-        console.log(isTaxModalOpen)
+        calculateTaxAcrossPortfolios();
     };
 
     const handleCloseModal = () => {
         setIsTaxModalOpen(false);
     };
 
-    useEffect(() => {
-        const currentUrl = window.location.pathname;
-
-        const homeLink = document.getElementById('home_link');
-        const portfoliosLink = document.getElementById('portfolios_link');
-        const taxLink = document.getElementById('tax_link');
-        const settingsLink = document.getElementById('settings_link');
-
-        if (currentUrl.includes('home') && homeLink) {
-            homeLink.classList.add('active');
-        } else if (currentUrl.includes('portfolios') && portfoliosLink) {
-            portfoliosLink.classList.add('active');
-        } else if (currentUrl.includes('tax') && taxLink) {
-            taxLink.classList.add('active');
-        } else if (currentUrl.includes('settings') && settingsLink) {
-            settingsLink.classList.add('active');
-        }
-    }, []);
-
     return (
         <div className={styles.wrapper}>
-            {/* Sidebar */}
-            <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
+            <Sidebar activeLink="tax"/>
 
-            {/* Main Content */}
             <div className={styles.main_content}>
                 <div className={styles.profile_icon}>
-                    <img src="/User-profile-pic.png" alt="User Profile" />
+                    <img src="/User-profile-pic.png" alt="User Profile"/>
                 </div>
                 <div className={styles.portfolio_list}>
-                    <PortfolioCard />
-                    <TaxButton handleCalculateTax={handleCalculateTax} />
+                    {portfolios.map((portfolio, index) => (
+                        <PortfolioCard
+                            key={portfolio.portfolioId}
+                            portfolioId={portfolio.portfolioId}
+                            index={index}
+                        />
+                    ))}
+                    <TaxButton handleCalculateTax={handleCalculateTax}/>
                 </div>
             </div>
 
-            {/* Tax Modal */}
-            <TaxModal isTaxModalOpen={isTaxModalOpen} handleCloseModal={handleCloseModal} />
+            <TaxModal
+                isTaxModalOpen={isTaxModalOpen}
+                handleCloseModal={handleCloseModal}
+                annualTax={annualTax}
+                netGain={netGain}
+                totalGains={totalGains}
+                totalLosses={totalLosses}
+            />
         </div>
     );
 };

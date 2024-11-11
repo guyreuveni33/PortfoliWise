@@ -338,11 +338,121 @@ const deletePortfolio = async (req, res) => {
     }
 };
 
-// Export the new controller
+const TAX_RATE = 0.25;
+
+const calculateAnnualTax = async (req, res) => {
+    const userId = req.user._id;
+
+    try {
+        // Fetch all portfolios for the user
+        const portfolios = await Portfolio.find({ user: userId });
+        if (!portfolios.length) {
+            return res.json({ annualTax: 0 });
+        }
+
+        let totalGains = 0;
+        let totalLosses = 0;
+
+        for (const portfolio of portfolios) {
+            const { apiKey, secretKey } = portfolio;
+
+            const paperClient = axios.create({
+                baseURL: PAPER_URL,
+                headers: {
+                    'APCA-API-KEY-ID': apiKey,
+                    'APCA-API-SECRET-KEY': secretKey
+                }
+            });
+
+            try {
+                const response = await paperClient.get('/v2/positions');
+                const positions = response.data;
+
+                // Calculate gains and losses for each position
+                positions.forEach(position => {
+                    const marketValue = parseFloat(position.market_value);
+                    const costBasis = parseFloat(position.cost_basis);
+                    const profitOrLoss = marketValue - costBasis;
+
+                    if (profitOrLoss > 0) {
+                        totalGains += profitOrLoss;
+                    } else {
+                        totalLosses += Math.abs(profitOrLoss);
+                    }
+                });
+            } catch (error) {
+                console.error(`Error fetching data for portfolio ${portfolio._id}:`, error.response?.data || error.message);
+            }
+        }
+
+        // Calculate net gain or loss
+        const netGain = totalGains - totalLosses;
+        const annualTax = netGain > 0 ? netGain * TAX_RATE : 0;
+
+        res.json({ annualTax, netGain, totalGains, totalLosses });
+    } catch (error) {
+        console.error('Error calculating annual tax:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
+const calculatePortfolioTax = async (req, res) => {
+    const portfolioId = req.params.portfolioId;
+
+    try {
+        const portfolio = await Portfolio.findById(portfolioId);
+        if (!portfolio) {
+            return res.status(404).json({ error: 'Portfolio not found' });
+        }
+
+        let totalGains = 0;
+        let totalLosses = 0;
+
+        const { apiKey, secretKey } = portfolio;
+
+        const paperClient = axios.create({
+            baseURL: PAPER_URL,
+            headers: {
+                'APCA-API-KEY-ID': apiKey,
+                'APCA-API-SECRET-KEY': secretKey
+            }
+        });
+
+        try {
+            const response = await paperClient.get('/v2/positions');
+            const positions = response.data;
+
+            positions.forEach(position => {
+                const marketValue = parseFloat(position.market_value);
+                const costBasis = parseFloat(position.cost_basis);
+                const profitOrLoss = marketValue - costBasis;
+
+                if (profitOrLoss > 0) {
+                    totalGains += profitOrLoss;
+                } else {
+                    totalLosses += Math.abs(profitOrLoss);
+                }
+            });
+        } catch (error) {
+            console.error(`Error fetching data for portfolio ${portfolioId}:`, error.message);
+        }
+
+        const netGain = totalGains - totalLosses;
+        const annualTax = netGain > 0 ? netGain * TAX_RATE : 0;
+
+        res.json({ annualTax, netGain, totalGains, totalLosses });
+    } catch (error) {
+        console.error('Error calculating portfolio tax:', error);
+        res.status(500).json({ error: 'Internal server error' });
+    }
+};
+
 module.exports = {
     getPortfolioData,
     getHistoricalData,
     getRecommendation,
     addPortfolio,
-    deletePortfolio // Export the deletePortfolio controller
+    deletePortfolio,
+    calculateAnnualTax,
+    calculatePortfolioTax
 };
