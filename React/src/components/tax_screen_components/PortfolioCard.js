@@ -24,6 +24,9 @@ const PortfolioCard = ({ portfolioId, index }) => {
         fetchProfitData();
     }, [portfolioId]);
 
+    // Format function to add commas and two decimal places
+    const formatNumber = (number) => number.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+
     return (
         <div className={`${styles.portfolio_card} ${styles.section}`}>
             <div className={styles.portfolio_header}>
@@ -39,7 +42,7 @@ const PortfolioCard = ({ portfolioId, index }) => {
             <div>
                 <span className={styles.profit}>Total Profit: </span>
                 <span className={`${styles.profit} ${profit >= 0 ? styles.positive : styles.negative}`}>
-                    {profit !== null ? `$${profit.toFixed(2)}` : 'Loading...'}
+                    {profit !== null ? `$${formatNumber(profit)}` : 'Loading...'}
                 </span>
             </div>
         </div>
