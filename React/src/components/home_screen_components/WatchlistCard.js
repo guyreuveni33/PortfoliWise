@@ -8,23 +8,20 @@ import ModifyWatchlistModal from "./ModifyWatchlistModal";
 
 const WatchlistCard = ({ email }) => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
-    const [isModifyModalOpen, setIsModifyModalOpen] = useState(false); // State for modification modal
+    const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
     const [watchlist, setWatchlist] = useState([]);
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading] = useState(true); // Initially true for the initial load spinner
+    const [blink, setBlink] = useState(false);
     const previousWatchlistRef = useRef({});
-    const isFirstLoad = useRef(true); // Track if it's the initial load
+    const isFirstLoad = useRef(true); // Track if it’s the initial load
 
     const handleRemoveSymbol = async (symbol) => {
         await WatchlistService.removeSymbol(email, symbol);
         await fetchWatchlist();
     };
 
-    const handleUpdateSymbol = (symbol) => {
-        // Implement update logic or open a new modal for editing if needed
-    };
-
     const handleAddSymbol = async (symbol) => {
-        setIsLoading(true);
+        setIsLoading(true); // Show loading spinner when adding a new symbol
         try {
             await WatchlistService.addSymbol(email, symbol);
             await fetchWatchlist();
@@ -38,8 +35,10 @@ const WatchlistCard = ({ email }) => {
 
     const fetchWatchlist = async () => {
         if (isFirstLoad.current) {
-            setIsLoading(true); // Set loading only for the first load
-            isFirstLoad.current = false; // Mark first load as complete
+            setIsLoading(true); // Show spinner on initial load
+            isFirstLoad.current = false;
+        } else {
+            setBlink(true); // Enable blink effect on subsequent updates
         }
 
         try {
@@ -71,14 +70,15 @@ const WatchlistCard = ({ email }) => {
         } catch (error) {
             console.error('Error fetching watchlist:', error);
         } finally {
-            setIsLoading(false); // Ensure loading is set to false after the first load
+            setIsLoading(false); // Stop spinner after first load or after reloading data
+            setTimeout(() => setBlink(false), 500); // Reset blink effect after a short delay
         }
     };
 
     useEffect(() => {
         fetchWatchlist();
-        const interval = setInterval(fetchWatchlist, 5000); // Fetch updated prices every 5 seconds
-        return () => clearInterval(interval); // Clean up on unmount
+        const interval = setInterval(fetchWatchlist, 5000); // Fetch updates every 5 seconds
+        return () => clearInterval(interval);
     }, [email]);
 
     return (
@@ -87,22 +87,18 @@ const WatchlistCard = ({ email }) => {
                 <h1>Watchlist</h1>
                 <div className={styles.iconContainer}>
                     <img
-                        src="/pencil.png" // Absolute path starting from the root of the public folder
-                        alt="Search"
-                        className={styles.iconImage}
-                        title="Modify"
-                        onClick={() => {
-                            console.log("Modify icon clicked"); // Debugging log
-                            setIsModifyModalOpen(true);
-                        }}
-                    />
-                    <img
-                        title="Search"
-                        src="/search.png" // Absolute path starting from the root of the public folder
+                        src="/pencil.png"
                         alt="Modify"
                         className={styles.iconImage}
+                        title="Modify"
+                        onClick={() => setIsModifyModalOpen(true)}
+                    />
+                    <img
+                        src="/search.png"
+                        alt="Search"
+                        className={styles.iconImage}
+                        title="Search"
                         onClick={() => setIsSearchModalOpen(true)}
-
                     />
                 </div>
             </header>
@@ -115,16 +111,15 @@ const WatchlistCard = ({ email }) => {
                 watchlist.length === 0 ? (
                     <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
                 ) : (
-                    <StocksTable marketDataArray={watchlist} />
+                    <StocksTable marketDataArray={watchlist} blink={blink} />
                 )
             )}
 
             <ModifyWatchlistModal
                 isOpen={isModifyModalOpen}
-                onClose={() => setIsModifyModalOpen(false)} // Close modify modal
+                onClose={() => setIsModifyModalOpen(false)}
                 watchlist={watchlist}
                 onRemoveSymbol={handleRemoveSymbol}
-                onUpdateSymbol={handleUpdateSymbol}
             />
 
             <SearchModal
