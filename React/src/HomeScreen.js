@@ -8,6 +8,7 @@ import WatchlistCard from './components/home_screen_components/WatchlistCard';
 import MarketplaceCard from './components/home_screen_components/MarketplaceCard';
 import PortfolioTable from './components/home_screen_components/PortfolioTable';
 import PortfolioChart from './components/home_screen_components/PortfolioChart';
+import ProfileIcon from './components/ProfileIcon';
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
@@ -16,6 +17,7 @@ const HomeScreen = () => {
     const [activeTimeFilter, setActiveTimeFilter] = useState('week');
     const [userToken, setUserToken] = useState(null);
     const [email, setEmail] = useState('');
+    const [nickname, setNickname] = useState('');
     const [portfolioData, setPortfolioData] = useState([]);
 
     useEffect(() => {
@@ -26,6 +28,11 @@ const HomeScreen = () => {
     useEffect(() => {
         const tempEmail = localStorage.getItem('email');
         setEmail(tempEmail);
+    }, []);
+
+    useEffect(() => {
+        const tempNickname = localStorage.getItem('nickname');
+        setNickname(tempNickname);
     }, []);
 
     useEffect(() => {
@@ -64,9 +71,7 @@ const HomeScreen = () => {
         <div className={styles.app_container}>
             <Sidebar activeLink={activeLink} handleLinkClick={setActiveLink} />
             <div className={styles.main_content}>
-                <div className={styles.profile_icon}>
-                    <img src="/User-profile-pic.png" alt="User Profile" className={styles.profile_image} />
-                </div>
+                <ProfileIcon nickname={nickname} />
                 <div className={styles.graphs_container}>
                     <BalanceCard activeTimeFilter={activeTimeFilter} onTimeFilterClick={setActiveTimeFilter} />
                     <WatchlistCard email={email} />
