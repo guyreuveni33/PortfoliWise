@@ -7,6 +7,7 @@ import Sidebar from "./components/Sidebar";
 import PortfolioCard from './components/tax_screen_components/PortfolioCard';
 import TaxButton from './components/tax_screen_components/TaxButton';
 import TaxModal from './components/tax_screen_components/TaxModal';
+import ProfileIcon from "./components/ProfileIcon";
 
 const TaxScreen = () => {
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
@@ -15,6 +16,12 @@ const TaxScreen = () => {
     const [totalLosses, setTotalLosses] = useState(0);
     const [netGain, setNetGain] = useState(0);
     const [annualTax, setAnnualTax] = useState(0);
+    const [nickname, setNickname] = useState('');
+
+    useEffect(() => {
+        const tempNickname = localStorage.getItem('nickname');
+        setNickname(tempNickname);
+    }, []);
 
     useEffect(() => {
         const fetchPortfolios = async () => {
@@ -74,9 +81,7 @@ const TaxScreen = () => {
             <Sidebar activeLink="tax"/>
 
             <div className={styles.main_content}>
-                <div className={styles.profile_icon}>
-                    <img src="/User-profile-pic.png" alt="User Profile"/>
-                </div>
+                <ProfileIcon nickname={nickname} />
                 <div className={styles.portfolio_list}>
                     {portfolios.map((portfolio, index) => (
                         <PortfolioCard

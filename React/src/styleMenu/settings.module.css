@@ -1,0 +1,195 @@
+/* settings.module.css */
+
+.wrapper {
+    display: flex;
+    background-color: var(--background-color);
+    color: var(--text-color);
+    min-height: 100vh;
+}
+
+.main_content {
+    margin-left: 200px;
+    padding: 70px 30px 30px;
+    flex-grow: 1;
+}
+
+.profile_icon {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.profile_image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+
+.heading {
+    margin-bottom: 30px;
+}
+
+.settings_container {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.setting_section {
+    background-color: #131C2F;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 400px;
+}
+
+.setting_section h2 {
+    margin-bottom: 15px;
+    margin-top: 0;
+    font-size: 25px;
+}
+
+.setting_section input[type="text"],
+.setting_section input[type="password"] {
+    width: 90%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: var(--input-background-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    color: var(--text-color);
+    font-size: 13px;
+}
+
+.setting_section button {
+    background-color: #613DE4;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    max-width: 200px;
+}
+
+.setting_section button:hover {
+    background-color: #5029A7;
+}
+
+/* Theme Toggle Switch */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+    margin-right: 10px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: .4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    transition: .4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #613DE4;
+}
+
+input:focus + .slider {
+    box-shadow: 0 0 1px #613DE4;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+@media only screen and (max-height: 343px) {
+    .logout {
+        position: relative;
+    }
+}
+@media only screen and (max-width: 1000px) {
+    ul#a li .text {
+        display: none;
+    }
+
+    .sidebar {
+        width: 50px;
+        min-width: 50px;
+        background-color: #131C2F;
+        height: 100vh;
+        position: fixed;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transition: width 0.3s ease;
+    }
+
+    .menu {
+        padding: 20px;
+        flex-grow: 1;
+    }
+
+    .icon_style {
+        margin-right: 2px;
+    }
+
+    .logout {
+        position: relative;
+    }
+
+    .logout .text {
+        display: none;
+    }
+
+    .logout img.icon_style {
+        margin-right: 45px;
+    }
+
+    .main_content {
+        margin-left: 40px;
+    }
+}
+
+/* Variables for theming */
+:root {
+    --background-color: #0C1120;
+    --text-color: #FFFFFF;
+    --section-background-color: #1E293B;
+    --input-background-color: #1D2939;
+    --border-color: #475467;
+}
+
+[data-theme="light"] {
+    --background-color: #FFFFFF;
+    --text-color: #000000;
+    --section-background-color: #F0F0F0;
+    --input-background-color: #FFFFFF;
+    --border-color: #CCCCCC;
+}

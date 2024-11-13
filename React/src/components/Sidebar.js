@@ -1,14 +1,15 @@
+// Sidebar.js
+
 import React from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import styles from '../components_style/sidebar.module.css';
 
 const Sidebar = () => {
     const navigate = useNavigate();
-    const location = useLocation(); // Get the current route
+    const location = useLocation();
 
-    // Function to handle navigation and link click
     const handleLinkClick = (link) => {
-        navigate(link); // Navigate to the specified route
+        navigate(link);
     };
 
     return (
@@ -17,7 +18,7 @@ const Sidebar = () => {
                 <ul className={styles.menuList}>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${location.pathname === '/home' ? styles.active : ''}`} // Make Home active if current route is /home
+                            className={`${location.pathname === '/home' ? styles.active : ''}`}
                             onClick={() => handleLinkClick('/home')}
                         >
                             <img className={styles.iconStyle} src="/home.png" alt="Home Icon" />
@@ -26,7 +27,7 @@ const Sidebar = () => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${location.pathname === '/portfolios' ? styles.active : ''}`} // Make Portfolios active if current route is /portfolios
+                            className={`${location.pathname === '/portfolios' ? styles.active : ''}`}
                             onClick={() => handleLinkClick('/portfolios')}
                         >
                             <img className={styles.iconStyle} src="/hand.png" alt="Hand Icon" />
@@ -35,7 +36,7 @@ const Sidebar = () => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${location.pathname === '/tax' ? styles.active : ''}`} // Make Tax active if current route is /tax
+                            className={`${location.pathname === '/tax' ? styles.active : ''}`}
                             onClick={() => handleLinkClick('/tax')}
                         >
                             <img className={styles.iconStyle} src="/tax.png" alt="Tax Icon" />
@@ -44,8 +45,8 @@ const Sidebar = () => {
                     </li>
                     <li className={styles.menuListItem}>
                         <a
-                            className={`${location.pathname === '/settings' ? styles.active : ''}`} // Settings route, will redirect to /home
-                            onClick={() => handleLinkClick('/home')}
+                            className={`${location.pathname === '/settings' ? styles.active : ''}`}
+                            onClick={() => handleLinkClick('/settings')}
                         >
                             <img className={styles.iconStyle} src="/settings.png" alt="Settings Icon" />
                             <span className={styles.text}>Settings</span>
@@ -55,7 +56,7 @@ const Sidebar = () => {
             </div>
             <a
                 className={styles.logout}
-                onClick={() => handleLinkClick('/login')} // Navigate to /login on Logout click
+                onClick={() => handleLinkClick('/login')}
             >
                 <img className={styles.iconStyle} src="/exit.png" alt="Exit Icon" />
                 <span className={styles.text}>Logout</span>

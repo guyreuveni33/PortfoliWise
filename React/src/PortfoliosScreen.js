@@ -5,6 +5,7 @@ import PortfolioTable from './components/portfolio_screen_components/PortfolioTa
 import AddPortfolioModal from './components/portfolio_screen_components/AddPortfolioModal';
 import AnalyzerModal from './components/portfolio_screen_components/AnalyzerModal';
 import { toast } from 'react-toastify';
+import ProfileIcon from "./components/ProfileIcon";
 
 function PortfolioScreen() {
     const [showAddPortfolioModal, setShowAddPortfolioModal] = useState(false);
@@ -12,7 +13,13 @@ function PortfolioScreen() {
     const [activeLink, setActiveLink] = useState('home');
     const [portfoliosData, setPortfoliosData] = useState([]);
     const [selectedStockSymbol, setSelectedStockSymbol] = useState('');
+    const [nickname, setNickname] = useState('');
     const [activePortfolioId, setActivePortfolioId] = useState(localStorage.getItem('activePortfolioId') || null);
+
+    useEffect(() => {
+        const tempNickname = localStorage.getItem('nickname');
+        setNickname(tempNickname);
+    }, []);
 
     const handleLinkClick = (link) => setActiveLink(link);
     const handleAddPortfolio = () => setShowAddPortfolioModal(true);
@@ -107,9 +114,7 @@ function PortfolioScreen() {
             <Sidebar activeLink={activeLink} handleLinkClick={handleLinkClick} />
 
             <div className={styles.mainContent}>
-                <div className={styles.profileIcon}>
-                    <img src="/User-profile-pic.png" alt="User Profile" />
-                </div>
+                <ProfileIcon nickname={nickname} />
                 <div className={styles.graphs}>
                     {portfoliosData.map((portfolio, index) => (
                         <PortfolioTable
