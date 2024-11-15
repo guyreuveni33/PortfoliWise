@@ -9,12 +9,17 @@ import LoadingSpinner from './LoadingSpinner';
 // Register necessary chart components
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
-const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
+const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
+            if (!userToken) {
+                setChartData(null);
+                setLoading(false);
+                return;
+            }
             setLoading(true); // Start loading
             try {
                 const response = await axios.get('http://localhost:3001/api/portfolio/historical_data', {
@@ -118,7 +123,7 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
         };
 
         fetchData();
-    }, [activeTimeFilter]);
+    }, [activeTimeFilter, userToken]);
 
     // Function to format the balance
     const formatBalance = (balance) => {
