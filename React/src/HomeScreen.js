@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, {useState, useEffect} from 'react';
 import axios from 'axios';
 import styles from './styleMenu/homeScreen.module.css';
-import { Chart, DoughnutController, ArcElement, Legend, Tooltip } from 'chart.js';
+import {Chart, DoughnutController, ArcElement, Legend, Tooltip} from 'chart.js';
 import Sidebar from "./components/Sidebar";
 import BalanceCard from './components/home_screen_components/BalanceCard';
 import WatchlistCard from './components/home_screen_components/WatchlistCard';
@@ -9,6 +9,7 @@ import MarketplaceCard from './components/home_screen_components/MarketplaceCard
 import PortfolioTable from './components/home_screen_components/PortfolioTable';
 import PortfolioChart from './components/home_screen_components/PortfolioChart';
 import ProfileIcon from './components/ProfileIcon';
+import {useLocation} from "react-router-dom";
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
 
@@ -19,21 +20,34 @@ const HomeScreen = () => {
     const [email, setEmail] = useState('');
     const [nickname, setNickname] = useState('');
     const [portfolioData, setPortfolioData] = useState([]);
+    const location = useLocation();
 
     useEffect(() => {
+        // Parse query parameters
+        const params = new URLSearchParams(location.search);
+        const token = params.get('token');
+        const email = params.get('email');
+        const nickname = params.get('nickname');
+
+        if (token && email && nickname) {
+            // Store in localStorage
+            localStorage.setItem('token', token);
+            localStorage.setItem('email', email);
+            localStorage.setItem('nickname', nickname);
+
+            // Remove query parameters from URL
+            window.history.replaceState({}, document.title, window.location.pathname);
+        }
+
+        // Retrieve from localStorage
         const tempToken = localStorage.getItem('token');
-        setUserToken(tempToken);
-    }, []);
-
-    useEffect(() => {
         const tempEmail = localStorage.getItem('email');
-        setEmail(tempEmail);
-    }, []);
-
-    useEffect(() => {
         const tempNickname = localStorage.getItem('nickname');
+
+        setUserToken(tempToken);
+        setEmail(tempEmail);
         setNickname(tempNickname);
-    }, []);
+    }, [location]);
 
     useEffect(() => {
         const fetchPortfolioData = async () => {
@@ -55,7 +69,7 @@ const HomeScreen = () => {
             }
         };
         fetchPortfolioData();
-    }, []);
+    }, [userToken]);
 
     const fetchMarketData = async () => {
         try {
@@ -69,15 +83,16 @@ const HomeScreen = () => {
 
     return (
         <div className={styles.app_container}>
-            <Sidebar activeLink={activeLink} handleLinkClick={setActiveLink} />
+            <Sidebar activeLink={activeLink} handleLinkClick={setActiveLink}/>
             <div className={styles.main_content}>
-                <ProfileIcon nickname={nickname} />
+                <ProfileIcon nickname={nickname}/>
                 <div className={styles.graphs_container}>
-                    <BalanceCard activeTimeFilter={activeTimeFilter} onTimeFilterClick={setActiveTimeFilter} />
-                    <WatchlistCard email={email} />
-                    <MarketplaceCard fetchMarketData={fetchMarketData} />
-                    <PortfolioTable portfolioData={portfolioData} />
-                    <PortfolioChart portfolioData={portfolioData} />
+                    <BalanceCard userToken={userToken} activeTimeFilter={activeTimeFilter}
+                                 onTimeFilterClick={setActiveTimeFilter}/>
+                    <WatchlistCard email={email}/>
+                    <MarketplaceCard fetchMarketData={fetchMarketData}/>
+                    <PortfolioTable portfolioData={portfolioData}/>
+                    <PortfolioChart portfolioData={portfolioData}/>
                 </div>
             </div>
         </div>

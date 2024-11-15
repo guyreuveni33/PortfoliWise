@@ -9,6 +9,9 @@ const userRoutes = require('./routes/userRoutes');
 const stockRoutes = require('./routes/stockRoutes');
 const watchlistRoutes = require('./routes/watchlistRoutes');
 const portfolioRoutes = require('./routes/portfolioRoutes'); // Corrected variable name
+const passport = require('./config/passport');
+const session = require('express-session');
+
 
 // Connect to Database
 connectDB();
@@ -18,6 +21,10 @@ const port = 3001;
 
 app.use(cors());
 app.use(bodyParser.json());
+
+app.use(session({ secret: 'your_secret_key', resave: false, saveUninitialized: false }));
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use('/api/users', userRoutes);
