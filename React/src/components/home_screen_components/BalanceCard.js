@@ -1,5 +1,3 @@
-// components/home_screen_components/BalanceCard.js
-
 import React, { useState, useEffect } from 'react';
 import { Line } from 'react-chartjs-2';
 import axios from 'axios';
@@ -10,13 +8,19 @@ import LoadingSpinner from './LoadingSpinner';
 
 // Register necessary chart components
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
-const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
+
+const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
     const [chartData, setChartData] = useState(null);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         const fetchData = async () => {
-            setLoading(true);  // Start loading
+            if (!userToken) {
+                setChartData(null);
+                setLoading(false);
+                return;
+            }
+            setLoading(true); // Start loading
             try {
                 const response = await axios.get('http://localhost:3001/api/portfolio/historical_data', {
                     headers: {
@@ -27,14 +31,65 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                     }
                 });
 
-                const data = response.data.bars;
+                const { bars, holdings } = response.data;
 
-                if (!Array.isArray(data)) {
+                if (!Array.isArray(bars) || !Array.isArray(holdings)) {
                     throw new Error('Invalid data format received from API');
                 }
 
-                const labels = data.map(bar => new Date(bar.t).toLocaleDateString());
-                const values = data.map(bar => bar.value);
+                // Determine the oldest transaction date
+                const oldestTransactionDate = holdings.reduce((oldest, holding) => {
+                    if (holding.oldestTransactionDate === 'N/A') return oldest;
+                    const holdingDate = new Date(holding.oldestTransactionDate);
+                    return holdingDate < oldest ? holdingDate : oldest;
+                }, new Date());
+
+                console.log('Oldest Transaction Date:', oldestTransactionDate);
+
+                // Calculate the start date for the selected timeframe
+                const startDate = new Date();
+                switch (activeTimeFilter) {
+                    case 'week':
+                        startDate.setDate(startDate.getDate() - 7);
+                        break;
+                    case 'month':
+                        startDate.setMonth(startDate.getMonth() - 1);
+                        break;
+                    case 'year':
+                        startDate.setFullYear(startDate.getFullYear() - 1);
+                        break;
+                    default:
+                        startDate.setFullYear(startDate.getFullYear() - 5);
+                }
+
+                console.log('Start Date:', startDate.toISOString());
+
+                // Filter bars to exclude data before the oldest transaction date
+                const filteredBars = bars.filter(bar => new Date(bar.t) >= oldestTransactionDate);
+
+                // Ensure there is a baseline $0 bar if no data is available before the oldest transaction
+                if (filteredBars.length === 0 || new Date(filteredBars[0].t) > oldestTransactionDate) {
+                    filteredBars.unshift({
+                        t: oldestTransactionDate.toISOString(),
+                        value: 0
+                    });
+                }
+
+                // Extend the filtered bars to the start date if necessary
+                const extendedBars = filteredBars.filter(bar => new Date(bar.t) >= startDate);
+
+                // If the selected timeframe starts before the oldest transaction date, show $0 up to that point
+                if (new Date(startDate) < oldestTransactionDate) {
+                    extendedBars.unshift({
+                        t: startDate.toISOString(),
+                        value: 0
+                    });
+                }
+
+                console.log('Filtered and Extended Bars:', extendedBars);
+
+                const labels = extendedBars.map(bar => new Date(bar.t).toLocaleDateString());
+                const values = extendedBars.map(bar => bar.value);
 
                 // Prepare the data for chart.js
                 setChartData({
@@ -59,16 +114,16 @@ const BalanceCard = ({ activeTimeFilter, onTimeFilterClick }) => {
                     }
                 });
 
-                setLoading(false);  // End loading
+                setLoading(false); // End loading
             } catch (error) {
                 console.error('Error fetching historical data:', error);
                 setChartData(null); // Ensure chartData is null on error
-                setLoading(false);  // End loading on error
+                setLoading(false); // End loading on error
             }
         };
 
         fetchData();
-    }, [activeTimeFilter]);
+    }, [activeTimeFilter, userToken]);
 
     // Function to format the balance
     const formatBalance = (balance) => {
