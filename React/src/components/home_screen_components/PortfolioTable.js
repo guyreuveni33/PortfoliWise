@@ -1,24 +1,34 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
 
 const PortfolioTable = ({ portfolioData }) => {
     const [blinkStates, setBlinkStates] = useState({});
+    const previousData = useRef([]);  // To store the previous portfolio data for comparison
 
     useEffect(() => {
         const newBlinkStates = {};
 
-        portfolioData.forEach(item => {
-            if (item.priceDirection) {
-                newBlinkStates[item.name] = item.priceDirection;
+        portfolioData.forEach((item, index) => {
+            const prevItem = previousData.current[index];
+
+            if (prevItem) {
+                if (item.price > prevItem.price) {
+                    newBlinkStates[item.name] = 'green';
+                } else if (item.price < prevItem.price) {
+                    newBlinkStates[item.name] = 'red';
+                }
             }
         });
 
         setBlinkStates(newBlinkStates);
 
-        // Clear blink states after animation
+        // Clear blink states after 1 second to stop animation
         const timer = setTimeout(() => {
             setBlinkStates({});
         }, 1000);
+
+        // Update previousData to the current portfolioData for the next render
+        previousData.current = portfolioData.map(item => ({ ...item }));
 
         return () => clearTimeout(timer);
     }, [portfolioData]);
@@ -43,7 +53,7 @@ const PortfolioTable = ({ portfolioData }) => {
                     <th>Week</th>
                 </tr>
                 {portfolioData.map((item, index) => (
-                    <tr key={`${item.name}-${item.priceDirection}-${index}`}>
+                    <tr key={`${item.name}-${item.price}-${index}`}>
                         <td>{item.name}</td>
                         <td>{formatCurrency(item.balance)}</td>
                         <td className={`${styles.price_cell} ${

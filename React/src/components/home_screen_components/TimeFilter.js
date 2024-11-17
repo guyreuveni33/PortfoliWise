@@ -7,6 +7,7 @@ const TimeFilter = ({ activeTimeFilter, onFilterClick }) => {
         <div className={`${styles.time_filters_container} ${styles.border_line_top}`}>
             {['week', 'month', 'year', 'all'].map((filter) => (
                 <button
+
                     key={filter}
                     onClick={() => onFilterClick(filter)}
                     className={`${styles.filter_button} ${activeTimeFilter === filter ? styles.filter_button_active : ''}`}

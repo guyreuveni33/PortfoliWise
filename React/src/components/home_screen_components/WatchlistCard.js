@@ -9,19 +9,22 @@ import ModifyWatchlistModal from "./ModifyWatchlistModal";
 const WatchlistCard = ({ email }) => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
-    const [watchlist, setWatchlist] = useState([]);
-    const [isLoading, setIsLoading] = useState(true); // Initially true to show spinner on mount
+    const [watchlist, setWatchlist] = useState(null);  // Changed initial state to null
+    const [loading, setLoading] = useState(true);
     const [blink, setBlink] = useState(false);
     const previousWatchlistRef = useRef({});
-    const isFirstLoad = useRef(true);
+    const firstLoad = useRef(true);
 
     const handleRemoveSymbol = async (symbol) => {
-        await WatchlistService.removeSymbol(email, symbol);
-        await fetchWatchlist();
+        try {
+            await WatchlistService.removeSymbol(email, symbol);
+            await fetchWatchlist();
+        } catch (error) {
+            console.error('Error removing symbol:', error);
+        }
     };
 
     const handleAddSymbol = async (symbol) => {
-        setIsLoading(true); // Show loading spinner when adding a new symbol
         try {
             await WatchlistService.addSymbol(email, symbol);
             await fetchWatchlist();
@@ -33,11 +36,11 @@ const WatchlistCard = ({ email }) => {
     };
 
     const fetchWatchlist = async () => {
-        if (isFirstLoad.current) {
-            setIsLoading(true); // Show spinner on initial load
-            isFirstLoad.current = false;
+        if (firstLoad.current) {
+            setLoading(true);
+            firstLoad.current = false;
         } else {
-            setBlink(true); // Enable blink effect on subsequent updates
+            setBlink(true);
         }
 
         try {
@@ -69,14 +72,14 @@ const WatchlistCard = ({ email }) => {
         } catch (error) {
             console.error('Error fetching watchlist:', error);
         } finally {
-            setIsLoading(false); // Stop spinner after first load or after reloading data
-            setTimeout(() => setBlink(false), 500); // Reset blink effect after a short delay
+            setLoading(false);
+            setTimeout(() => setBlink(false), 500);
         }
     };
 
     useEffect(() => {
         fetchWatchlist();
-        const interval = setInterval(fetchWatchlist, 5000); // Fetch updates every 5 seconds
+        const interval = setInterval(fetchWatchlist, 5000);
         return () => clearInterval(interval);
     }, [email]);
 
@@ -102,22 +105,20 @@ const WatchlistCard = ({ email }) => {
                 </div>
             </header>
 
-            {isLoading ? (
+            {loading || watchlist === null ? (
                 <div className={styles.loading_container}>
                     <LoadingSpinner />
                 </div>
+            ) : watchlist.length === 0 ? (
+                <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
             ) : (
-                watchlist.length === 0 ? (
-                    <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
-                ) : (
-                    <StocksTable marketDataArray={watchlist} blink={blink} />
-                )
+                <StocksTable marketDataArray={watchlist} blink={blink} />
             )}
 
             <ModifyWatchlistModal
                 isOpen={isModifyModalOpen}
                 onClose={() => setIsModifyModalOpen(false)}
-                watchlist={watchlist}
+                watchlist={watchlist || []}
                 onRemoveSymbol={handleRemoveSymbol}
             />
 
@@ -125,7 +126,7 @@ const WatchlistCard = ({ email }) => {
                 isOpen={isSearchModalOpen}
                 onClose={() => setIsSearchModalOpen(false)}
                 onAddSymbol={handleAddSymbol}
-                existingSymbols={watchlist.map(item => item.symbol)}
+                existingSymbols={(watchlist || []).map(item => item.symbol)}
             />
         </div>
     );

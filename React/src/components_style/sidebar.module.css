@@ -11,6 +11,7 @@
     max-width: 180px;
     display: flex;
     flex-direction: column;
+
 }
 
 .menu {
@@ -28,9 +29,8 @@
     height: 25px;
     margin-right: 10px;
 }
-
 .menuListItem a {
-    margin-bottom: 5px;
+    margin-bottom: 15px;  /* Increased from 5px */
     color: #ffffff;
     background-color: transparent;
     transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
@@ -39,7 +39,11 @@
     align-items: center;
     text-decoration: none;
     padding: 15px;
+    /* Add this to ensure content stays within bounds */
+    box-sizing: border-box;
+    width: 100%;
 }
+
 
 .menuListItem a.active {
     background-color: #613DE4; /* Highlight active item */
@@ -94,17 +98,32 @@ ul#a li {
     }
 
     .iconStyle {
-        margin-right: 2px;
+        margin-right: 0; /* Remove right margin in mobile view */
     }
 
+    .menu {
+
+        padding: 20px 5px; /* Reduce padding in mobile view */
+        width: 100%; /* Ensure menu takes full width */
+    }
+
+    .menuListItem a {
+        padding: 10px 5px; /* Reduce padding in mobile view */
+        justify-content: center; /* Center the icon */
+    }
     .logout {
-        margin-bottom: 10px;
-        margin-left: 0; /* Center it horizontally */
+        margin: 0;  /* Remove all margins */
+        padding: 10px 5px;
+        left: 50%;  /* Center horizontally */
+        transform: translateX(-50%);  /* Center horizontally */
     }
 }
 
 @media only screen and (max-height: 343px) {
     .logout {
         position: relative;
+        left: 50%;  /* Keep centering consistent */
+        transform: translateX(-50%);  /* Keep centering consistent */
+        margin: 10px 0;  /* Add some vertical margin */
     }
 }

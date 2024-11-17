@@ -146,53 +146,62 @@ header h1 {
     width: 24px;
     height: 24px;
     margin-right: 10px;
-}
-
-.modal {
-    display: flex;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.8);
-    visibility: hidden;
-    opacity: 0;
-    transition: visibility 0s, opacity 0.3s ease-in-out;
-}
+}.modal {
+     display: flex;
+     position: fixed;
+     z-index: 1000;
+     left: 0;
+     top: 0;
+     width: 100%;
+     height: 100%;
+     background-color: rgba(0, 0, 0, 0.8);
+     visibility: hidden;
+     opacity: 0;
+     transition: visibility 0s, opacity 0.3s ease-in-out;
+     padding: 20px;
+     align-items: center;
+     justify-content: center;
+ }
 
 .modal.show {
     visibility: visible;
     opacity: 1;
 }
 
-/* Add or update these classes in your portfoliosScreen.module.css file */
-
 .modalContent {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50%;
+    position: relative;
+    width: 90%;
     max-width: 800px;
     background-color: #131C2F;
-    padding: 30px;
+    padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    margin: 20px;
 }
 
 .svgContainer {
     width: 100%;
-    height: 400px; /* Explicit height */
+    height: 300px;
+    min-height: 200px;
     display: flex;
     justify-content: center;
     align-items: center;
 }
 
+.recommendationText {
+    font-size: 18px;
+    margin: 10px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+
 .responsiveSvg {
     width: 100%;
     height: 100%;
+    max-width: 600px;
+    margin: 0 auto;
 }
 
 .close {
@@ -207,47 +216,109 @@ header h1 {
 .close:hover {
     color: #fff;
 }
-
 .stockName {
     color: #fff;
     text-align: left;
-    margin-top: 10px;
-    font-size: 40px;
+    margin-top: 3px;
+    font-size: 35px;
     margin-bottom: 10px;
+    font-weight: bold;
 }
 
-.disclaimer {
-    color: #fff;
-    font-size: 15px;
-    text-align: left;
-    margin-top: 0;
-    margin-bottom: 0;
+.recommendationText {
+    font-size: 20px;
+    margin: 15px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.recommendationValue {
     font-weight: bold;
+    padding: 8px 16px;
+    border-radius: 6px;
+    margin-left: 10px;
+}
+
+.strongBuy {
+    background-color: rgba(0, 255, 0, 0.15);
+    color: #00ff00;
+}
+
+.buy {
+    background-color: rgba(144, 238, 144, 0.15);
+    color: #90ee90;
+}
+
+.hold {
+    background-color: rgba(255, 215, 0, 0.15);
+    color: #ffd700;
+}
+
+.sell {
+    background-color: rgba(255, 99, 71, 0.15);
+    color: #ff6347;
+}
+
+.strongSell {
+    background-color: rgba(255, 0, 0, 0.15);
+    color: #ff0000;
+}
+.priceInfo {
+    display: flex;
+    justify-content: space-between;
+    margin: 15px 0;
+    padding: 10px;
+    background-color: #1a2542;
+    border-radius: 8px;
+}
+.priceBlock {
+    text-align: center;
+    flex: 1;
+    padding: 5px;
+}
+.priceLabel {
+    color: #8e9cb3;
+    font-size: 12px;
+    margin-bottom: 5px;
+}
+
+
+.priceValue {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+}
+
+
+.disclaimer {
+    color: #8e9cb3;
+    font-size: 12px;
+    text-align: center;
+    margin-top: 15px;
+    padding: 10px;
+    border-top: 1px solid #2a3654;
 }
 
 .boldText {
     font-weight: bold;
 }
 
-/* Gauge Arc Path Styling */
 .arcPath {
     fill: none;
     stroke: url(#smoothGradient);
     stroke-linecap: round;
 }
 
-/* Needle Styling */
 .needle {
     stroke: #ffffff;
     stroke-width: 3;
 }
 
-/* Center Circle Styling */
 .centerCircle {
     fill: #ffffff;
 }
 
-/* Label Text Styling */
 .labelText {
     fill: #ffffff;
     text-anchor: middle;
@@ -255,15 +326,12 @@ header h1 {
     font-weight: bold;
 }
 
-.analyzerButton {
-    background-color: #131C2F;
-    border: none;
-}
-
 .analyzerGauge {
     margin: 20px auto;
     width: 100%;
-    height: 150px;
+    max-width: 500px;
+    height: auto;
+    aspect-ratio: 2 / 1;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -282,7 +350,7 @@ header h1 {
 }
 
 .portModal.show {
-    visibility: visible; /* Make visible when state is true */
+    visibility: visible;
 }
 
 .inputText {
@@ -299,9 +367,8 @@ header h1 {
 }
 
 .inputText:focus {
-    background-color: #1c2539; /* Slightly darker background when the input is focused */
+    background-color: #1c2539;
 }
-
 
 .portModalContent {
     text-align: left;
@@ -342,18 +409,49 @@ header h1 {
     margin-bottom: 5px;
 }
 
-.inputText {
-    margin-left: 10px;
-    width: 90%;
-    padding: 8px;
-    border: none;
-    border-radius: 4px;
-    font-size: 15px;
-    background-color: #252c48;
-    color: #fff;
+@media screen and (max-width: 768px) {
+    .modal {
+        padding: 15px;
+    }
+
+    .modalContent {
+        padding: 20px;
+        margin: 10px;
+        max-height: 85vh;
+    }
+    .svgContainer {
+        height: 250px;
+    }
+
+    .stockName {
+        font-size: 30px;
+    }
 }
 
-/* portfoliosScreen.module.css */
+@media screen and (max-width: 480px) {
+    .modal {
+        padding: 10px;
+    }
+
+    .modalContent {
+        padding: 15px;
+        margin: 5px;
+        max-height: 80vh;
+    }
+
+    .stockName {
+        font-size: 24px;
+    }
+
+    .recommendationText {
+        font-size: 16px;
+    }
+
+    .priceValue {
+        font-size: 20px;
+    }
+}
+/* Button Container and Button Styles */
 .buttonContainer {
     display: flex;
     align-items: center;
@@ -391,7 +489,6 @@ header h1 {
 .tooltip {
     position: absolute;
     top: -30px;
-    /*left: 50%;*/
     transform: translateX(-50%);
     background-color: black;
     color: white;
@@ -403,17 +500,17 @@ header h1 {
     opacity: 0.8;
 }
 
-
-
+/* Header Styles */
 .header {
     display: flex;
     justify-content: space-between;
     align-items: center;
     position: relative;
     padding: 10px 20px;
-    border-bottom: 1px solid #ccc; /* Existing styles */
+    border-bottom: 1px solid #ccc;
 }
 
+/* Delete Button Styles */
 .deleteButton {
     background: none;
     border: none;
@@ -429,7 +526,7 @@ header h1 {
     color: #5029A7;
 }
 
-
+/* Add Button Styles */
 .addButton {
     position: absolute;
     bottom: 15px;
@@ -462,138 +559,4 @@ header h1 {
     float: right;
     font-size: 35px;
     cursor: pointer;
-}
-
-.sidebar {
-    width: 15%;
-    background-color: #131C2F;
-    height: 100vh;
-    position: fixed;
-    min-width: 180px;
-    max-width: 180px;
-    float: left;
-}
-
-.profileIcon {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-}
-
-.profileIcon img {
-    width: 40px;
-    height: 40px;
-}
-
-.menu {
-    padding: 20px;
-}
-
-.iconStyle {
-    width: 25px;
-    height: 25px;
-    margin-right: 10px;
-}
-
-.menuLink {
-    color: #ffffff;
-    transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
-    border-radius: 10px;
-}
-
-.menuLink:hover {
-    background-color: #613DE4;
-    color: #E2E2E2;
-    border-radius: 10px;
-}
-
-.menuItem {
-    margin-bottom: 10px;
-}
-
-.menuLinkContainer {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-}
-
-.menuLinkText {
-    margin-left: 10px;
-}
-
-.logout {
-    margin-left: 14px;
-    margin-bottom: 20px;
-    text-align: center;
-    position: absolute;
-    bottom: 20px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-}
-
-.logoutText {
-    margin-left: 6px;
-}
-
-.logoutIconStyle {
-    transition: transform 0.3s ease;
-}
-
-.logout:hover .logoutIconStyle {
-    transform: translate(2px, -2px);
-}
-
-@media only screen and (max-height: 343px) {
-    .logout {
-        position: relative;
-    }
-}
-
-@media only screen and (max-width: 1000px) {
-    .menuLinkText {
-        display: none;
-    }
-
-    .sidebar {
-        width: 50px;
-        min-width: 50px;
-        background-color: #131C2F;
-        height: 100vh;
-        position: fixed;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        transition: width 0.3s ease;
-    }
-
-    .menu {
-        padding: 20px;
-        flex-grow: 1;
-    }
-
-    .iconStyle {
-        margin-right: 2px;
-    }
-
-    .logout {
-        position: relative;
-    }
-
-    .logoutText {
-        display: none;
-    }
-
-    .logoutIconStyle {
-        margin-right: 45px;
-    }
-
-    .mainContent {
-        margin-left: 40px;
-    }
-}
-
-.sidebar, .menu, .menuLinkText, .logoutIconStyle {
-    transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
 }

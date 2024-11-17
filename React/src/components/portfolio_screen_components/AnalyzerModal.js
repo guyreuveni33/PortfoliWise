@@ -8,6 +8,23 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
     const [gaugeValue, setGaugeValue] = useState(0);
     const [isLoading, setIsLoading] = useState(true);
 
+    const getRecommendationClass = (recommendation) => {
+        switch (recommendation?.trim().toUpperCase()) {
+            case 'STRONG BUY':
+                return styles.strongBuy;
+            case 'BUY':
+                return styles.buy;
+            case 'HOLD':
+                return styles.hold;
+            case 'SELL':
+                return styles.sell;
+            case 'STRONG SELL':
+                return styles.strongSell;
+            default:
+                return '';
+        }
+    };
+
     useEffect(() => {
         if (isVisible && stockSymbol) {
             const fetchRecommendation = async () => {
@@ -19,7 +36,9 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
                     const data = await response.json();
                     setRecommendationData(data);
 
-                    switch (data.recommendation) {
+                    // Normalize recommendation and update gauge value
+                    const recommendation = data.recommendation?.trim().toUpperCase();
+                    switch (recommendation) {
                         case "STRONG SELL":
                             setGaugeValue(0);
                             break;
@@ -42,7 +61,6 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
                 } catch (error) {
                     console.error("Error fetching recommendation:", error);
                 } finally {
-                    // Add a minimum loading time to prevent flashing
                     setTimeout(() => {
                         setIsLoading(false);
                     }, 500);
@@ -63,39 +81,37 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
                 {isLoading ? (
                     <LoadingAnimation />
                 ) : recommendationData ? (
-                    <div>
+                    <>
                         <div className={styles.svgContainer}>
                             <Gauge value={gaugeValue} />
                         </div>
-                        <div style={{ padding: '0 20px' }}>
-                            <p style={{
-                                margin: '15px 0',
-                                fontSize: '18px',
-                                fontWeight: 'bold'
-                            }}>
-                                Recommendation: {' '}
-                                <span style={{ color: '#613DE4' }}>{recommendationData.recommendation}</span>
-                            </p>
-                            <p style={{ margin: '15px 0' }}>
-                                Current Price: {' '}
-                                <span style={{ fontWeight: '500' }}>${recommendationData.current_price}</span>
-                            </p>
-                            <p style={{ margin: '15px 0' }}>
-                                Predicted Price: {' '}
-                                <span style={{ fontWeight: '500' }}>${recommendationData.predicted_price}</span>
-                            </p>
-                            <p style={{ margin: '15px 0' }}>
-                                Trend: {' '}
-                                <span style={{ fontWeight: '500' }}>{recommendationData.trend}</span>
-                            </p>
+
+                        <div className={styles.recommendationContainer}>
+                            <div className={styles.recommendationText}>
+                                Recommendation:
+                                <span className={`${styles.recommendationValue} ${getRecommendationClass(recommendationData.recommendation)}`}>
+                                    {recommendationData.recommendation}
+                                </span>
+                            </div>
+
+                            <div className={styles.priceInfo}>
+                                <div className={styles.priceBlock}>
+                                    <div className={styles.priceLabel}>Current Price</div>
+                                    <div className={styles.priceValue}>
+                                        ${recommendationData.current_price}
+                                    </div>
+                                </div>
+                                <div className={styles.priceBlock}>
+                                    <div className={styles.priceLabel}>Predicted Price</div>
+                                    <div className={styles.priceValue}>
+                                        ${recommendationData.predicted_price}
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                    </div>
+                    </>
                 ) : (
-                    <div style={{
-                        textAlign: 'center',
-                        padding: '32px 0',
-                        color: '#f44336'
-                    }}>
+                    <div className={styles.errorMessage}>
                         Error loading recommendation data
                     </div>
                 )}
