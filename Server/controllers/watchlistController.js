@@ -15,7 +15,7 @@ exports.addSymbolToWatchlist = async (req, res) => {
         return res.status(500).json({ message: error.message });
     }
 };
-
+// Controller to fetch the user's watchlist by email and include stock prices
 // Controller to fetch the user's watchlist by email and include stock prices
 exports.getWatchlistByEmail = async (req, res) => {
     const { email } = req.params;
@@ -24,12 +24,20 @@ exports.getWatchlistByEmail = async (req, res) => {
         // Call the service function to get the watchlist with stock prices
         const watchlistWithPrices = await watchlistService.getWatchlistByEmail(email);
 
+        // Check if the watchlist is empty
+        if (!watchlistWithPrices || watchlistWithPrices.length === 0) {
+            return res.status(200).json([]); // Respond with an empty array
+        }
+
         // Return the watchlist with stock prices
-        return res.json(watchlistWithPrices);
+        return res.status(200).json(watchlistWithPrices);
     } catch (error) {
-        return res.status(500).json({ message: error.message });
+        console.error('Error fetching watchlist:', error);
+        return res.status(500).json({ message: 'Internal Server Error' }); // Send an appropriate error response
     }
 };
+
+
 
 // Controller to remove a symbol from the user's watchlist
 exports.removeSymbolFromWatchlist = async (req, res) => {

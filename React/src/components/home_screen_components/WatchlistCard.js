@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import WatchlistService from '../../services/WatchlistService';
 import styles from '../../styleMenu/homeScreen.module.css';
 import StocksTable from './StocksTable';
@@ -6,12 +6,13 @@ import LoadingSpinner from './LoadingSpinner';
 import SearchModal from './SearchModal';
 import ModifyWatchlistModal from "./ModifyWatchlistModal";
 
-const WatchlistCard = ({ email }) => {
+const WatchlistCard = ({email}) => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
     const [watchlist, setWatchlist] = useState(null);  // Changed initial state to null
     const [loading, setLoading] = useState(true);
     const [blink, setBlink] = useState(false);
+    const [noSymbol, setNoSymbol] = useState(-1);
     const previousWatchlistRef = useRef({});
     const firstLoad = useRef(true);
 
@@ -26,14 +27,17 @@ const WatchlistCard = ({ email }) => {
 
     const handleAddSymbol = async (symbol) => {
         try {
+            setLoading(true); // Show the loading spinner
             await WatchlistService.addSymbol(email, symbol);
             await fetchWatchlist();
         } catch (error) {
             console.error('Error adding symbol:', error);
         } finally {
             setIsSearchModalOpen(false);
+            setLoading(false); // Hide the loading spinner
         }
     };
+
 
     const fetchWatchlist = async () => {
         if (firstLoad.current) {
@@ -45,6 +49,11 @@ const WatchlistCard = ({ email }) => {
 
         try {
             const fetchedWatchlist = await WatchlistService.getWatchlist(email);
+            if (Array.isArray(fetchedWatchlist) && fetchedWatchlist.length === 0) {
+                setNoSymbol(1);
+                console.log(noSymbol, 'noSymbol');
+            }
+
 
             const updatedWatchlist = fetchedWatchlist.map((item) => {
                 const currentPrice = item.price?.price ?? 'N/A';
@@ -65,7 +74,7 @@ const WatchlistCard = ({ email }) => {
 
             previousWatchlistRef.current = fetchedWatchlist.reduce((acc, item) => ({
                 ...acc,
-                [item.symbol]: { price: item.price?.price },
+                [item.symbol]: {price: item.price?.price},
             }), {});
 
             setWatchlist(updatedWatchlist);
@@ -79,7 +88,7 @@ const WatchlistCard = ({ email }) => {
 
     useEffect(() => {
         fetchWatchlist();
-        const interval = setInterval(fetchWatchlist, 5000);
+        const interval = setInterval(fetchWatchlist, 30000);
         return () => clearInterval(interval);
     }, [email]);
 
@@ -109,27 +118,33 @@ const WatchlistCard = ({ email }) => {
                 <div className={styles.loading_container}>
                     <LoadingSpinner />
                 </div>
+            ) : noSymbol === 1 ? (
+                <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
             ) : watchlist.length === 0 ? (
                 <div className={styles.No_Symbol}>No symbols found in your watchlist.</div>
             ) : (
                 <StocksTable marketDataArray={watchlist} blink={blink} />
             )}
 
+
             <ModifyWatchlistModal
-                isOpen={isModifyModalOpen}
-                onClose={() => setIsModifyModalOpen(false)}
-                watchlist={watchlist || []}
-                onRemoveSymbol={handleRemoveSymbol}
-            />
+        isOpen={isModifyModalOpen}
+        onClose={() => setIsModifyModalOpen(false)}
+        watchlist={watchlist || []}
+        onRemoveSymbol={handleRemoveSymbol}
+    />
 
             <SearchModal
                 isOpen={isSearchModalOpen}
                 onClose={() => setIsSearchModalOpen(false)}
                 onAddSymbol={handleAddSymbol}
                 existingSymbols={(watchlist || []).map(item => item.symbol)}
+                onReloadWatchlist={fetchWatchlist} // Pass fetchWatchlist as a prop
             />
+
         </div>
-    );
+)
+    ;
 };
 
 export default WatchlistCard;

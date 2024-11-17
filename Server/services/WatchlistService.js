@@ -21,15 +21,19 @@ exports.addSymbolToWatchlist = async (email, symbol) => {
         throw error;
     }
 };
-
-// Service to get the user's watchlist by email and fetch stock prices
 exports.getWatchlistByEmail = async (email) => {
     try {
         // Find the user by email
         const user = await User.findOne({ email });
 
         if (!user) {
-            throw new Error('User not found');
+            console.warn(`User not found for email: ${email}`);
+            return []; // Return empty array if user is not found
+        }
+
+        if (user.watchlist.length === 0) {
+            console.info(`Watchlist is empty for user: ${email}`);
+            return []; // Return empty array if watchlist is empty
         }
 
         const watchlistSymbols = user.watchlist.map(item => item.symbol);
@@ -40,15 +44,16 @@ exports.getWatchlistByEmail = async (email) => {
         // Combine the watchlist symbols and stock prices
         const watchlistWithPrices = user.watchlist.map(item => ({
             symbol: item.symbol,
-            price: stockPrices[item.symbol] || 'Price not available'
+            price: stockPrices[item.symbol] || 'Price not available',
         }));
 
         return watchlistWithPrices;
     } catch (error) {
         console.error('Error in getWatchlistByEmail service:', error);
-        throw error;
+        throw error; // Rethrow the error to be handled by the controller
     }
 };
+
 
 const { spawn } = require('child_process');
 

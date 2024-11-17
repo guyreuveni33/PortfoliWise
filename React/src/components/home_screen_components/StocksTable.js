@@ -5,6 +5,10 @@ const StocksTable = ({ marketDataArray }) => {
     const [blinkStates, setBlinkStates] = useState({});
 
     useEffect(() => {
+        if (!Array.isArray(marketDataArray)) {
+            return; // Early return if marketDataArray is not a valid array
+        }
+
         const newBlinkStates = {};
         marketDataArray.forEach(item => {
             if (item.priceDirection) {
@@ -15,13 +19,13 @@ const StocksTable = ({ marketDataArray }) => {
 
         const timer = setTimeout(() => {
             setBlinkStates({});
-        }, 1000);
+        }, 30000);
         return () => clearTimeout(timer);
     }, [marketDataArray]);
 
     // Calculate max-height based on number of rows
     const getScrollableStyle = () => {
-        if (marketDataArray.length > 9) {
+        if (Array.isArray(marketDataArray) && marketDataArray.length > 9) {
             return {
                 maxHeight: '336px',  // 7 rows * 48px (row height including padding)
                 overflowY: 'auto'
@@ -32,6 +36,10 @@ const StocksTable = ({ marketDataArray }) => {
             overflowY: 'visible'
         };
     };
+
+    if (!Array.isArray(marketDataArray) || marketDataArray.length === 0) {
+        return <div>No market data available to display.</div>; // Handle empty or invalid data
+    }
 
     return (
         <div className={styles.tableWrapper}>

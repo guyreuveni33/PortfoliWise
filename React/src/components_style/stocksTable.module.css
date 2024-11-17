@@ -6,7 +6,8 @@
     width: 100%;
     table-layout: fixed;
     border-collapse: separate;
-    border-spacing: 0 4px;
+    border-spacing: 0 2px;
+
 }
 
 .market_table th {

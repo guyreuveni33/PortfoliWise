@@ -174,7 +174,7 @@ def get_recommendation(symbol):
 if __name__ == "__main__":
     import sys
     symbol = sys.argv[1] if len(sys.argv) > 1 else "AAPL"
-    #recommendation = get_recommendation(symbol)
-    recommendation={'symbol': 'AAPL', 'current_price': 146.15, 'predicted_price': 148.68, 'change_pct': 1.73, 'recommendation': 'Hold'}
+    recommendation = get_recommendation(symbol)
+    #recommendation={'symbol': 'AAPL', 'current_price': 146.15, 'predicted_price': 148.68, 'change_pct': 1.73, 'recommendation': 'Hold'}
     # Output JSON only
     print(json.dumps(recommendation))
