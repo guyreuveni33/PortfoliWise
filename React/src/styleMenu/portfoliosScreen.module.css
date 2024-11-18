@@ -102,13 +102,13 @@ header h1 {
 }
 
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
-    color: #4caf50; /* Green text */
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
-    color: #f44336; /* Red text */
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
 }
 
 .analyzerStyle {
@@ -451,11 +451,11 @@ header h1 {
         font-size: 20px;
     }
 }
-/* Button Container and Button Styles */
+
 .buttonContainer {
     display: flex;
     align-items: center;
-    gap: 10px; /* Space between the buttons */
+    gap: 10px;
 }
 
 .activeButton,
@@ -500,7 +500,6 @@ header h1 {
     opacity: 0.8;
 }
 
-/* Header Styles */
 .header {
     display: flex;
     justify-content: space-between;
@@ -510,7 +509,6 @@ header h1 {
     border-bottom: 1px solid #ccc;
 }
 
-/* Delete Button Styles */
 .deleteButton {
     background: none;
     border: none;
@@ -526,7 +524,6 @@ header h1 {
     color: #5029A7;
 }
 
-/* Add Button Styles */
 .addButton {
     position: absolute;
     bottom: 15px;

@@ -1,5 +1,3 @@
-// controllers/userController.js
-
 const userService = require('../services/userService');
 const bcrypt = require('bcrypt');
 const User = require('../models/User');
@@ -62,7 +60,6 @@ exports.changePassword = async (req, res) => {
     try {
         const user = await User.findById(req.user.userId);
 
-        // Verify the current password
         const isMatch = await user.comparePassword(currentPassword);
         if (!isMatch) {
             return res.status(400).send('Current password is incorrect');

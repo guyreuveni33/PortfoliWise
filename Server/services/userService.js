@@ -1,10 +1,8 @@
-// services/userService.js
-
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const secretKey = process.env.JWT_SECRET || 'your_secret_key';
+const secretKey = process.env.JWT_SECRET || 'nivandguysecretkey';
 
 exports.registerUser = async (email, password, fullName, nickname) => {
     const newUser = new User({ email, password, fullName, nickname });

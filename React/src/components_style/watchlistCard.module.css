@@ -1,4 +1,3 @@
-/* Container for the entire watchlist section */
 .watchlist_section {
     background-color: #131C2F;
     border-radius: 8px;
@@ -15,8 +14,8 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between; /* Align heading and button to opposite ends */
-    align-items: center; /* Vertically center the button */
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #ffffff;
 }
 
@@ -26,13 +25,11 @@
     flex-shrink: 0;
 }
 
-/* Search container layout */
-
 .search_container {
     display: flex;
     gap: 10px;
-    align-items: center; /* Ensure the input and button align vertically */
-    margin: 0 0 15px 15px; /* Added margin-bottom of 15px to raise the input and button */
+    align-items: center;
+    margin: 0 0 15px 15px;
     width: 100%;
 }
 
@@ -43,9 +40,8 @@
     width: 130px;
 }
 
-/* Search input styling */
 .search_input {
-    height: 10px; /* Ensure the input is the same height as the button */
+    height: 10px;
     flex: 1;
     background-color: #1E2A3A;
     border: 1px solid #2f3951;
@@ -55,10 +51,8 @@
     font-size: 14px;
     transition: all 0.3s ease;
     box-sizing: border-box;
-
 }
 
-/* Search input styling */
 .search_input {
     width: 100%;
     height: 24px;
@@ -81,7 +75,6 @@
     box-shadow: 0 0 0 2px rgba(97, 61, 228, 0.2);
 }
 
-/* Add button styling */
 .add_button {
     height: 24px;
     min-width: 60px;
@@ -115,7 +108,6 @@
     opacity: 0.7;
 }
 
-/* Suggestions dropdown */
 .suggestions_dropdown {
     position: absolute;
     top: 100%;

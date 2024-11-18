@@ -1,5 +1,3 @@
-// components/portfolio_screen_components/AddPortfolioModal.js
-
 import React, { useState } from 'react';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
 import { toast } from 'react-toastify';
@@ -10,7 +8,6 @@ function AddPortfolioModal({ handleClose }) {
 
     const handleAddPortfolio = async () => {
         try {
-            console.log(localStorage.getItem('token'));
             const response = await fetch('http://localhost:3001/api/portfolios', {
                 method: 'POST',
                 headers: {
@@ -21,7 +18,6 @@ function AddPortfolioModal({ handleClose }) {
             });
 
             if (response.ok) {
-                // Portfolio added successfully
                 handleClose();
                 toast.success('Portfolio Added Successfully');
             } else {

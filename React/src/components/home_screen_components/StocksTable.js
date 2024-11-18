@@ -6,7 +6,7 @@ const StocksTable = ({ marketDataArray }) => {
 
     useEffect(() => {
         if (!Array.isArray(marketDataArray)) {
-            return; // Early return if marketDataArray is not a valid array
+            return;
         }
 
         const newBlinkStates = {};
@@ -27,7 +27,7 @@ const StocksTable = ({ marketDataArray }) => {
     const getScrollableStyle = () => {
         if (Array.isArray(marketDataArray) && marketDataArray.length > 9) {
             return {
-                maxHeight: '336px',  // 7 rows * 48px (row height including padding)
+                maxHeight: '336px',
                 overflowY: 'auto'
             };
         }
@@ -38,7 +38,7 @@ const StocksTable = ({ marketDataArray }) => {
     };
 
     if (!Array.isArray(marketDataArray) || marketDataArray.length === 0) {
-        return <div>No market data available to display.</div>; // Handle empty or invalid data
+        return <div>No market data available to display.</div>;
     }
 
     return (

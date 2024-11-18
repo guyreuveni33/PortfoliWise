@@ -1,11 +1,9 @@
-// components/settings/ChangeNickname.js
-
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import axios from 'axios';
 import {toast} from 'react-toastify';
 import styles from '../../styleMenu/settings.module.css';
 
-const ChangeNickname = ({nickname, setNickname}) => {
+const ChangeNickname = ({setNickname}) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleNicknameChange = async () => {
@@ -14,8 +12,8 @@ const ChangeNickname = ({nickname, setNickname}) => {
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
             });
             localStorage.setItem('nickname', inputValue);
-            setNickname(inputValue); // Update the nickname in the parent component
-            setInputValue(''); // Clear the input field
+            setNickname(inputValue);
+            setInputValue('');
             toast.success('Nickname updated successfully');
         } catch (error) {
             console.error('Error updating nickname:', error);

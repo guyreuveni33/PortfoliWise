@@ -1,4 +1,3 @@
-/* appContainer will replace body and html */
 .app_container {
     margin: 0;
     padding: 0;
@@ -44,8 +43,8 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between; /* Align heading and button to opposite ends */
-    align-items: center; /* Vertically center the button */
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #ffffff;
 }
 
@@ -75,47 +74,47 @@
 
 @media only screen and (max-width: 768px) {
     .section_container {
-        max-width: 100%; /* Ensure full width on smaller screens */
-        margin-right: 0; /* Removes side margin for a full-width layout */
-        padding: 10px; /* Reduce padding for a more compact view */
+        max-width: 100%;
+        margin-right: 0;
+        padding: 10px;
     }
 
     @media only screen and (max-width: 768px) {
         .graphs_container {
-            flex-direction: column; /* Stack elements vertically on small screens */
-            align-items: center; /* Center items if necessary */
+            flex-direction: column;
+            align-items: center;
         }
 
         .watchlist_section, .marketplace_section .circle_chart_container .balance_graph {
-            flex-basis: 100%; /* Full width for smaller screens */
-            max-width: 100%; /* Ensure full width on smaller screens */
-            margin-bottom: 20px; /* Add some spacing between stacked elements */
+            flex-basis: 100%;
+            max-width: 100%;
+            margin-bottom: 20px;
         }
 
         .section_container {
-            max-width: 100%; /* Ensure full width for section containers */
-            margin-right: 0; /* Remove right margin on smaller screens */
+            max-width: 100%;
+            margin-right: 0;
         }
     }
 }
 
 .market_table th {
-    pointer-events: none; /* Disable hovering and events for table headers */
+    pointer-events: none;
 }
 
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
-    table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
-    border-collapse: collapse; /* Ensures there are no gaps between cells */
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 .watchlist_table th, .market_table th, .portfolio_table th,
 .watchlist_table td, .market_table td, .portfolio_table td {
-    padding: 8px; /* Consistent padding for headers and cells */
-    text-align: left; /* Left-align all table cells */
-    border-bottom: 1px solid #2f3951; /* Border for separation */
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
     overflow: hidden;
-    box-sizing: border-box; /* Make sure padding doesn't affect the width */
+    box-sizing: border-box;
 }
 
 .watchlist_table tr:hover, .market_table tr:hover, .portfolio_table tr:hover {
@@ -123,11 +122,11 @@
 }
 
 .watchlist_table th, .market_table th, .portfolio_table th {
-    font-weight: bold; /* Make headers bold */
+    font-weight: bold;
 }
 
 .watchlist_table td, .market_table td, .portfolio_table td {
-    width: 33.33%; /* Ensures columns take up equal space */
+    width: 33.33%;
 }
 
 .portfolio_table_header, .portfolio_table_cell {
@@ -177,7 +176,6 @@
     text-align: center;
     border-radius: 6px;
     padding: 5px;
-    /* Position the tooltip */
     position: absolute;
     z-index: 1;
     bottom: 25%;
@@ -199,8 +197,7 @@
 
 .balance_graph {
     position: relative;
-    /*width: 40%; !* Ensures full width of container *!*/
-    height: auto; /* Allows for proportional scaling */
+    height: auto;
 }
 
 .time_filters_container, .watchlist_table, .market_table, .portfolio_table {
@@ -319,29 +316,26 @@
     transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
 }
 
-/* Add background colors for positive and negative change columns */
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
-    color: #4caf50; /* Green text */
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
-    color: #f44336; /* Red text */
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
 }
 
 
-/* Optional: Ensure table rows have some spacing */
 .market_table {
     border-collapse: separate;
 }
 
-/* homeScreen.module.css */
 .loading_container {
     display: flex;
     align-items: center;
     justify-content: center;
-    height: 100%; /* Full height to center it within the section */
+    height: 100%;
     width: 100%;
 }
 
@@ -372,7 +366,6 @@
     transition: transform 0.3s ease;
 }
 
-/* Define the spin animation here */
 @keyframes spin {
     from {
         transform: rotate(0deg);
@@ -382,13 +375,11 @@
     }
 }
 
-/* Class to apply the spin animation */
 .spin_animation {
     animation: spin 1.5s linear infinite;
 }
 
 
-/* appContainer will replace body and html */
 .app_container {
     margin: 0;
     padding: 0;
@@ -423,8 +414,8 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between; /* Align heading and button to opposite ends */
-    align-items: center; /* Vertically center the button */
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #ffffff;
 }
 
@@ -463,23 +454,23 @@
 }
 
 .market_table th {
-    pointer-events: none; /* Disable hovering and events for table headers */
+    pointer-events: none;
 }
 
 .watchlist_table, .market_table, .portfolio_table {
     width: 100%;
-    table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
-    border-collapse: separate; /* Ensure border-spacing takes effect */
-    border-spacing: 2px 2px; /* 0 for horizontal, 10px for vertical spacing */
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 2px 2px;
 
 }
 
 .watchlist_table th, .market_table th, .portfolio_table th,
 .watchlist_table td, .market_table td, .portfolio_table td {
-    padding: 8px; /* Consistent padding for headers and cells */
-    text-align: left; /* Left-align all table cells */
-    border-bottom: 1px solid #2f3951; /* Border for separation */
-    box-sizing: border-box; /* Make sure padding doesn't affect the width */
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
+    box-sizing: border-box;
 
 }
 
@@ -488,11 +479,11 @@
 }
 
 .watchlist_table th, .market_table th, .portfolio_table th {
-    font-weight: bold; /* Make headers bold */
+    font-weight: bold;
 }
 
 .watchlist_table td, .market_table td, .portfolio_table td {
-    width: 33.33%; /* Ensures columns take up equal space */
+    width: 33.33%;
 }
 
 .portfolio_table_header, .portfolio_table_cell {
@@ -504,7 +495,6 @@
 }
 
 .watchlist_section, .marketplace_section {
-    /*overflow-x: auto;*/
     flex-basis: 10%;
 }
 
@@ -652,24 +642,21 @@
     transition: width 0.1s ease, padding 0.3s ease, margin 0.3s ease, transform 0.3s ease;
 }
 
-/* Add background colors for positive and negative change columns */
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2); /* Light green background */
-    color: #4caf50; /* Green text */
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2); /* Light red background */
-    color: #f44336; /* Red text */
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
 }
 
-/* Add space between rows */
 .row_spacing {
-    margin-bottom: 10px; /* Add spacing between rows */
+    margin-bottom: 10px;
 
 }
 
-/* Optional: Ensure table rows have some spacing */
 .market_table {
     border-collapse: separate;
 }
@@ -678,16 +665,15 @@
 .search_container {
     display: flex;
     gap: 10px;
-    align-items: center; /* Ensure the input and button align vertically */
-    margin: 0 0 15px 15px; /* Added margin-bottom of 15px to raise the input and button */
+    align-items: center;
+    margin: 0 0 15px 15px;
     width: 100%;
 }
 
 
-/* Search input styling */
 .search_input {
     width: 39px;
-    height: 10px; /* Ensure the input is the same height as the button */
+    height: 10px;
     flex: 1;
     background-color: #1E2A3A;
     border: 1px solid #2f3951;
@@ -709,7 +695,7 @@
 }
 
 .add_button {
-    height: 30px; /* Maintain the same height as the input */
+    height: 30px;
     background-color: #613DE4;
     color: #fff;
     border: none;
@@ -729,7 +715,6 @@
     transform: scale(0.98);
 }
 
-/* Optional: Add loading state */
 .add_button:disabled {
     background-color: #2f3951;
     cursor: not-allowed;
@@ -743,7 +728,7 @@
     overflow-y: auto;
     position: absolute;
     z-index: 1000;
-    width: 200px; /* Adjust dropdown to the width of the input */
+    width: 200px;
     margin-top: 5px;
     box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
 }
@@ -757,8 +742,6 @@
 .suggestion_item:hover {
     background-color: #f0f0f0;
 }
-
-/* Add these new styles to your existing CSS file */
 
 .search_wrapper {
     position: relative;
@@ -806,17 +789,15 @@
     font-size: 12px;
 }
 
-/* Update existing search container styles */
 .search_container {
     position: relative;
     display: flex;
     gap: 10px;
     align-items: center;
     margin: 0 0 15px 15px;
-    width: calc(100% - 30px); /* Adjust width to account for margins */
+    width: calc(100% - 30px);
 }
 
-/* Customize scrollbar for the dropdown */
 .suggestions_dropdown::-webkit-scrollbar {
     width: 8px;
 }
@@ -836,12 +817,12 @@
 }
 
 .iconButton {
-    background: transparent; /* Set background to transparent */
+    background: transparent;
     border: none;
-    color: #fff; /* Adjust color if needed */
+    color: #fff;
     cursor: pointer;
     padding: 8px;
-    border-radius: 50%; /* Optional: keep rounded edges */
+    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -854,26 +835,26 @@
 }
 
 .iconButton:hover {
-    background-color: rgba(255, 255, 255, 0.1); /* Optional: subtle hover effect */
+    background-color: rgba(255, 255, 255, 0.1);
 }
 
 .iconContainer {
     display: flex;
-    gap: 30px; /* Add some space between the icons */
-    align-items: center; /* Align icons vertically if needed */
+    gap: 30px;
+    align-items: center;
     margin-left: 15px;
     margin-bottom: 4px;
 }
 
 .iconImage {
-    width: 22px; /* Set desired width */
-    height: 22px; /* Set desired height */
+    width: 22px;
+    height: 22px;
     cursor: pointer;
     transition: transform 0.3s ease;
 }
 
 .iconImage:hover {
-    transform: scale(1.1); /* Optional: zoom effect on hover */
+    transform: scale(1.1);
 }
 @keyframes blinkRed {
     0% { background-color: transparent; }

@@ -1,15 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
-import styles from './SearchModal.module.css';
+import styles from '../../components_style/SearchModal.module.css';
 import WatchlistService from '../../services/WatchlistService';
 
-const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [] }) => {
+const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onReloadWatchlist }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [symbolSuggestions, setSymbolSuggestions] = useState([]);
     const [selectedSymbol, setSelectedSymbol] = useState(null);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
-        // Clear state when the modal is closed
         if (!isOpen) {
             setSearchTerm('');
             setSymbolSuggestions([]);
@@ -32,11 +31,17 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [] }) => 
         setSearchTerm('');
     };
 
-    const handleAdd = () => {
+    const handleAdd = async () => {
         if (selectedSymbol && !isAlreadyAdded) {
-            onAddSymbol(selectedSymbol);
+            await onAddSymbol(selectedSymbol);
+
+            // Reload the watchlist after adding a symbol
+            if (onReloadWatchlist) {
+                await onReloadWatchlist();
+            }
+
             setSelectedSymbol(null);
-            onClose(); // Close the modal after adding
+            onClose();
         }
     };
 

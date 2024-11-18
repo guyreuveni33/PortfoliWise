@@ -78,7 +78,6 @@ header h1 {
     background-color: #5029A7;
 }
 
-/**************************************************************************************************************/
 .port_modal {
     display: flex;
     position: fixed;
@@ -92,7 +91,7 @@ header h1 {
 }
 
 .port_modal.show {
-    visibility: visible; /* Show modal when state is true */
+    visibility: visible;
 }
 
 .port_modal_content {
@@ -124,7 +123,6 @@ header h1 {
     cursor: pointer;
 }
 
-/* Sidebar design */
 .sidebar {
     width: 180px;
     background-color: #131C2F;
@@ -160,7 +158,6 @@ header h1 {
     margin-right: 10px;
 }
 
-/* Assuming your links are inside list items */
 #a li a {
     color: #ffffff;
     transition: background-color 0.3s, color 0.3s, border-radius 0.3s;
@@ -253,12 +250,12 @@ ul#a li .text {
 }
 
 .positive {
-    color: #48BB78; /* Green color for positive values */
+    color: #48BB78;
     font-weight: bold;
 }
 
 .negative {
-    color: #F56565; /* Red color for negative values */
+    color: #F56565;
     font-weight: bold;
 }
 
@@ -270,7 +267,7 @@ ul#a li .text {
 }
 
 .refresh_button:hover .icon_style_arrow {
-    transform: rotate(90deg); /* Optional rotate effect on hover */
+    transform: rotate(90deg);
     transition: transform 0.3s;
 }
 

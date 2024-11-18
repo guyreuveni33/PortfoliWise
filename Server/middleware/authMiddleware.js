@@ -1,9 +1,7 @@
-// middleware/authMiddleware.js
-
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 
-const secretKey = process.env.JWT_SECRET || 'your_secret_key'; // Use the same secret key
+const secretKey = process.env.JWT_SECRET || 'nivandguysecretkey';
 
 const authMiddleware = async (req, res, next) => {
     const authHeader = req.headers.authorization;

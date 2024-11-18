@@ -1,11 +1,8 @@
-/* Styles used for WatchlistCard component */
-
-/* Limit the width of the watchlist and center it */
 .watchlist_section {
-    flex-basis: auto; /* Allows the section to auto-adjust */
-    width: 10%; /* Set a max width of 80% of the screen (you can adjust this value) */
-    max-width: 1200px; /* Optional: Set a maximum width to prevent it from being too large */
-    margin: 0 auto; /* Center the section horizontally */
+    flex-basis: auto;
+    width: 10%;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .section_container {
@@ -21,21 +18,21 @@
 .border_line {
     border-bottom: 1px solid #ffffff;
     display: flex;
-    justify-content: space-between;  /* Align heading and button to opposite ends */
-    align-items: center;  /* Vertically center the button */
+    justify-content: space-between;
+    align-items: center;
     border-bottom: 1px solid #ffffff;
 }
 
 .search_container {
     display: flex;
     gap: 10px;
-    align-items: center; /* Ensure the input and button align vertically */
-    margin: 0 0 15px 15px; /* Added margin-bottom of 15px to raise the input and button */
+    align-items: center;
+    margin: 0 0 15px 15px;
     width: 100%;
 }
 
 .search_input {
-    height: 10px; /* Ensure the input is the same height as the button */
+    height: 10px;
     flex: 1;
     background-color: #1E2A3A;
     border: 1px solid #2f3951;
@@ -57,7 +54,7 @@
 }
 
 .add_button {
-    height: 30px; /* Maintain the same height as the input */
+    height: 30px;
     background-color: #613DE4;
     color: #fff;
     border: none;
@@ -85,15 +82,15 @@
 
 .watchlist_table {
     width: 100%;
-    table-layout: fixed; /* Ensures that the table columns are fixed and won't auto-adjust */
-    border-collapse: collapse; /* Ensures there are no gaps between cells */
+    table-layout: fixed;
+    border-collapse: collapse;
 }
 
 .watchlist_table th, .watchlist_table td {
-    padding: 8px; /* Consistent padding for headers and cells */
-    text-align: left; /* Left-align all table cells */
-    border-bottom: 1px solid #2f3951; /* Border for separation */
-    box-sizing: border-box; /* Make sure padding doesn't affect the width */
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #2f3951;
+    box-sizing: border-box;
 }
 
 .watchlist_table tr:hover {
@@ -101,25 +98,25 @@
 }
 
 .watchlist_table th {
-    font-weight: bold; /* Make headers bold */
+    font-weight: bold;
 }
 
 .watchlist_table td {
-    width: 33.33%; /* Ensures columns take up equal space */
+    width: 33.33%;
 }
 
 .positive_background {
-    background-color: rgba(76, 175, 80, 0.2);  /* Light green background */
-    color: #4caf50;  /* Green text */
+    background-color: rgba(76, 175, 80, 0.2);
+    color: #4caf50;
 }
 
 .negative_background {
-    background-color: rgba(244, 67, 54, 0.2);  /* Light red background */
-    color: #f44336;  /* Red text */
+    background-color: rgba(244, 67, 54, 0.2);
+    color: #f44336;
 }
 
 .row_spacing {
-    margin-bottom: 10px;  /* Add spacing between rows */
+    margin-bottom: 10px;
 }
 
 .loading_spinner {

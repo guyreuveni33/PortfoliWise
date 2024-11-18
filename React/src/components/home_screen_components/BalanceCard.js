@@ -6,7 +6,6 @@ import styles from '../../styleMenu/homeScreen.module.css';
 import TimeFilter from './TimeFilter';
 import LoadingSpinner from './LoadingSpinner';
 
-// Register necessary chart components
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
 
 const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
@@ -20,7 +19,7 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
                 setLoading(false);
                 return;
             }
-            setLoading(true); // Start loading
+            setLoading(true);
             try {
                 const response = await axios.get('http://localhost:3001/api/portfolio/historical_data', {
                     headers: {
@@ -44,7 +43,6 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
                     return holdingDate < oldest ? holdingDate : oldest;
                 }, new Date());
 
-                console.log('Oldest Transaction Date:', oldestTransactionDate);
 
                 // Calculate the start date for the selected timeframe
                 const startDate = new Date();
@@ -61,8 +59,6 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
                     default:
                         startDate.setFullYear(startDate.getFullYear() - 5);
                 }
-
-                console.log('Start Date:', startDate.toISOString());
 
                 // Filter bars to exclude data before the oldest transaction date
                 const filteredBars = bars.filter(bar => new Date(bar.t) >= oldestTransactionDate);
@@ -86,12 +82,10 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
                     });
                 }
 
-                console.log('Filtered and Extended Bars:', extendedBars);
 
                 const labels = extendedBars.map(bar => new Date(bar.t).toLocaleDateString());
                 const values = extendedBars.map(bar => bar.value);
 
-                // Prepare the data for chart.js
                 setChartData({
                     labels: labels,
                     datasets: [
@@ -114,18 +108,17 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
                     }
                 });
 
-                setLoading(false); // End loading
+                setLoading(false);
             } catch (error) {
                 console.error('Error fetching historical data:', error);
-                setChartData(null); // Ensure chartData is null on error
-                setLoading(false); // End loading on error
+                setChartData(null);
+                setLoading(false);
             }
         };
 
         fetchData();
     }, [activeTimeFilter, userToken]);
 
-    // Function to format the balance
     const formatBalance = (balance) => {
         if (typeof balance !== 'number') {
             return 'No Data';

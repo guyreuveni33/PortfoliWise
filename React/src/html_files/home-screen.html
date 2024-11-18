@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styleMenu/homeScreen.module.css">
+    <link rel="stylesheet" href="../styleMenu/homeScreen.module.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dashboard</title>
 </head>
@@ -14,35 +14,35 @@
         <ul id="a">
             <li>
                 <a class="active">
-                    <img class="iconStyle" src="../public/home.png" alt="Home Icon">
+                    <img class="iconStyle" src="../../public/home.png" alt="Home Icon">
                     <span class="text">Home</span>
                 </a>
             </li>
             <li>
                 <a class="active">
-                    <img class="iconStyle" src="../public/hand.png" alt="Hand Icon">
+                    <img class="iconStyle" src="../../public/hand.png" alt="Hand Icon">
                     <span class="text">Portfolios</span>
                 </a>
             </li>
             <li>
                 <a class="active">
-                    <img class="iconStyle" src="../public/tax.png" alt="Tax Icon">
+                    <img class="iconStyle" src="../../public/tax.png" alt="Tax Icon">
                     <span class="text">Tax</span>
                 </a>
             </li>
             <li>
                 <a class="active">
-                    <img class="iconStyle" src="../public/settings.png" alt="Settings Icon">
+                    <img class="iconStyle" src="../../public/settings.png" alt="Settings Icon">
                     <span class="text">Settings</span>
                 </a>
             </li>
         </ul>
     </div>
-    <a class="logout"><img class="iconStyle" src="../public/exit.png" alt="Exit Icon"><span class="text">Logout</span></a>
+    <a class="logout"><img class="iconStyle" src="../../public/exit.png" alt="Exit Icon"><span class="text">Logout</span></a>
 </div>
 <div class="main-content">
     <div class="profile-icon">
-        <img src="../public/User-profile-pic.png" alt="User Profile">
+        <img src="../../public/User-profile-pic.png" alt="User Profile">
     </div>
     <div class="graphs">
         <div class="balance-graph section">
@@ -214,14 +214,14 @@
             labels: ['AMZ', 'TSLA'],
             datasets: [{
                 label: 'Portfolio Distribution',
-                data: [60, 40], // Example data
+                data: [60, 40],
                 backgroundColor: [
-                    'rgb(210,48,48)', // Red for AMZ
-                    'rgb(248,203,2)'  // Yellow for TSLA
+                    'rgb(210,48,48)',
+                    'rgb(248,203,2)'
                 ],
                 borderColor: [
-                    'rgba(210,48,48)', // Red for AMZ
-                    'rgb(248,203,2)'  // Yellow for TSLA
+                    'rgba(210,48,48)',
+                    'rgb(248,203,2)'
                 ],
                 borderWidth: 1
             }]

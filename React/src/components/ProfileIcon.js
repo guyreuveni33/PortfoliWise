@@ -1,5 +1,3 @@
-// ProfileIcon.js
-
 import React from 'react';
 import styles from '../components_style/ProfileIcon.module.css';
 
