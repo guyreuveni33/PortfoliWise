@@ -76,7 +76,7 @@ ta
 
 1. Clone the repository:
 ```bash
-git clone [repository-url]
+git clone git@github.com:guyreuveni33/final_project.git
 ```
 
 2. Install dependencies for server:
