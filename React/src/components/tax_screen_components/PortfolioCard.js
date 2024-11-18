@@ -1,5 +1,3 @@
-// PortfolioCard.js
-
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from '../../styleMenu/taxScreen.module.css';
@@ -24,7 +22,6 @@ const PortfolioCard = ({portfolioId, index}) => {
         fetchProfitData();
     }, [portfolioId]);
 
-    // Format function to add commas and two decimal places
     const formatNumber = (number) => number.toLocaleString(undefined, {
         minimumFractionDigits: 2,
         maximumFractionDigits: 2

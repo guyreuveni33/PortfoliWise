@@ -1,5 +1,3 @@
-// TaxModal.js
-
 import React from 'react';
 import styles from '../../styleMenu/taxScreen.module.css';
 
