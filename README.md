@@ -1,72 +1,149 @@
-# Guy Reuveni & Niv Swisa 
+# Portfolio Management Application
 
-# Getting Started with Create React App
+A comprehensive web application for managing multiple trading portfolios across different platforms, providing automated tax calculations and AI-driven trading recommendations.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Features
 
-## Available Scripts
+### Home Screen
+- **Balance Graph**: Interactive line chart showing performance across all portfolios
+  - Time filters: week, month, year, and all (5 years)
+- **Watchlist**: Customizable list of tracked symbols with real-time price updates
+- **Marketplace**: Fixed list of popular symbols (Apple, S&P 500, NASDAQ, etc.) with real-time price updates
+- **Featured Portfolio Display**: 
+  - Shows holdings with key statistics and real-time price updates
+  - Interactive donut chart for portfolio visualization
+  - Configurable display options
 
-In the project directory, you can run:
+### Login Screen
+- Email/password authentication
+- Google OAuth integration
+- New user registration
 
-### `npm start`
+### Portfolios Screen
+- Multiple portfolio management
+- Portfolio connection via API integration
+- ML-powered price analysis for trading recommendations
+- Portfolio deletion capability
+- Set portfolio for Home Screen display
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Tax Screen
+- Portfolio-specific profit tracking
+- Automated annual tax calculation
+- Detailed tax liability breakdown
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+### Settings Screen
+- Profile management (nickname, full name)
+- Password updates
 
-### `npm test`
+## Technical Stack
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### Frontend
+- React.js
 
-### `npm run build`
+### Backend
+- Node.js
+- Python scripts for ML integration
+- MongoDB Atlas (Cloud Database)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### Authentication
+- Local authentication
+- Google OAuth integration
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Prerequisites
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Node.js
+- Latest stable version recommended
 
-### `npm run eject`
+### Python
+- Python 3.x required
+- Required Python packages:
+```
+pandas
+numpy
+yfinance
+scikit-learn
+xgboost
+ta
+```
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+### Database
+- MongoDB Atlas account
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+### API Keys
+- Alpaca trading account with API credentials
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+## Installation
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+1. Clone the repository:
+```bash
+git clone [repository-url]
+```
 
-## Learn More
+2. Install dependencies for server:
+```bash
+cd server
+npm install
+```
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. Install dependencies for client:
+```bash
+cd ../react
+npm install
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. Install Python dependencies:
+```bash
+pip install pandas numpy yfinance scikit-learn xgboost ta
+```
 
-### Code Splitting
+5. Set up environment variables:
+Edit `.env` with your:
+- MongoDB connection string
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+## Running the Application
 
-### Analyzing the Bundle Size
+1. Start the server:
+```bash
+cd server
+npm start
+```
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+2. In a new terminal, start the React client:
+```bash
+cd react
+npm start
+```
 
-### Making a Progressive Web App
+## Configuration
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Portfolio Integration
+Currently supports:
+- Alpaca Trading API
+- More platforms planned for future integration
 
-### Advanced Configuration
+### API Keys Setup
+1. Obtain API credentials from Alpaca
+2. Add them to your portfolio settings in the application
+3. Application automatically syncs with your trading account
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+## Usage
 
-### Deployment
+1. Sign up/Login (email or Google) through the login screen
+2. Add trading portfolios using API credentials
+3. Customize your watchlist with preferred symbols
+4. Monitor real-time updates in the marketplace, watchlist, and home screen portfolio
+5. Set up preferred portfolio for home screen display
+6. Use tax calculator for annual tax liability assessment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+## Contributing
 
-### `npm run build` fails to minify
+1. Fork the repository
+2. Create your feature branch
+3. Commit your changes
+4. Push to the branch
+5. Create a new Pull Request
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## Acknowledgments
+
+- Alpaca Trading API
+- yfinance library
