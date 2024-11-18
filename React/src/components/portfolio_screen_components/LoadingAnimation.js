@@ -100,7 +100,7 @@ const LoadingAnimation = () => {
                     <div style={styles.innerSpinner} />
                 </div>
                 <div style={styles.loadingText}>
-                    Analyzing {/* You can customize this text */}
+                    Analyzing
                 </div>
                 <div style={styles.pulsingDots}>
                     <div className="loading-dot" style={styles.dot} />

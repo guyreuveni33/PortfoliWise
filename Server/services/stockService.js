@@ -2,7 +2,6 @@ const { spawn } = require('child_process');
 
 const getMultipleStockPrices = async (symbols) => {
     return new Promise((resolve, reject) => {
-        // Pass the symbols as arguments to the Python script
         const pythonProcess = spawn('python', ['../Server/scripts/stockScript.py', ...symbols]);
 
         let scriptOutput = '';
@@ -37,7 +36,7 @@ const getStockRecommendation = (symbol) => {
         let output = '';
         let errorOutput = '';
 
-        // Collect data from the Python script
+        // Collect data
         pythonProcess.stdout.on('data', (data) => {
             output += data.toString();
         });
@@ -47,7 +46,6 @@ const getStockRecommendation = (symbol) => {
             errorOutput += data.toString();
         });
 
-        // Handle process exit
         pythonProcess.on('close', (code) => {
             if (code === 0) {
                 try {

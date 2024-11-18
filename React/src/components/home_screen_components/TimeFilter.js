@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from '../../styleMenu/homeScreen.module.css';
-import Sidebar from "../Sidebar";
 
 const TimeFilter = ({ activeTimeFilter, onFilterClick }) => {
     return (

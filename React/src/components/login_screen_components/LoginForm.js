@@ -1,5 +1,3 @@
-// LoginForm.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -17,19 +15,15 @@ const LoginForm = () => {
         try {
             const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
 
-            // Store token and email in local storage
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('email', email);
 
-            // Fetch user's profile to get the nickname
             const profileResponse = await axios.get('http://localhost:3001/api/users/profile', {
                 headers: { 'Authorization': `Bearer ${response.data.token}` }
             });
 
-            // Store nickname in local storage
             localStorage.setItem('nickname', profileResponse.data.nickname);
 
-            // Navigate to the home screen
             navigate('/home');
         } catch (error) {
             const errorResponse = error.response ? error.response.data : 'Login failed. Please try again.';

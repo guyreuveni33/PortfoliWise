@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './Register.module.css';
+import styles from './styleMenu/Register.module.css';
 import RegisterHeader from './components/register_screen_components/RegisterHeader';
 import RegisterForm from './components/register_screen_components/RegisterForm';
 

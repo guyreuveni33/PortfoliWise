@@ -8,7 +8,6 @@ import {
     Legend
 } from 'chart.js';
 
-// Register the required components
 Chart.register(
     DoughnutController,
     ArcElement,
@@ -26,7 +25,6 @@ const PortfolioChart = ({ portfolioData }) => {
         [portfolioData]
     );
 
-    // Prepare chart data and configuration
     const chartData = useMemo(() => {
         const colors = [
             'rgb(138,43,226)', 'rgb(255,182,193)', 'rgb(255,165,0)', 'rgb(60,179,113)', 'rgb(70,130,180)',
@@ -54,7 +52,6 @@ const PortfolioChart = ({ portfolioData }) => {
     }, [portfolioData, totalBalance]);
 
     useEffect(() => {
-        // Cleanup function to destroy previous chart instance
         if (chartInstance.current) {
             chartInstance.current.destroy();
         }
@@ -99,13 +96,12 @@ const PortfolioChart = ({ portfolioData }) => {
             });
         }
 
-        // Cleanup function
         return () => {
             if (chartInstance.current) {
                 chartInstance.current.destroy();
             }
         };
-    }, [chartData]); // Add chartData as a dependency
+    }, [chartData]);
 
     return (
         <div className={`${styles.circle_chart_container} ${styles.section_container}`}>

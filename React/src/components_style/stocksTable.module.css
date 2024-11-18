@@ -73,11 +73,9 @@
 
 .scrollableBody {
     width: 100%;
-    /* Remove the fixed max-height from CSS */
     transition: max-height 0.3s ease;
 }
 
-/* Scrollbar styles */
 .scrollableBody::-webkit-scrollbar {
     width: 8px;
 }

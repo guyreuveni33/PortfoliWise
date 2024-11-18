@@ -3,7 +3,7 @@ import styles from '../../styleMenu/homeScreen.module.css';
 
 const PortfolioTable = ({ portfolioData }) => {
     const [blinkStates, setBlinkStates] = useState({});
-    const previousData = useRef([]);  // To store the previous portfolio data for comparison
+    const previousData = useRef([]);
 
     useEffect(() => {
         const newBlinkStates = {};

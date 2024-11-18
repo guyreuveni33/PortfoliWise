@@ -1,10 +1,8 @@
-// RegisterForm.js
-
 import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import GoogleButton from '../login_screen_components/GoogleButton';
-import styles from '../../Register.module.css';
+import styles from '../../styleMenu/Register.module.css';
 import { toast } from "react-toastify";
 
 const RegisterForm = () => {

@@ -57,7 +57,7 @@ function PortfolioScreen() {
                 if (updatedPortfolios.length === 1) {
                     setActivePortfolio(updatedPortfolios[0].portfolioId);
                 } else if (portfolioId === activePortfolioId) {
-                    setActivePortfolioId(null); // Clear active portfolio if it was deleted
+                    setActivePortfolioId(null);
                     localStorage.removeItem('activePortfolioId');
                 }
                 toast.success('Portfolio Deleted Successfully');
@@ -93,7 +93,6 @@ function PortfolioScreen() {
                 if (Array.isArray(data)) {
                     setPortfoliosData(data);
 
-                    // If there is only one portfolio, set it as active
                     if (data.length === 1) {
                         setActivePortfolio(data[0].portfolioId);
                     }

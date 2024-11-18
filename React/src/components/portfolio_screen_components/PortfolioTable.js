@@ -28,11 +28,11 @@ function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId
                     <div
                         className={isActive ? styles.activeButton : styles.inactiveButton}
                         onClick={handleActivate}
-                        onMouseEnter={() => !isActive && setShowTooltip(true)}  // Show tooltip only if inactive
+                        onMouseEnter={() => !isActive && setShowTooltip(true)}
                         onMouseLeave={() => setShowTooltip(false)}
                     >
                         {isActive ? "Display in Home" : "Set to Display in Home"}
-                        {showTooltip && !isActive && ( // Show tooltip only if inactive
+                        {showTooltip && !isActive && (
                             <div className={styles.tooltip}>
                                 Clicking on this button will display this portfolio in the Home Screen
                             </div>

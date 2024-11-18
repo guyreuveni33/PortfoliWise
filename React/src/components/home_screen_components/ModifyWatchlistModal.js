@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from './modifyWatchlistModal.module.css';
+import styles from '../../components_style/modifyWatchlistModal.module.css';
 
 const ModifyWatchlistModal = ({ isOpen, onClose, watchlist, onRemoveSymbol }) => {
     if (!isOpen) return null;

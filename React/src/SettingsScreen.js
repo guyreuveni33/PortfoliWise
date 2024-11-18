@@ -39,7 +39,7 @@ const SettingsScreen = () => {
             <div className={styles.main_content}>
                 <ProfileIcon nickname={nickname}/>
                 <div className={styles.settings_container}>
-                    <ChangeNickname nickname={nickname} setNickname={setNickname}/>
+                    <ChangeNickname setNickname={setNickname}/>
                     <ChangeFullName fullName={fullName} setFullName={setFullName}/>
                     <ChangePassword/>
                 </div>

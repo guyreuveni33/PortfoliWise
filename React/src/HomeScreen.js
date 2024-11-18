@@ -23,7 +23,6 @@ const HomeScreen = () => {
     const [portfolioDataForTable, setPortfolioDataForTable] = useState([]);
     const location = useLocation();
 
-    // Parse Google Sign-In query parameters and set user data
     useEffect(() => {
         const params = new URLSearchParams(location.search);
         const token = params.get('token');
@@ -46,7 +45,6 @@ const HomeScreen = () => {
         setNickname(tempNickname);
     }, [location]);
 
-    // Fetch portfolio data
     const fetchPortfolioData = async () => {
         try {
             const activePortfolioId = localStorage.getItem('activePortfolioId');
@@ -67,7 +65,6 @@ const HomeScreen = () => {
         }
     };
 
-    // Fetch market data
     const fetchMarketData = async () => {
         try {
             const response = await axios.get('http://localhost:3001/api/get-stocks');
@@ -88,7 +85,6 @@ const HomeScreen = () => {
         fetchInitialData();
     }, []);
 
-    // Periodically fetch data for the portfolio table
     useEffect(() => {
         const interval = setInterval(async () => {
             const updatedData = await fetchPortfolioData();

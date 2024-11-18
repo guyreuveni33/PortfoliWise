@@ -64,9 +64,6 @@ const MarketplaceCard = ({ fetchMarketData }) => {
         priceDirection: marketData[symbol]?.priceDirection
     }));
 
-    // console.log("Market Data Array:", marketDataArray); // Check if symbols are mapped
-
-
     return (
         <div className={`${styles.marketplace_section} ${styles.section_container}`}>
             <header className={styles.border_line}>

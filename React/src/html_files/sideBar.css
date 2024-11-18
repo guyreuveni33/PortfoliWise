@@ -42,18 +42,15 @@ body, html {
     padding: 10px;
 }
 
-/* Remove the default active state */
 #a li a.active {
     background-color: transparent;
 }
 
-/* Only apply purple background when specifically hovering */
 #a li a:hover {
     background-color: #613DE4;
     color: #E2E2E2;
 }
 
-/* Apply purple background only to the clicked/selected item */
 #a li a:active,
 #a li a.active:hover {
     background-color: #613DE4;

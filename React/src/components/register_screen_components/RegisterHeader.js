@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
-import styles from '../../Register.module.css';
+import styles from '../../styleMenu/Register.module.css';
 
 const RegisterHeader = () => {
     const navigate = useNavigate();

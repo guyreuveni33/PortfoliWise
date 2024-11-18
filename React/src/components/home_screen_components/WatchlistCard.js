@@ -9,7 +9,7 @@ import ModifyWatchlistModal from "./ModifyWatchlistModal";
 const WatchlistCard = ({email}) => {
     const [isSearchModalOpen, setIsSearchModalOpen] = useState(false);
     const [isModifyModalOpen, setIsModifyModalOpen] = useState(false);
-    const [watchlist, setWatchlist] = useState(null);  // Changed initial state to null
+    const [watchlist, setWatchlist] = useState(null);
     const [loading, setLoading] = useState(true);
     const [blink, setBlink] = useState(false);
     const [noSymbol, setNoSymbol] = useState(-1);
@@ -27,17 +27,16 @@ const WatchlistCard = ({email}) => {
 
     const handleAddSymbol = async (symbol) => {
         try {
-            setLoading(true); // Show the loading spinner
+            setLoading(true);
             await WatchlistService.addSymbol(email, symbol);
             await fetchWatchlist();
         } catch (error) {
             console.error('Error adding symbol:', error);
         } finally {
             setIsSearchModalOpen(false);
-            setLoading(false); // Hide the loading spinner
+            setLoading(false);
         }
     };
-
 
     const fetchWatchlist = async () => {
         if (firstLoad.current) {
@@ -49,11 +48,12 @@ const WatchlistCard = ({email}) => {
 
         try {
             const fetchedWatchlist = await WatchlistService.getWatchlist(email);
+
             if (Array.isArray(fetchedWatchlist) && fetchedWatchlist.length === 0) {
                 setNoSymbol(1);
-                console.log(noSymbol, 'noSymbol');
+            } else {
+                setNoSymbol(-1);
             }
-
 
             const updatedWatchlist = fetchedWatchlist.map((item) => {
                 const currentPrice = item.price?.price ?? 'N/A';
@@ -126,25 +126,22 @@ const WatchlistCard = ({email}) => {
                 <StocksTable marketDataArray={watchlist} blink={blink} />
             )}
 
-
             <ModifyWatchlistModal
-        isOpen={isModifyModalOpen}
-        onClose={() => setIsModifyModalOpen(false)}
-        watchlist={watchlist || []}
-        onRemoveSymbol={handleRemoveSymbol}
-    />
+                isOpen={isModifyModalOpen}
+                onClose={() => setIsModifyModalOpen(false)}
+                watchlist={watchlist || []}
+                onRemoveSymbol={handleRemoveSymbol}
+            />
 
             <SearchModal
                 isOpen={isSearchModalOpen}
                 onClose={() => setIsSearchModalOpen(false)}
                 onAddSymbol={handleAddSymbol}
                 existingSymbols={(watchlist || []).map(item => item.symbol)}
-                onReloadWatchlist={fetchWatchlist} // Pass fetchWatchlist as a prop
+                onReloadWatchlist={fetchWatchlist}
             />
-
         </div>
-)
-    ;
+    );
 };
 
 export default WatchlistCard;

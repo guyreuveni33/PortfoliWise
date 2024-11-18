@@ -1,5 +1,3 @@
-// controllers/portfolioController.js
-
 const axios = require('axios');
 const Portfolio = require('../models/Portfolio');
 const {getStockRecommendation} = require('../services/stockService');
@@ -20,7 +18,6 @@ const getPortfolioData = async (req, res) => {
         const portfolioDataPromises = portfolios.map(async (portfolio) => {
             const {apiKey, secretKey} = portfolio;
 
-            // Create axios instance with user's API keys
             const paperClient = axios.create({
                 baseURL: PAPER_URL,
                 headers: {
@@ -53,11 +50,10 @@ const getPortfolioData = async (req, res) => {
         });
 
         const portfolioData = await Promise.all(portfolioDataPromises);
-        console.log('portfoliodata:', JSON.stringify(portfolioData, null, 2));
         res.json(portfolioData);
     } catch (error) {
         console.error('Error in getPortfolioData:', error);
-        res.json([]); // Return an empty array on error
+        res.json([]);
     }
 };
 
@@ -68,7 +64,6 @@ const getHistoricalData = async (req, res) => {
     let startDate;
     let barTimeframe;
 
-    // Determine the start date and bar timeframe based on the selected timeframe
     switch (timeframe) {
         case 'week':
             startDate = new Date(now.setDate(now.getDate() - 7));
@@ -126,13 +121,11 @@ const getHistoricalData = async (req, res) => {
             let transactionDates = {};
 
             try {
-                // **Modified Part: Fetch All Filled Orders Without 'after' Parameter**
                 const ordersResponse = await paperClient.get('/v2/orders', {
                     params: {
                         status: 'filled',
-                        // Removed 'after: startDate.toISOString()' to fetch all filled orders
                         until: new Date().toISOString(),
-                        limit: 500, // Adjust as needed based on expected number of orders
+                        limit: 500, // max number of orders
                     }
                 });
 
@@ -145,23 +138,20 @@ const getHistoricalData = async (req, res) => {
                 });
             } catch (error) {
                 console.error(`Error fetching transaction history for portfolio ${portfolio._id}:`, error.response?.data || error.message);
-                // Continue processing other portfolios even if fetching orders fails
             }
 
             try {
-                // Get current positions
                 const positionsResponse = await paperClient.get('/v2/positions');
                 const positions = positionsResponse.data;
 
                 if (!positions.length) {
-                    continue; // Skip if no positions in this portfolio
+                    continue;
                 }
 
                 // Separate crypto and non-crypto positions
                 const cryptoPositions = positions.filter(position => position.asset_class === 'crypto');
                 const nonCryptoPositions = positions.filter(position => position.asset_class !== 'crypto');
 
-                console.log('crypto: ', cryptoPositions);
                 // Add crypto positions' market value to the total
                 cryptoPositions.forEach(position => {
                     totalCryptoValue += parseFloat(position.market_value);
@@ -175,7 +165,6 @@ const getHistoricalData = async (req, res) => {
                     try {
                         // Determine the earliest transaction date for the symbol
                         const earliestTransactionDate = transactionDates[symbol] ? new Date(transactionDates[symbol]) : null;
-                        // Effective start date is the later of timeframe's startDate or earliestTransactionDate
                         let effectiveStartDate = startDate;
                         if (earliestTransactionDate && earliestTransactionDate > startDate) {
                             effectiveStartDate = earliestTransactionDate;
@@ -199,12 +188,11 @@ const getHistoricalData = async (req, res) => {
                             return [];
                         }
 
-                        // Transform the data for this symbol
                         return response.data.bars.map(bar => ({
                             t: bar.t,
-                            value: parseFloat(bar.c) * quantity, // Use closing price multiplied by quantity
-                            symbol: symbol, // Add symbol for debugging
-                            qty: quantity // Add quantity for debugging
+                            value: parseFloat(bar.c) * quantity,
+                            symbol: symbol,
+                            qty: quantity
                         }));
                     } catch (error) {
                         console.error(`Error fetching historical data for ${symbol} in portfolio ${portfolio._id}:`, error.response?.data || error.message);
@@ -214,7 +202,6 @@ const getHistoricalData = async (req, res) => {
 
                 const allPositionsData = await Promise.all(historicalDataPromises);
 
-                // Create a map to store aggregated values by timestamp
                 const aggregatedMap = new Map();
 
                 // Aggregate data from all positions
@@ -246,7 +233,6 @@ const getHistoricalData = async (req, res) => {
                 positions.forEach(position => {
                     const symbol = position.symbol;
                     const oldestTransactionDate = transactionDates[symbol] || 'N/A';
-                    console.log(`Portfolio ${portfolio._id} - Symbol: ${symbol} - Oldest Transaction Date: ${oldestTransactionDate}`);
                     allHoldings.push({
                         symbol: symbol,
                         qty: position.qty,
@@ -258,7 +244,6 @@ const getHistoricalData = async (req, res) => {
 
             } catch (error) {
                 console.error(`Error processing positions for portfolio ${portfolio._id}:`, error.response?.data || error.message);
-                // Continue processing other portfolios even if processing positions fails
             }
         }
 
@@ -268,7 +253,6 @@ const getHistoricalData = async (req, res) => {
                 aggregatedBars[aggregatedBars.length - 1].value += totalCryptoValue;
             }
 
-            console.log('Aggregated Bars:', JSON.stringify(aggregatedBars, null, 2));
             res.json({bars: aggregatedBars, holdings: allHoldings});
         } catch (error) {
             console.error('Error finalizing historical data:', error);
@@ -349,7 +333,7 @@ const addPortfolio = async (req, res) => {
             }
         });
 
-        // Test the API keys by fetching the account
+        // fetch the account
         const accountResponse = await paperClient.get('/v2/account');
         if (accountResponse.status !== 200) {
             return res.status(400).json({error: 'Invalid API Key or Secret Key'});
@@ -376,7 +360,6 @@ const addPortfolio = async (req, res) => {
 };
 
 
-// **New Controller: Delete a Portfolio**
 const deletePortfolio = async (req, res) => {
     const userId = req.user._id;
     const portfolioId = req.params.id;
@@ -388,7 +371,7 @@ const deletePortfolio = async (req, res) => {
             return res.status(404).json({error: 'Portfolio not found'});
         }
 
-        // Check if the portfolio belongs to the authenticated user
+        // Check if the portfolio belongs to the user
         if (portfolio.user.toString() !== userId.toString()) {
             return res.status(403).json({error: 'Unauthorized to delete this portfolio'});
         }
@@ -450,7 +433,7 @@ const calculateAnnualTax = async (req, res) => {
             }
         }
 
-        // Calculate net gain or loss
+        // Calculate overall gain or loss
         const netGain = totalGains - totalLosses;
         const annualTax = netGain > 0 ? netGain * TAX_RATE : 0;
 
