@@ -1,4 +1,4 @@
-# Portfolio Management Application
+# PORTFOLIWISE
 
 A comprehensive web application for managing multiple trading portfolios across different platforms, providing automated tax calculations and AI-driven trading recommendations.
 
