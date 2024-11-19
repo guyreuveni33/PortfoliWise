@@ -29,9 +29,17 @@ const getMultipleStockPrices = async (symbols) => {
     });
 };
 
+
+const symbolMapping = {
+    BTCUSD: 'BTC-USD',
+    ETHUSD: 'ETH-USD',
+};
+
 const getStockRecommendation = (symbol) => {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['../Server/scripts/stock_Analyzer.py', symbol]);
+        // Map the symbol if it exists in the mapping; otherwise, use the original symbol
+        const mappedSymbol = symbolMapping[symbol] || symbol;
+        const pythonProcess = spawn('python', ['../Server/scripts/stock_Analyzer.py', mappedSymbol]);
 
         let output = '';
         let errorOutput = '';
