@@ -12,6 +12,8 @@ router.get('/profile', verifyToken, userController.getProfile);
 router.put('/update-profile', verifyToken, userController.updateProfile);
 router.put('/change-password', verifyToken, userController.changePassword);
 router.get('/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
+router.delete('/delete-account', verifyToken, userController.deleteAccount);
+
 
 router.get(
     '/google/callback',

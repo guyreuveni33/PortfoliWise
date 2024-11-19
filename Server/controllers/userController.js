@@ -78,3 +78,15 @@ exports.changePassword = async (req, res) => {
 exports.dashboard = (req, res) => {
     res.send('Welcome to the Dashboard');
 };
+
+exports.deleteAccount = async (req, res) => {
+    try {
+        const userId = req.user.userId;
+        await User.findByIdAndDelete(userId);
+        res.status(200).send('Account deleted successfully');
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).send('Error deleting account');
+    }
+};
+

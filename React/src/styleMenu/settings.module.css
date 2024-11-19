@@ -190,3 +190,22 @@ input:checked + .slider:before {
     --input-background-color: #FFFFFF;
     --border-color: #CCCCCC;
 }
+
+.delete_button {
+    background-color: #e74c3c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    max-width: 200px;
+    margin-top: 20px;
+}
+
+.delete_button:hover {
+    background-color: #c0392b;
+}
+
