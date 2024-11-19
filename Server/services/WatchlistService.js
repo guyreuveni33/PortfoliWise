@@ -56,7 +56,7 @@ const { spawn } = require('child_process');
 
 exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['../Server/scripts/stockSuggestionsScript.py', symbolPrefix, '5']);
+        const pythonProcess = spawn('python', ['../Server/scripts/stock_symbol_lookup.py', symbolPrefix, '5']);
 
         let resultData = '';
 

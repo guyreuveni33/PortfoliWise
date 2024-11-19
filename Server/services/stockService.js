@@ -2,7 +2,7 @@ const { spawn } = require('child_process');
 
 const getMultipleStockPrices = async (symbols) => {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['../Server/scripts/stockScript.py', ...symbols]);
+        const pythonProcess = spawn('python', ['../Server/scripts/live_price_tracker.py', ...symbols]);
 
         let scriptOutput = '';
 
@@ -31,7 +31,7 @@ const getMultipleStockPrices = async (symbols) => {
 
 const getStockRecommendation = (symbol) => {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['../Server/scripts/stockAnalyzer.py', symbol]);
+        const pythonProcess = spawn('python', ['../Server/scripts/stock_Analyzer.py', symbol]);
 
         let output = '';
         let errorOutput = '';

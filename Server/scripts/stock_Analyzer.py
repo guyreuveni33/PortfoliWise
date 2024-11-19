@@ -15,6 +15,7 @@ def get_stock_data(ticker, start_date, end_date):
     return stock
 
 # Function to compute RSI
+#Rsi is a momentum indicator that tell weather the stock is overbought or oversold
 def compute_RSI(series, window):
     delta = series.diff()
     gain = delta.where(delta > 0, 0.0)
