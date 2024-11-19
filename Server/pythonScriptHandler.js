@@ -56,7 +56,7 @@ const runScriptForStock = (symbol) => {
 
 // Function to process multiple stocks
 const runScriptForTopStocks = async () => {
-    const topStocks = ['AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'BTC-USD', 'ETH-USD', 'NFLX'];
+    const topStocks = ['JNJ','CVS','AAPL', 'MSFT', 'GOOGL', 'AMZN', 'TSLA', 'META', 'NVDA', 'BTC-USD', 'ETH-USD', 'NFLX'];
 
     for (const symbol of topStocks) {
         try {

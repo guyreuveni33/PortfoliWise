@@ -30,7 +30,6 @@ exports.getWatchlistByEmail = async (email) => {
         }
 
         if (user.watchlist.length === 0) {
-            console.info(`Watchlist is empty for user: ${email}`);
             return [];
         }
 
