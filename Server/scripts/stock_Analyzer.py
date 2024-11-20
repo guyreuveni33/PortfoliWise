@@ -28,14 +28,24 @@ def feature_engineering(data):
     """
     Adds technical indicators to the dataset as features.
     """
-    data = data.copy()
+    # Short-term trend (9-day EMA).
     data['EMA_9'] = data['Close'].ewm(span=9, adjust=False).mean()
+    # Moving averages
     data['SMA_5'] = data['Close'].rolling(window=5).mean()
     data['SMA_15'] = data['Close'].rolling(window=15).mean()
     data['SMA_30'] = data['Close'].rolling(window=30).mean()
+    # Overbuy or oversold
     data['RSI'] = compute_rsi(data['Close'])
+    # Trend momentum (MACD).
     data['MACD'] = data['Close'].ewm(span=12, adjust=False).mean() - data['Close'].ewm(span=26, adjust=False).mean()
     data['MACD_SIGNAL'] = data['MACD'].ewm(span=9, adjust=False).mean()
+
+    # Bollinger Bands
+    window = 20  # Typical period for Bollinger Bands
+    data['BB_MIDDLE'] = data['Close'].rolling(window=window).mean()  # Middle Band (SMA)
+    data['BB_STD'] = data['Close'].rolling(window=window).std()  # Standard Deviation
+    data['BB_UPPER'] = data['BB_MIDDLE'] + (2 * data['BB_STD'])  # Upper Band
+    data['BB_LOWER'] = data['BB_MIDDLE'] - (2 * data['BB_STD'])  # Lower Band
 
     # Remove rows with NaN values
     data.dropna(inplace=True)
@@ -66,17 +76,19 @@ def train_model(data):
     """
     Trains an XGBoost model on the prepared data using TimeSeriesSplit.
     """
-    X = data[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL']]
+    X = data[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL',
+                  'BB_MIDDLE', 'BB_UPPER', 'BB_LOWER']]
     y = data['Close']
-
+    # we split the data in 5 combinations
     tscv = TimeSeriesSplit(n_splits=5)
-
+    # we are using the regressor class, which is the best for regression problems
     xgb_model = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+    # the grid is wokring on all the possible combination of the parameters
     param_grid = {
         'n_estimators': [100, 200],
         'max_depth': [3, 5],
         'learning_rate': [0.01, 0.05],
-        'gamma': [0, 0.1],
+        'gamma': [0, 0.1], # the gamma parameter is used to decide if a new split is needed, in case of improving the performance
     }
     grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=tscv, scoring='neg_mean_squared_error',
                                verbose=0)
@@ -89,7 +101,8 @@ def predict_next_day(model, last_row):
     """
     Predicts the stock price for the next day based on the last row of features.
     """
-    features = last_row[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL']].values.reshape(1, -1)
+    features = last_row[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL',
+                         'BB_MIDDLE', 'BB_UPPER', 'BB_LOWER']].values.reshape(1, -1)
     prediction = model.predict(features)
     return float(prediction[0])  # Ensure the output is a Python-native float
 
