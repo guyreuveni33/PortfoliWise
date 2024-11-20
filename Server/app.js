@@ -18,7 +18,7 @@ const port = 3001;
 app.use(cors());
 app.use(bodyParser.json());
 
-app.use(session({ secret: 'nivandguysecretkey', resave: false, saveUninitialized: false }));
+app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 
