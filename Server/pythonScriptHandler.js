@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 
 // Cache file path
-const CACHE_FILE = path.resolve(__dirname, 'stock_predictions.json');
+const CACHE_FILE = path.resolve(__dirname, 'stock_cache.json');
 
 // Function to save data to cache
 const save_to_cache = (symbol, data) => {

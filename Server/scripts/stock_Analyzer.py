@@ -1,216 +1,177 @@
-import pandas as pd
+import argparse
 import numpy as np
+import pandas as pd
 import yfinance as yf
 from sklearn.model_selection import TimeSeriesSplit, GridSearchCV
-from sklearn.preprocessing import StandardScaler
-from xgboost import XGBRegressor
-from ta.volatility import AverageTrueRange
-from datetime import datetime, timedelta
+from sklearn.metrics import mean_squared_error, mean_absolute_error, r2_score
+import xgboost as xgb
+import warnings
 import json
 import os
+from datetime import datetime
 
-# Cache file path
-CACHE_FILE = "stock_predictions.json"
+warnings.filterwarnings('ignore')
 
-# Function to get historical stock data
-def get_stock_data(ticker, start_date, end_date):
-    stock = yf.download(ticker, start=start_date, end=end_date)
-    stock.dropna(inplace=True)
-    return stock
+CACHE_FILE = "stock_cache.json"
 
-# Function to compute RSI
-def compute_RSI(series, window):
+def fetch_stock_data(symbol):
+    """
+    Fetches historical stock data for a given symbol using yfinance.
+    """
+    end_date = datetime.now().strftime('%Y-%m-%d')
+    stock_data = yf.download(symbol, start="2015-01-01", end=end_date)
+    if stock_data.empty:
+        raise ValueError("No data fetched. Check the stock symbol.")
+    return stock_data
+
+def feature_engineering(data):
+    """
+    Adds technical indicators to the dataset as features.
+    """
+    data = data.copy()
+    data['EMA_9'] = data['Close'].ewm(span=9, adjust=False).mean()
+    data['SMA_5'] = data['Close'].rolling(window=5).mean()
+    data['SMA_15'] = data['Close'].rolling(window=15).mean()
+    data['SMA_30'] = data['Close'].rolling(window=30).mean()
+    data['RSI'] = compute_rsi(data['Close'])
+    data['MACD'] = data['Close'].ewm(span=12, adjust=False).mean() - data['Close'].ewm(span=26, adjust=False).mean()
+    data['MACD_SIGNAL'] = data['MACD'].ewm(span=9, adjust=False).mean()
+
+    # Remove rows with NaN values
+    data.dropna(inplace=True)
+    data.reset_index(drop=True, inplace=True)
+
+    if data.empty:
+        raise ValueError("Data became empty after preprocessing. Check stock symbol or data validity.")
+    return data
+
+def compute_rsi(series, period=14):
+    """
+    Computes the Relative Strength Index (RSI).
+    """
     delta = series.diff()
-    gain = delta.where(delta > 0, 0.0)
-    loss = -delta.where(delta < 0, -0.0)
-    avg_gain = gain.rolling(window).mean()
-    avg_loss = loss.rolling(window).mean()
+    gain = delta.clip(lower=0)
+    loss = -delta.clip(upper=0)
+
+    avg_gain = gain.rolling(window=period, min_periods=period).mean()
+    avg_loss = loss.rolling(window=period, min_periods=period).mean()
+
     rs = avg_gain / avg_loss
     rsi = 100 - (100 / (1 + rs))
+
+    rsi.fillna(0, inplace=True)
     return rsi
 
-def create_features(df):
-    df['Return'] = df['Adj Close'].pct_change()
-    df['SMA_5'] = df['Adj Close'].rolling(window=5).mean()
-    df['SMA_10'] = df['Adj Close'].rolling(window=10).mean()
-    df['SMA_20'] = df['Adj Close'].rolling(window=20).mean()
-    df['EMA_5'] = df['Adj Close'].ewm(span=5, adjust=False).mean()
-    df['EMA_10'] = df['Adj Close'].ewm(span=10, adjust=False).mean()
-    df['EMA_12'] = df['Adj Close'].ewm(span=12, adjust=False).mean()
-    df['EMA_26'] = df['Adj Close'].ewm(span=26, adjust=False).mean()
-    df['Momentum'] = df['Adj Close'] - df['Adj Close'].shift(10)
-    df['Volatility'] = df['Return'].rolling(window=10).std()
-    df['RSI'] = compute_RSI(df['Adj Close'], window=14)
+def train_model(data):
+    """
+    Trains an XGBoost model on the prepared data using TimeSeriesSplit.
+    """
+    X = data[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL']]
+    y = data['Close']
 
-    # Bollinger Bands
-    df['Upper Band'] = df['SMA_20'] + 2 * df['Volatility']
-    df['Lower Band'] = df['SMA_20'] - 2 * df['Volatility']
+    tscv = TimeSeriesSplit(n_splits=5)
 
-    # MACD
-    df['MACD'] = df['EMA_12'] - df['EMA_26']
-    df['Signal_Line'] = df['MACD'].ewm(span=9, adjust=False).mean()
+    xgb_model = xgb.XGBRegressor(objective='reg:squarederror', random_state=42)
+    param_grid = {
+        'n_estimators': [100, 200],
+        'max_depth': [3, 5],
+        'learning_rate': [0.01, 0.05],
+        'gamma': [0, 0.1],
+    }
+    grid_search = GridSearchCV(estimator=xgb_model, param_grid=param_grid, cv=tscv, scoring='neg_mean_squared_error',
+                               verbose=0)
+    grid_search.fit(X, y)
 
-    # On-Balance Volume (OBV)
-    df['OBV'] = (np.sign(df['Adj Close'].diff()) * df['Volume']).fillna(0).cumsum()
+    best_model = grid_search.best_estimator_
+    return best_model
 
-    # Volume Weighted Average Price (VWAP)
-    df['VWAP'] = (df['Volume'] * df['Adj Close']).cumsum() / df['Volume'].cumsum()
+def predict_next_day(model, last_row):
+    """
+    Predicts the stock price for the next day based on the last row of features.
+    """
+    features = last_row[['EMA_9', 'SMA_5', 'SMA_15', 'SMA_30', 'RSI', 'MACD', 'MACD_SIGNAL']].values.reshape(1, -1)
+    prediction = model.predict(features)
+    return float(prediction[0])  # Ensure the output is a Python-native float
 
-    # Average True Range (ATR)
-    atr = AverageTrueRange(high=df['High'], low=df['Low'], close=df['Adj Close'], window=14)
-    df['ATR'] = atr.average_true_range()
-
-    df.dropna(inplace=True)
-    return df
-
-# Function to assign recommendations
-def assign_recommendation(predicted_change):
-    if predicted_change > 0.05:
-        return 'Strong Buy'
-    elif predicted_change > 0.02:
-        return 'Buy'
-    elif predicted_change > -0.02:
-        return 'Hold'
-    elif predicted_change > -0.05:
-        return 'Sell'
+def get_recommendation(predicted_price, last_close_price):
+    """
+    Provides a recommendation based on the predicted and last close price.
+    """
+    change_percent = ((predicted_price - last_close_price) / last_close_price) * 100
+    if change_percent > 5:
+        return "Strong Buy"
+    elif 2 < change_percent <= 5:
+        return "Buy"
+    elif -2 <= change_percent <= 2:
+        return "Hold"
+    elif -5 <= change_percent < -2:
+        return "Sell"
     else:
-        return 'Strong Sell'
+        return "Strong Sell"
 
-# Function to check cache
-def get_cached_prediction(symbol):
+def read_cache(symbol):
+    """
+    Reads the cache file and retrieves data if available and up-to-date.
+    """
     if not os.path.exists(CACHE_FILE):
         return None
-    with open(CACHE_FILE, "r") as f:
-        cache = json.load(f)
-    if symbol in cache:
-        cached_data = cache[symbol]
-        cached_date = datetime.strptime(cached_data['date'], "%Y-%m-%d")
-        if datetime.now() - cached_date < timedelta(days=4):
-            return cached_data
+
+    with open(CACHE_FILE, 'r') as file:
+        cache = json.load(file)
+
+    today = datetime.now().strftime("%Y-%m-%d")
+    if symbol in cache and cache[symbol]['date'] == today:
+        return cache[symbol]
     return None
 
-# Function to save to cache
-def save_to_cache(symbol, data):
-    cache = {}
+def write_cache(symbol, data):
+    """
+    Writes the data to the cache file.
+    """
     if os.path.exists(CACHE_FILE):
-        with open(CACHE_FILE, "r") as f:
-            cache = json.load(f)
-    data['date'] = datetime.now().strftime("%Y-%m-%d")
+        with open(CACHE_FILE, 'r') as file:
+            cache = json.load(file)
+    else:
+        cache = {}
+
     cache[symbol] = data
-    with open(CACHE_FILE, "w") as f:
-        json.dump(cache, f, indent=4)
 
-def get_recommendation(symbol):
+    with open(CACHE_FILE, 'w') as file:
+        json.dump(cache, file, indent=4)
+
+def main():
+    import sys
+
+    stock_symbol = sys.argv[1] if len(sys.argv) > 1 else "AAPL"
+
     # Check cache
-    cached_data = get_cached_prediction(symbol)
-    if cached_data:
-        return cached_data
+    cached_result = read_cache(stock_symbol)
+    if cached_result:
+        print(json.dumps(cached_result, indent=4))
+        return
 
-    # Parameters
-    end_date = datetime.now()
-    start_date = end_date - timedelta(days=365*2)  # Last 2 years of data
+    # Process stock data and make predictions
+    data = fetch_stock_data(stock_symbol)
+    data = feature_engineering(data)
+    model = train_model(data)
+    last_row = data.iloc[-1]
+    predicted_price = predict_next_day(model, last_row)
+    change_pct = ((predicted_price - last_row['Close']) / last_row['Close']) * 100
+    recommendation = get_recommendation(predicted_price, last_row['Close'])
 
-    # Get data
-    df = get_stock_data(symbol, start_date, end_date)
-
-    # Check if data is available
-    if df.empty:
-        return {'error': f'No data available for symbol {symbol}'}
-
-    df = create_features(df)
-
-    # Prepare dataset for training and prediction
-    df['Future Price'] = df['Adj Close'].shift(-30)  # Predicting 30 days ahead
-
-    # Separate data for training and prediction
-    df_train = df.iloc[:-30]  # Exclude last 30 rows for training
-    df_predict = df.iloc[-30:]  # Last 30 rows for prediction
-
-    # Drop rows with NaN 'Future Price' from training data
-    df_train = df_train.dropna(subset=['Future Price'])
-
-    features = ['Adj Close', 'SMA_5', 'SMA_10', 'EMA_5', 'EMA_10', 'Momentum', 'Volatility', 'RSI']
-
-    # Training data
-    X_train = df_train[features]
-    y_train = df_train['Future Price']
-
-    # Prediction data
-    X_predict = df_predict[features]
-
-    # Ensure no missing features in the prediction data
-    X_predict = X_predict.dropna()
-
-    # Check if we have enough data to proceed
-    if X_train.empty or X_predict.empty:
-        return {'error': 'Not enough data to make a prediction'}
-
-    # Scale features
-    scaler = StandardScaler()
-    X_train_scaled = scaler.fit_transform(X_train)
-    X_predict_scaled = scaler.transform(X_predict)
-
-    # Time Series Split
-    tscv = TimeSeriesSplit(n_splits=5)
-    best_model = None
-    lowest_error = float('inf')
-
-    for train_index, test_index in tscv.split(X_train_scaled):
-        X_t, X_v = X_train_scaled[train_index], X_train_scaled[test_index]
-        y_t, y_v = y_train.iloc[train_index], y_train.iloc[test_index]
-
-        xgb = XGBRegressor()
-        param_grid = {
-            'n_estimators': [50, 100, 200],
-            'learning_rate': [0.01, 0.05, 0.1],
-            'max_depth': [3, 5, 7]
-        }
-        grid_search = GridSearchCV(xgb, param_grid, cv=3, scoring='neg_mean_absolute_error')
-        grid_search.fit(X_t, y_t)
-        model = grid_search.best_estimator_
-
-        y_pred = model.predict(X_v)
-        error = np.mean(np.abs(y_v - y_pred))
-        if error < lowest_error:
-            lowest_error = error
-            best_model = model
-
-    # Predict future prices for the prediction data
-    future_prices_pred = best_model.predict(X_predict_scaled)
-
-    # Use the last available date for current prediction
-    current_price = df_predict['Adj Close'].iloc[-1]
-    predicted_price = future_prices_pred[-1]
-
-    # Calculate predicted change
-    predicted_change = (predicted_price - current_price) / current_price
-
-    # Assign recommendation
-    recommendation = assign_recommendation(predicted_change)
-
-    # Ensure values are standard Python types
-    current_price = float(current_price)
-    predicted_price = float(predicted_price)
-    change_pct = float(predicted_change * 100)
-
-    # Package the result
-    result = {
-        'symbol': symbol,
-        'current_price': round(current_price, 2),
-        'predicted_price': round(predicted_price, 2),
-        'change_pct': round(change_pct, 2),
-        'recommendation': recommendation
+    output = {
+        "symbol": stock_symbol,
+        "current_price": round(float(last_row['Close']), 2),
+        "predicted_price": round(predicted_price, 2),
+        "change_pct": round(change_pct, 2),
+        "recommendation": recommendation,
+        "date": datetime.now().strftime("%Y-%m-%d")
     }
 
     # Save to cache
-    save_to_cache(symbol, result)
+    write_cache(stock_symbol, output)
 
-    return result
+    print(json.dumps(output, indent=4))  # JSON output
 
 if __name__ == "__main__":
-    import sys
-    symbol = sys.argv[1] if len(sys.argv) > 1 else "AAPL"
-    recommendation = get_recommendation(symbol)
-
-    # Output JSON only
-    print(json.dumps(recommendation, indent=4))
+    main()
