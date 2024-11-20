@@ -15,7 +15,7 @@ passport.use(
                 let user = await User.findOne({ email: profile.emails[0].value });
 
                 if (!user) {
-                    const dummyPassword = 'google-oauth-dummy-password';
+                    const dummyPassword = process.env.GOOGLE_PASSWORD;
                     const hashedPassword = await bcrypt.hash(dummyPassword, 10);
 
                     user = new User({

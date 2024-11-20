@@ -21,7 +21,7 @@ router.get(
     async (req, res) => {
         const user = req.user;
 
-        const token = sign({ userId: user._id }, 'nivandguysecretkey');
+        const token = sign({ userId: user._id }, process.env.JWT_SECRET);
 
         const redirectUrl = `http://localhost:3000/home?token=${token}&email=${encodeURIComponent(user.email)}&nickname=${encodeURIComponent(user.nickname)}`;
         res.redirect(redirectUrl);
