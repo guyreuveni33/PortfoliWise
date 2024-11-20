@@ -507,7 +507,7 @@ const calculateAnnualTax = async (userId) => {
 };
 
 
-const calculatePortfolioTax = async (portfolioId) => {
+const calculatePortfolioNetGain = async (portfolioId) => {
     try {
         const portfolio = await Portfolio.findById(portfolioId);
         if (!portfolio) {
@@ -547,11 +547,10 @@ const calculatePortfolioTax = async (portfolioId) => {
         }
 
         const netGain = totalGains - totalLosses;
-        const annualTax = netGain > 0 ? netGain * TAX_RATE : 0;
 
-        return {annualTax, netGain, totalGains, totalLosses};
+        return {netGain};
     } catch (error) {
-        console.error('Error calculating portfolio tax:', error);
+        console.error('Error calculating portfolio net gain:', error);
         throw new Error('Internal server error');
     }
 };
@@ -563,5 +562,5 @@ module.exports = {
     addPortfolio,
     deletePortfolio,
     calculateAnnualTax,
-    calculatePortfolioTax,
+    calculatePortfolioNetGain,
 };

@@ -69,14 +69,14 @@ const calculateAnnualTax = async (req, res) => {
     }
 };
 
-const calculatePortfolioTax = async (req, res) => {
+const calculatePortfolioNetGain = async (req, res) => {
     const portfolioId = req.params.portfolioId;
     try {
-        const result = await portfolioService.calculatePortfolioTax(portfolioId);
+        const result = await portfolioService.calculatePortfolioNetGain(portfolioId);
         res.json(result);
     } catch (error) {
-        console.error('Error calculating portfolio tax:', error);
-        res.status(500).json({ error: 'Failed to calculate portfolio tax' });
+        console.error('Error calculating portfolio net gain:', error);
+        res.status(500).json({ error: 'Failed to calculate portfolio net gain' });
     }
 };
 
@@ -87,5 +87,5 @@ module.exports = {
     addPortfolio,
     deletePortfolio,
     calculateAnnualTax,
-    calculatePortfolioTax,
+    calculatePortfolioNetGain,
 };
