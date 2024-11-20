@@ -282,10 +282,19 @@ const getHistoricalData = async (userId, timeframe) => {
                     portfolioAggregatedBars
                 );
 
-                // Populate holdings with transaction dates
                 positions.forEach((position) => {
                     const symbol = position.symbol;
-                    const oldestTransactionDate = transactionDates[symbol] || 'N/A';
+                    let oldestTransactionDate = transactionDates[symbol] || 'N/A';
+
+                    // If the holding is crypto it has no transaction date, use the oldest non-crypto date in the portfolio
+                    if (oldestTransactionDate === 'N/A') {
+                        oldestTransactionDate = Object.values(transactionDates)
+                            .filter(date => date !== 'N/A')
+                            .map(date => new Date(date))
+                            .reduce((earliest, date) => (date < earliest ? date : earliest), new Date())
+                            .toISOString();
+                    }
+
                     allHoldings.push({
                         symbol: symbol,
                         qty: position.qty,
@@ -294,6 +303,7 @@ const getHistoricalData = async (userId, timeframe) => {
                         oldestTransactionDate: oldestTransactionDate,
                     });
                 });
+
             } catch (error) {
                 console.error(
                     `Error processing positions for portfolio ${portfolio._id}:`,
@@ -303,11 +313,40 @@ const getHistoricalData = async (userId, timeframe) => {
         }
 
         try {
-            // Add crypto total to the latest timestamp in aggregated bars
-            if (aggregatedBars.length > 0) {
-                aggregatedBars[aggregatedBars.length - 1].value +=
-                    totalCryptoValue;
+            const now = new Date();
+            // Find the oldest transaction date for all holdings
+            let globalOldestTransactionDate = now;
+            allHoldings.forEach(holding => {
+                const transactionDate = new Date(holding.oldestTransactionDate);
+                if (transactionDate < globalOldestTransactionDate) {
+                    globalOldestTransactionDate = transactionDate;
+                }
+
+            });
+
+            // Filter aggregatedBars to get relevant timestamps
+            const relevantBars = [];
+            aggregatedBars.forEach(bar => {
+                const barDate = new Date(bar.t);
+                if (barDate >= globalOldestTransactionDate && barDate <= now) {
+                    relevantBars.push(bar);
+                }
+            });
+
+            // Add totalCryptoValue to each relevant timestamp
+            if (relevantBars.length > 0) {
+                relevantBars.forEach(bar => {
+                    bar.value += totalCryptoValue;
+                });
+            } else {
+                // If no relevant timestamps exist, add a new entry with the oldest transaction date
+                aggregatedBars.unshift({
+                    t: globalOldestTransactionDate.toISOString(),
+                    value: totalCryptoValue,
+                });
             }
+
+
             return {bars: aggregatedBars, holdings: allHoldings};
         } catch (error) {
             console.error('Error finalizing historical data:', error);
