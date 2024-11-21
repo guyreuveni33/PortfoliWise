@@ -1,7 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
-const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
@@ -50,7 +49,7 @@ passport.use(
                     }
                 }
 
-                done(null, user);
+                done(null, user); // function to signal to passport that the callback function completed
             } catch (error) {
                 console.error('Error during Google authentication:', error);
                 done(error, null);
@@ -59,10 +58,14 @@ passport.use(
     )
 );
 
+// These happen after successful login
+
+// Save userID to the session
 passport.serializeUser((user, done) => {
     done(null, user.id);
 });
 
+// For subsequent requests with Google or when ending the session, retrieve the full user object
 passport.deserializeUser(async (id, done) => {
     try {
         const user = await User.findById(id);

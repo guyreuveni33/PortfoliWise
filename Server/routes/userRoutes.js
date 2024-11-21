@@ -17,7 +17,7 @@ router.delete('/delete-account', verifyToken, userController.deleteAccount);
 
 router.get(
     '/google/callback',
-    passport.authenticate('google', { failureRedirect: '/login' }),
+    passport.authenticate('google', { failureRedirect: '/login' }),  // Exchange auth code for access token
     async (req, res) => {
         const user = req.user;
 
