@@ -6,6 +6,7 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
     const [searchTerm, setSearchTerm] = useState('');
     const [symbolSuggestions, setSymbolSuggestions] = useState([]);
     const [selectedSymbol, setSelectedSymbol] = useState(null);
+    const [noResultsFound, setNoResultsFound] = useState(false);
     const dropdownRef = useRef(null);
 
     useEffect(() => {
@@ -13,6 +14,7 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
             setSearchTerm('');
             setSymbolSuggestions([]);
             setSelectedSymbol(null);
+            setNoResultsFound(false);
         }
     }, [isOpen]);
 
@@ -20,14 +22,24 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
         if (term.trim()) {
             const suggestions = await WatchlistService.getSymbolSuggestions(term);
             setSymbolSuggestions(suggestions);
+
+            // If no suggestions are found, replace selected symbol
+            if (suggestions.length === 0) {
+                setSelectedSymbol(null);
+                setNoResultsFound(true);
+            } else {
+                setNoResultsFound(false);
+            }
         } else {
             setSymbolSuggestions([]);
+            setNoResultsFound(false);
         }
     };
 
     const handleSelectSymbol = (symbol) => {
         setSelectedSymbol(symbol);
         setSymbolSuggestions([]);
+        setNoResultsFound(false);
         setSearchTerm('');
     };
 
@@ -35,7 +47,6 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
         if (selectedSymbol && !isAlreadyAdded) {
             await onAddSymbol(selectedSymbol);
 
-            // Reload the watchlist after adding a symbol
             if (onReloadWatchlist) {
                 await onReloadWatchlist();
             }
@@ -63,8 +74,9 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
                         type="text"
                         value={searchTerm}
                         onChange={(e) => {
-                            setSearchTerm(e.target.value);
-                            fetchSymbolSuggestions(e.target.value);
+                            const newTerm = e.target.value;
+                            setSearchTerm(newTerm);
+                            fetchSymbolSuggestions(newTerm);
                         }}
                         placeholder="Enter symbol..."
                         className={styles.searchInput}
@@ -85,9 +97,15 @@ const SearchModal = ({ isOpen, onClose, onAddSymbol, existingSymbols = [], onRel
                             ))}
                         </div>
                     )}
+
+                    {noResultsFound && searchTerm.trim() !== '' && (
+                        <div className={styles.noResultsMessage}>
+                            No symbol found for
+                        </div>
+                    )}
                 </div>
 
-                {selectedSymbol && (
+                {selectedSymbol && !noResultsFound && (
                     <div className={styles.selectedSymbolContainer}>
                         Selected Symbol: {selectedSymbol}
                     </div>

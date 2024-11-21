@@ -102,6 +102,25 @@
     text-align: left;
     color: #ffffff;
     padding-left: 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.infoIcon {
+    cursor: pointer;
+    color: #613de4;
+    transition: color 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 5px;
+    border-radius: 50%;
+}
+
+.infoIcon:hover {
+    color: #5029A7;
+    background-color: rgba(97, 61, 228, 0.2);
 }
 
 .addButton {
@@ -148,4 +167,8 @@
     padding-left: 5%;
     text-align: center;
 }
-
+.noResultsMessage {
+    color: red;
+    padding: 10px;
+    text-align: center;
+}

@@ -155,7 +155,7 @@ def write_cache(symbol, data):
 def main():
     import sys
 
-    stock_symbol = sys.argv[1] if len(sys.argv) > 1 else "AAPL"
+    stock_symbol = sys.argv[1]
 
     # Check cache
     cached_result = read_cache(stock_symbol)
