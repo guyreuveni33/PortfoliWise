@@ -40,9 +40,7 @@ passport.use(
                         to: profile.emails[0].value,
                         from: 'guyreu40@gmail.com',
                         subject: 'Your Account Password',
-                        text: `Hello ${profile.name.givenName},\n\nYour account has been created successfully! 
-                        Your password is: ${randomPassword}\n\nPlease keep it safe and secure.\n\nFor your security, 
-                        please change your password after logging in.\n\nBest regards,\nPortfoliwise Team`,
+                        text: `Hello ${profile.name.givenName},\n\nYour account has been created successfully! Your password is: ${randomPassword}\n\nPlease keep it safe and secure.\n\nFor your security, please change your password after logging in.\n\nBest regards,\nPortfoliwise Team`,
                     };
 
                     try {
