@@ -5,7 +5,6 @@ const StocksTable = ({ marketDataArray }) => {
     const [blinkStates, setBlinkStates] = useState({});
 
     useEffect(() => {
-        console.log('marketDataArray:', marketDataArray)
         if (!Array.isArray(marketDataArray)) {
             return;
         }

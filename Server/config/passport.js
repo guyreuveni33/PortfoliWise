@@ -3,13 +3,12 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const User = require('../models/User');
 const bcrypt = require('bcrypt');
 const sgMail = require('@sendgrid/mail');
-sgMail.setApiKey(process.env.SENDGRID_API_KEY); // Use your API key from SendGrid
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
-// Function to generate a secure random password
-function generateRandomPassword(length = 12) {
+function generateRandomPassword() {
     const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*()';
     let password = '';
-    for (let i = 0; i < length; i++) {
+    for (let i = 0; i < 12; i++) {
         password += characters.charAt(Math.floor(Math.random() * characters.length));
     }
     return password;
@@ -27,11 +26,7 @@ passport.use(
                 let user = await User.findOne({ email: profile.emails[0].value });
 
                 if (!user) {
-                    const randomPassword = generateRandomPassword(); // Generate a random password
-
-                    // Save hashed password to the database
-                    //const hashedPassword = await bcrypt.hash(randomPassword, 10);
-
+                    const randomPassword = generateRandomPassword();
                     user = new User({
                         email: profile.emails[0].value,
                         fullName: profile.displayName,
@@ -40,12 +35,14 @@ passport.use(
                     });
                     await user.save();
 
-                    // Send the plain password to the user's email
+
                     const msg = {
-                        to: profile.emails[0].value, // User's email
-                        from: 'guyreu40@gmail.com', // Verified sender address
+                        to: profile.emails[0].value,
+                        from: 'guyreu40@gmail.com',
                         subject: 'Your Account Password',
-                        text: `Hello ${profile.name.givenName},\n\nYour account has been created successfully! Your password is: ${randomPassword}\n\nPlease keep it safe and secure.\n\nFor your security, please change your password after logging in.\n\nBest regards,\nYour Team`,
+                        text: `Hello ${profile.name.givenName},\n\nYour account has been created successfully! 
+                        Your password is: ${randomPassword}\n\nPlease keep it safe and secure.\n\nFor your security, 
+                        please change your password after logging in.\n\nBest regards,\nPortfoliwise Team`,
                     };
 
                     try {
