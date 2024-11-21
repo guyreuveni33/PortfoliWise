@@ -49,7 +49,6 @@ const getStockRecommendation = (symbol) => {
             output += data.toString();
         });
 
-        // Capture any error output
         pythonProcess.stderr.on('data', (data) => {
             errorOutput += data.toString();
         });

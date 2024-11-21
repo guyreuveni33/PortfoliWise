@@ -1,13 +1,13 @@
 const User = require('../models/User');
-const { getMultipleStockPrices } = require('./stockService');
+const {getMultipleStockPrices} = require('./stockService');
 
 exports.addSymbolToWatchlist = async (email, symbol) => {
     try {
         // Find the user by email and add the symbol to the watchlist
         const user = await User.findOneAndUpdate(
-            { email: email },
-            { $push: { watchlist: { symbol: symbol } } },
-            { new: true }
+            {email: email},
+            {$push: {watchlist: {symbol: symbol}}},
+            {new: true}
         );
 
         if (!user) {
@@ -22,7 +22,7 @@ exports.addSymbolToWatchlist = async (email, symbol) => {
 };
 exports.getWatchlistByEmail = async (email) => {
     try {
-        const user = await User.findOne({ email });
+        const user = await User.findOne({email});
 
         if (!user) {
             console.warn(`User not found for email: ${email}`);
@@ -32,7 +32,7 @@ exports.getWatchlistByEmail = async (email) => {
         if (user.watchlist.length === 0) {
             return [];
         }
-
+        // Get the stock symbol for each item in the watchlist
         const watchlistSymbols = user.watchlist.map(item => item.symbol);
 
         const stockPrices = await getMultipleStockPrices(watchlistSymbols);
@@ -51,7 +51,7 @@ exports.getWatchlistByEmail = async (email) => {
 };
 
 
-const { spawn } = require('child_process');
+const {spawn} = require('child_process');
 
 exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
     return new Promise((resolve, reject) => {
@@ -86,9 +86,9 @@ exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
 exports.removeSymbolFromWatchlist = async (email, symbol) => {
     try {
         const user = await User.findOneAndUpdate(
-            { email: email },
-            { $pull: { watchlist: { symbol: symbol } } },
-            { new: true }
+            {email: email},
+            {$pull: {watchlist: {symbol: symbol}}},
+            {new: true}
         );
 
         if (!user) {
