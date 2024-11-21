@@ -3,7 +3,7 @@ import styles from '../../styleMenu/Login.module.css';
 
 const GoogleButton = () => {
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:3001/api/users/google';
+        window.location.href = 'http://localhost:3001/api/users/google'; // We use href because we just want to trigger the flow
     };
 
     return (

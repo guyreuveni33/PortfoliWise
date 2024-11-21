@@ -155,6 +155,7 @@ const getHistoricalData = async (userId, timeframe) => {
                     },
                 });
 
+                // put earliest transaction dates per order
                 ordersResponse.data.forEach((order) => {
                     const symbol = order.symbol;
                     const filledAt = new Date(order.filled_at);
@@ -173,6 +174,7 @@ const getHistoricalData = async (userId, timeframe) => {
             }
 
             try {
+                // get all positions
                 const positionsResponse = await paperClient.get('/v2/positions');
                 const positions = positionsResponse.data;
 
@@ -209,6 +211,7 @@ const getHistoricalData = async (userId, timeframe) => {
                                 earliestTransactionDate &&
                                 earliestTransactionDate > startDate
                             ) {
+                                // if all the stocks were bought after the graph time filter save that date to show a later starting point on the graph
                                 effectiveStartDate = earliestTransactionDate;
                             }
 
@@ -233,6 +236,7 @@ const getHistoricalData = async (userId, timeframe) => {
                                 return [];
                             }
 
+                            // save an object that says the symbol value for each bar
                             return response.data.bars.map((bar) => ({
                                 t: bar.t,
                                 value: parseFloat(bar.c) * quantity,
@@ -249,11 +253,12 @@ const getHistoricalData = async (userId, timeframe) => {
                     }
                 );
 
+                // wait for the function, now all the data with the bars
                 const allPositionsData = await Promise.all(historicalDataPromises);
 
                 const aggregatedMap = new Map();
 
-                // Aggregate data from all positions
+                // Aggregate data from all positions, for each bar put all the stocks value together if they have the same timestamp saved
                 allPositionsData.forEach((positionBars) => {
                     positionBars.forEach((bar) => {
                         const timestamp = bar.t;
@@ -284,6 +289,7 @@ const getHistoricalData = async (userId, timeframe) => {
 
                 positions.forEach((position) => {
                     const symbol = position.symbol;
+                    // this part is only for the crypto dates
                     let oldestTransactionDate = transactionDates[symbol] || 'N/A';
 
                     // If the holding is crypto it has no transaction date, use the oldest non-crypto date in the portfolio
@@ -295,6 +301,7 @@ const getHistoricalData = async (userId, timeframe) => {
                             .toISOString();
                     }
 
+                    // push to all holdings final values for each symbol
                     allHoldings.push({
                         symbol: symbol,
                         qty: position.qty,
@@ -324,7 +331,7 @@ const getHistoricalData = async (userId, timeframe) => {
 
             });
 
-            // Filter aggregatedBars to get relevant timestamps
+            // Filter aggregatedBars to get relevant timestamps to display in the graph according to time filter
             const relevantBars = [];
             aggregatedBars.forEach(bar => {
                 const barDate = new Date(bar.t);
