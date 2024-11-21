@@ -45,7 +45,6 @@ passport.use(
 
                     try {
                         await sgMail.send(msg);
-                        console.log('Email sent successfully with the password:', randomPassword);
                     } catch (error) {
                         console.error('Error sending email:', error.response ? error.response.body : error.message);
                     }
