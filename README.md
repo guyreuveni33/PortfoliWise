@@ -2,6 +2,8 @@
 
 A comprehensive web application for managing multiple trading portfolios across different platforms, providing automated tax calculations and AI-driven trading recommendations.
 
+![image](https://github.com/user-attachments/assets/4dff57c8-3428-452f-bec3-a483e54ca274)
+
 ## Features
 
 ### Home Screen
