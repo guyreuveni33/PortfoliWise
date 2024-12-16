@@ -41,28 +41,30 @@ function PortfolioTable({ portfolioData, handleAnalyzerClick, index, portfolioId
                     <button className={styles.deleteButton} onClick={handleDelete} title="Delete Portfolio">×</button>
                 </div>
             </header>
-            <table className={styles.portfolioTable}>
-                <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Balance</th>
-                    <th>Price</th>
-                    <th>Today</th>
-                    <th>Week</th>
-                    <th className={styles.centerAnalyzer}>Price Analyzer</th>
-                </tr>
-                </thead>
-                <tbody>
-                {portfolioData && portfolioData.map((item, index) => (
-                    <PortfolioRow
-                        key={index}
-                        item={item}
-                        formatCurrency={formatCurrency}
-                        handleAnalyzerClick={handleAnalyzerClick}
-                    />
-                ))}
-                </tbody>
-            </table>
+            <div className={styles.portfolioTableContainer}>
+                <table className={styles.portfolioTable}>
+                    <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Balance</th>
+                        <th>Price</th>
+                        <th>Today</th>
+                        <th>Week</th>
+                        <th className={styles.centerAnalyzer}>Price Analyzer</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {portfolioData && portfolioData.map((item, index) => (
+                        <PortfolioRow
+                            key={index}
+                            item={item}
+                            formatCurrency={formatCurrency}
+                            handleAnalyzerClick={handleAnalyzerClick}
+                        />
+                    ))}
+                    </tbody>
+                </table>
+            </div>
         </div>
     );
 }

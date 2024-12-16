@@ -72,31 +72,9 @@
     justify-content: space-between;
 }
 
-@media only screen and (max-width: 768px) {
-    .section_container {
-        max-width: 100%;
-        margin-right: 0;
-        padding: 10px;
-    }
 
-    @media only screen and (max-width: 768px) {
-        .graphs_container {
-            flex-direction: column;
-            align-items: center;
-        }
 
-        .watchlist_section, .marketplace_section .circle_chart_container .balance_graph {
-            flex-basis: 100%;
-            max-width: 100%;
-            margin-bottom: 20px;
-        }
 
-        .section_container {
-            max-width: 100%;
-            margin-right: 0;
-        }
-    }
-}
 
 .market_table th {
     pointer-events: none;
@@ -141,10 +119,12 @@
     min-width: 250px;
     flex-basis: 10%;
 }
-.No_Symbol{
+
+.No_Symbol {
     margin-top: 8px;
     font-size: 18px;
 }
+
 .portfolio_container {
     overflow-x: auto;
     flex-basis: 48%;
@@ -154,13 +134,6 @@
     margin: 30px;
 }
 
-.circle_chart_container {
-    width: 35%;
-    flex-basis: 35%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
 
 .header_title, .balance_text {
     margin: 0;
@@ -225,7 +198,7 @@
     border-radius: 10px;
     cursor: pointer;
     padding: 5px 15px;
-    margin:2px;
+    margin: 2px;
     box-sizing: border-box;
     font-size: 15px;
     transition: background-color 0.3s, color 0.3s;
@@ -526,6 +499,7 @@
 }
 
 .balance_graph {
+    width: 90%;
     overflow-x: auto;
     flex-basis: 30%;
 }
@@ -544,8 +518,6 @@
     padding: 0;
     margin: 0;
 }
-.circle_chart_container {
- }
 
 .filter_button {
     flex-grow: 1;
@@ -856,16 +828,29 @@
 .iconImage:hover {
     transform: scale(1.1);
 }
+
 @keyframes blinkRed {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(244, 67, 54, 0.3); }
-    100% { background-color: transparent; }
+    0% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(244, 67, 54, 0.3);
+    }
+    100% {
+        background-color: transparent;
+    }
 }
 
 @keyframes blinkGreen {
-    0% { background-color: transparent; }
-    50% { background-color: rgba(76, 175, 80, 0.3); }
-    100% { background-color: transparent; }
+    0% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: rgba(76, 175, 80, 0.3);
+    }
+    100% {
+        background-color: transparent;
+    }
 }
 
 .price_blink_red {
@@ -878,4 +863,19 @@
 
 .price_cell {
     transition: background-color 0.3s;
+}
+@media only screen and (max-width: 768px) {
+    .section_container,
+    .circle_chart_container,
+    .watchlist_section,
+    .marketplace_section,
+    .balance_graph {
+        max-width: 100%;
+        flex-basis: 100%;
+         padding: 10px; /* Consistent padding */
+    }
+
+    .today_column {
+        display: none;
+    }
 }

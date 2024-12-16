@@ -3,7 +3,22 @@ import styles from '../../styleMenu/homeScreen.module.css';
 
 const PortfolioTable = ({ portfolioData }) => {
     const [blinkStates, setBlinkStates] = useState({});
+    const [isSmallScreen, setIsSmallScreen] = useState(false);
     const previousData = useRef([]);
+
+    // Detect screen size
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 768);
+        };
+
+        handleResize(); // Set initial value
+        window.addEventListener('resize', handleResize);
+
+        return () => {
+            window.removeEventListener('resize', handleResize);
+        };
+    }, []);
 
     useEffect(() => {
         const newBlinkStates = {};
@@ -33,11 +48,28 @@ const PortfolioTable = ({ portfolioData }) => {
         return () => clearTimeout(timer);
     }, [portfolioData]);
 
-    const formatCurrency = (value) => {
+    const formatBalance = (value) => {
+        // Format balance dynamically based on screen size
         return new Intl.NumberFormat('en-US', {
             style: 'currency',
             currency: 'USD',
+            minimumFractionDigits: isSmallScreen ? 0 : 2, // Remove decimals on small screens
+            maximumFractionDigits: isSmallScreen ? 0 : 2,
         }).format(value);
+    };
+
+    const formatPrice = (value) => {
+        // Always include two decimal places for price
+        return new Intl.NumberFormat('en-US', {
+            style: 'currency',
+            currency: 'USD',
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2,
+        }).format(value);
+    };
+
+    const formatPercentage = (value) => {
+        return `${value.toFixed(2)}%`; // Always show two decimals for percentage values
     };
 
     return (
@@ -49,13 +81,13 @@ const PortfolioTable = ({ portfolioData }) => {
                     <th>Name</th>
                     <th>Balance</th>
                     <th>Price</th>
-                    <th>Today</th>
+                    <th className={styles.today_column}>Today</th>
                     <th>Week</th>
                 </tr>
                 {portfolioData.map((item, index) => (
                     <tr key={`${item.name}-${item.price}-${index}`}>
                         <td>{item.name}</td>
-                        <td>{formatCurrency(item.balance)}</td>
+                        <td>{formatBalance(item.balance)}</td> {/* Balance with dynamic formatting */}
                         <td className={`${styles.price_cell} ${
                             blinkStates[item.name] === 'green'
                                 ? styles.price_blink_green
@@ -63,13 +95,15 @@ const PortfolioTable = ({ portfolioData }) => {
                                     ? styles.price_blink_red
                                     : ''
                         }`}>
-                            {formatCurrency(item.price)}
+                            {formatPrice(item.price)} {/* Price always with two decimals */}
                         </td>
-                        <td className={item.todayChange >= 0 ? styles.positive_background : styles.negative_background}>
-                            {item.todayChange.toFixed(2)}%
+                        <td className={`${styles.today_column} ${
+                            item.todayChange >= 0 ? styles.positive_background : styles.negative_background
+                        }`}>
+                            {formatPercentage(item.todayChange)}
                         </td>
                         <td className={item.weekChange >= 0 ? styles.positive_background : styles.negative_background}>
-                            {item.weekChange.toFixed(2)}%
+                            {formatPercentage(item.weekChange)}
                         </td>
                     </tr>
                 ))}

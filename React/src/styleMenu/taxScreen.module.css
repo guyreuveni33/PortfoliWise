@@ -212,8 +212,7 @@ ul#a li .text {
 }
 
 .portfolio_list {
-    width: 70%;
-    display: flex;
+     display: flex;
     flex-direction: column;
     gap: 20px;
 }
@@ -278,6 +277,7 @@ ul#a li .text {
     margin-bottom: 30px;
     margin-right: 3%;
     max-height: 30%;
+    width: 310px;
 }
 
 .header_content {
@@ -412,9 +412,12 @@ ul#a li .text {
     }
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 768px) {
     .port_modal_content {
         width: 90%;
         max-width: 400px;
+    }
+    .section{
+        width: 90%;
     }
 }
