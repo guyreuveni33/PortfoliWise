@@ -20,9 +20,11 @@ passport.use(
             clientSecret: process.env.GOOGLE_CLIENT_SECRET,
             callbackURL: process.env.GOOGLE_CALLBACK_URL || 'http://localhost:3001/api/users/google/callback',
         },
+
         async (accessToken, refreshToken, profile, done) => {
             try {
                 let user = await User.findOne({ email: profile.emails[0].value });
+                console.log('Google Callback URL:', process.env.GOOGLE_CALLBACK_URL);
 
                 if (!user) {
                     const randomPassword = generateRandomPassword();
