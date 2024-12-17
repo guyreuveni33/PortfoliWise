@@ -15,7 +15,7 @@ const { runScriptForTopStocks } = require('./pythonScriptHandler'); // Import th
 connectDB();
 
 const app = express();
-const port = 3001;
+const port = process.env.PORT || 3001; // Use Railway's environment PORT
 
 const allowedOrigins = [
     'http://localhost:3000', // Local Development
@@ -43,6 +43,6 @@ runScriptForTopStocks();
 // Run the script every 24 hours
 setInterval(runScriptForTopStocks, 24 * 60 * 60 * 1000);
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
 });
