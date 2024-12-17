@@ -46,6 +46,6 @@ runScriptForTopStocks();
 // Run the script every 24 hours
 setInterval(runScriptForTopStocks, 24 * 60 * 60 * 1000);
 
-app.listen(port, '0.0.0.0', () => {
-    console.log(`Server is running on port ${port}`);
+app.listen(port, () => {
+    console.log(`Server is running on http://localhost:${port}`);
 });
