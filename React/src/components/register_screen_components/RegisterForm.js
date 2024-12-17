@@ -59,8 +59,7 @@ const RegisterForm = () => {
                 placeholder="Enter your password"
                 id={styles.passwordInput}
             />
-            <a href="#" className={styles.register_link}>I agree to the terms & policy</a>
-            <button id={styles.sub} type="submit">Sign Up</button>
+             <button id={styles.sub} type="submit">Sign Up</button>
             <div className={styles.divider}>
                 <hr className={styles.line} />
                 <span className={styles.text}>or</span>

@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+.blur-fade-enter {
+  opacity: 0;
+  filter: blur(5px);
+}
+.blur-fade-enter-active {
+  opacity: 1;
+  filter: blur(0);
+  transition: opacity 300ms, filter 300ms;
+}
+.blur-fade-exit {
+  opacity: 1;
+  filter: blur(0);
+}
+.blur-fade-exit-active {
+  opacity: 0;
+  filter: blur(5px);
+  transition: opacity 300ms, filter 300ms;
+}
