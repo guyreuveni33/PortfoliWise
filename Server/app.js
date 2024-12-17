@@ -17,17 +17,20 @@ connectDB();
 const app = express();
 const port = process.env.PORT || 3001; // Use Railway's environment PORT
 
-const allowedOrigins = [
-    'http://localhost:3000', // Local Development
-    'https://portfoli-wise.vercel.app', // Vercel frontend
-];
+const corsOptions = {
+    origin: [
+        'http://localhost:3000', // Local Development
+        'https://portfoli-wise.vercel.app', // Vercel Deployment
+    ],
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+    allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true, // Allow cookies/auth headers
+};
 
-app.use(cors({
-    origin: allowedOrigins, // Allow these origins
-    credentials: true,      // Allow cookies/auth headers if needed
-}));
-app.options('*', cors());
 
+
+app.use(cors(corsOptions));
+app.options('*', cors(corsOptions)); // Explicitly handle preflight OPTIONS
 app.use(bodyParser.json());
 
 app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
@@ -46,6 +49,6 @@ runScriptForTopStocks();
 // Run the script every 24 hours
 setInterval(runScriptForTopStocks, 24 * 60 * 60 * 1000);
 
-app.listen(port, () => {
-    console.log(`Server is running on http://localhost:${port}`);
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Server is running on port ${port}`);
 });
