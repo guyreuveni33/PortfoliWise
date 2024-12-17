@@ -1,7 +1,6 @@
 import React from 'react';
 import { BrowserRouter as Router, Route, Routes, useLocation } from 'react-router-dom';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { Analytics } from '@vercel/analytics/next';
 
 import {ToastContainer, Zoom} from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -14,6 +13,7 @@ import HomeScreen from "./HomeScreen";
 import SettingsScreen from "./SettingsScreen";
 import Sidebar from "./components/Sidebar";
 import './App.css';
+import {Analytics} from "@vercel/analytics/react";
 
 const AnimatedRoutes = () => {
     const location = useLocation();
