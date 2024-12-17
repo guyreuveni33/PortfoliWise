@@ -25,7 +25,10 @@ const allowedOrigins = [
 app.use(cors({
     origin: allowedOrigins, // Allow these origins
     credentials: true,      // Allow cookies/auth headers if needed
-}));app.use(bodyParser.json());
+}));
+app.options('*', cors());
+
+app.use(bodyParser.json());
 
 app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
