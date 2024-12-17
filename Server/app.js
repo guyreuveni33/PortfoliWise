@@ -17,8 +17,15 @@ connectDB();
 const app = express();
 const port = 3001;
 
-app.use(cors());
-app.use(bodyParser.json());
+const allowedOrigins = [
+    'http://localhost:3000', // Local Development
+    'https://portfoli-wise.vercel.app', // Vercel frontend
+];
+
+app.use(cors({
+    origin: allowedOrigins, // Allow these origins
+    credentials: true,      // Allow cookies/auth headers if needed
+}));app.use(bodyParser.json());
 
 app.use(session({ secret: process.env.JWT_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());

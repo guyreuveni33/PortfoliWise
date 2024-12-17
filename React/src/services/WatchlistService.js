@@ -6,6 +6,7 @@ const WatchlistService = {
     getSymbolSuggestions: async (prefix) => {
         try {
             const response = await axios.get(`${BASE_URL}/symbol-suggestions/${prefix}`);
+
             return response.data;
         } catch (error) {
             console.error('Error fetching stock symbol suggestions:', error);
@@ -29,6 +30,7 @@ const WatchlistService = {
         }
         try {
             const response = await axios.get(`${BASE_URL}/${email}`);
+            console.log(API_URL);
             return response.data;
         } catch (error) {
             console.error('Error fetching watchlist:', error);
