@@ -23,6 +23,8 @@ router.get(
 
         const token = sign({ userId: user._id }, process.env.JWT_SECRET);
         const REDIRECT_URL = process.env.CLIENT_HOME_URL || 'http://localhost:3000/home';
+            console.log('GOOGLE_CALLBACK_URL:', process.env.GOOGLE_CALLBACK_URL);
+            console.log('CLIENT_HOME_URL:', process.env.CLIENT_HOME_URL);
 
         const redirectUrl = `${REDIRECT_URL}?token=${token}&email=${encodeURIComponent(user.email)}&nickname=${encodeURIComponent(user.nickname)}`;
         res.redirect(redirectUrl);
