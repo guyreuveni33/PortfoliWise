@@ -8,6 +8,7 @@ import ChangeFullName from "./components/settings screen components/ChangeFullNa
 import ChangePassword from "./components/settings screen components/ChangePassword";
 import {useNavigate} from "react-router-dom";
 import {toast} from "react-toastify";
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const SettingsScreen = () => {
     const [nickname, setNickname] = useState('');
@@ -22,7 +23,7 @@ const SettingsScreen = () => {
     useEffect(() => {
         const fetchProfile = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/users/profile', {
+                const response = await axios.get(`${API_URL}/api/users/profile`, {
                     headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
                 });
                 setNickname(response.data.nickname);
@@ -41,7 +42,7 @@ const SettingsScreen = () => {
 
         if (confirmDeletion) {
             try {
-                await axios.delete('http://localhost:3001/api/users/delete-account', {
+                await axios.delete(`${API_URL}/api/users/delete-account`, {
                     headers: { 'Authorization': `Bearer ${localStorage.getItem('token')}` },
                 });
                 localStorage.clear();

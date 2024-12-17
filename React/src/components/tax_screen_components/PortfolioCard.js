@@ -1,13 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import axios from 'axios';
 import styles from '../../styleMenu/taxScreen.module.css';
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const PortfolioCard = ({portfolioId, index}) => {
     const [profit, setProfit] = useState(null);
 
     const fetchProfitData = async () => {
         try {
-            const response = await axios.get(`http://localhost:3001/api/portfolio/annual-tax/${portfolioId}`, {
+            const response = await axios.get(`${API_URL}/api/portfolio/annual-tax/${portfolioId}`, {
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
             });
             const {netGain} = response.data;

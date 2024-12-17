@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import GoogleButton from './GoogleButton';
 import styles from '../../styleMenu/Login.module.css';
 import { toast } from "react-toastify";
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const LoginForm = () => {
     const [email, setEmail] = useState('');
@@ -13,12 +14,12 @@ const LoginForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.post('http://localhost:3001/api/users/login', { email, password });
+            const response = await axios.post(`${API_URL}/api/users/login`, { email, password });
 
             localStorage.setItem('token', response.data.token);
             localStorage.setItem('email', email);
 
-            const profileResponse = await axios.get('http://localhost:3001/api/users/profile', {
+            const profileResponse = await axios.get(`${API_URL}/api/users/profile`, {
                 headers: { 'Authorization': `Bearer ${response.data.token}` }
             });
 

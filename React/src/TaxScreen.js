@@ -6,6 +6,7 @@ import PortfolioCard from './components/tax_screen_components/PortfolioCard';
 import TaxButton from './components/tax_screen_components/TaxButton';
 import TaxModal from './components/tax_screen_components/TaxModal';
 import ProfileIcon from "./components/ProfileIcon";
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const TaxScreen = () => {
     const [isTaxModalOpen, setIsTaxModalOpen] = useState(false);
@@ -24,7 +25,7 @@ const TaxScreen = () => {
     useEffect(() => {
         const fetchPortfolios = async () => {
             try {
-                const response = await axios.get('http://localhost:3001/api/portfolios', {
+                const response = await axios.get(`${API_URL}:3001/api/portfolios`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
@@ -43,7 +44,7 @@ const TaxScreen = () => {
         let losses = 0;
 
         try {
-            const response = await axios.get(`http://localhost:3001/api/portfolio/annual-tax`, {
+            const response = await axios.get(`${API_URL}/api/portfolio/annual-tax`, {
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`
                 }

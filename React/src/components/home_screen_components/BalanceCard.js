@@ -7,6 +7,7 @@ import TimeFilter from './TimeFilter';
 import LoadingSpinner from './LoadingSpinner';
 
 Chart.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend);
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
     const [chartData, setChartData] = useState(null);
@@ -21,7 +22,7 @@ const BalanceCard = ({ userToken, activeTimeFilter, onTimeFilterClick }) => {
             }
             setLoading(true);
             try {
-                const response = await axios.get('http://localhost:3001/api/portfolio/historical_data', {
+                const response = await axios.get(`${API_URL}/api/portfolio/historical_data`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     },

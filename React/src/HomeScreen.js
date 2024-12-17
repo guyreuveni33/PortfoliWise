@@ -12,6 +12,7 @@ import ProfileIcon from './components/ProfileIcon';
 import { useLocation } from 'react-router-dom';
 
 Chart.register(DoughnutController, ArcElement, Legend, Tooltip);
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const HomeScreen = () => {
     const [activeLink, setActiveLink] = useState('home');
@@ -48,7 +49,7 @@ const HomeScreen = () => {
     const fetchPortfolioData = async () => {
         try {
             const activePortfolioId = localStorage.getItem('activePortfolioId');
-            const response = await axios.get('http://localhost:3001/api/portfolios', {
+            const response = await axios.get(`${API_URL}/api/portfolios`, {
                 headers: { Authorization: `Bearer ${localStorage.getItem('token')}` },
             });
             if (response.data.length > 0) {
@@ -67,7 +68,7 @@ const HomeScreen = () => {
 
     const fetchMarketData = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/api/get-stocks');
+            const response = await axios.get(`${API_URL}/api/get-stocks`);
             return response.data;
         } catch (error) {
             console.error('Error fetching market data:', error);

@@ -1,9 +1,10 @@
 import React from 'react';
 import styles from '../../styleMenu/Login.module.css';
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const GoogleButton = () => {
     const handleGoogleLogin = () => {
-        window.location.href = 'http://localhost:3001/api/users/google'; // We use href because we just want to trigger the flow
+        window.location.href = `${API_URL}/api/users/google`; // We use href because we just want to trigger the flow
     };
 
     return (

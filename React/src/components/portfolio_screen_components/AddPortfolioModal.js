@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
 import { toast } from 'react-toastify';
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 function AddPortfolioModal({ handleClose }) {
     const [apiKey, setApiKey] = useState('');
@@ -8,7 +9,7 @@ function AddPortfolioModal({ handleClose }) {
 
     const handleAddPortfolio = async () => {
         try {
-            const response = await fetch('http://localhost:3001/api/portfolios', {
+            const response = await fetch(`${API_URL}/api/portfolios`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

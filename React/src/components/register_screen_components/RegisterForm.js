@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import GoogleButton from '../login_screen_components/GoogleButton';
 import styles from '../../styleMenu/Register.module.css';
 import { toast } from "react-toastify";
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const RegisterForm = () => {
     const [email, setEmail] = useState('');
@@ -15,7 +16,7 @@ const RegisterForm = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://localhost:3001/api/users/register', { email, password, fullName, nickname });
+            await axios.post(`${API_URL}/api/users/register`, { email, password, fullName, nickname });
             toast.success('User registered successfully');
             navigate('/login');
         } catch (error) {

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import styles from '../../styleMenu/settings.module.css';
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const ChangePassword = () => {
     const [currentPassword, setCurrentPassword] = useState('');
@@ -15,7 +16,7 @@ const ChangePassword = () => {
             return;
         }
         try {
-            await axios.put('http://localhost:3001/api/users/change-password', {
+            await axios.put(`${API_URL}/api/users/change-password`, {
                 currentPassword,
                 newPassword
             }, {

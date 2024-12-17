@@ -6,6 +6,7 @@ import AddPortfolioModal from './components/portfolio_screen_components/AddPortf
 import AnalyzerModal from './components/portfolio_screen_components/AnalyzerModal';
 import { toast } from 'react-toastify';
 import ProfileIcon from "./components/ProfileIcon";
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 function PortfolioScreen() {
     const [showAddPortfolioModal, setShowAddPortfolioModal] = useState(false);
@@ -41,7 +42,7 @@ function PortfolioScreen() {
         if (!confirmDelete) return;
 
         try {
-            const response = await fetch(`http://localhost:3001/api/portfolios/${portfolioId}`, {
+            const response = await fetch(`${API_URL}/api/portfolios/${portfolioId}`, {
                 method: 'DELETE',
                 headers: {
                     'Authorization': `Bearer ${localStorage.getItem('token')}`,
@@ -75,7 +76,7 @@ function PortfolioScreen() {
     useEffect(() => {
         const fetchPortfolioData = async () => {
             try {
-                const response = await fetch('http://localhost:3001/api/portfolios', {
+                const response = await fetch(`${API_URL}/api/portfolios`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }

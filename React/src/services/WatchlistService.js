@@ -1,5 +1,6 @@
 import axios from 'axios';
-const BASE_URL = 'http://localhost:3001/api/watchlist';
+const API_URL = process.env.REACT_APP_API_URL;
+const BASE_URL = `${API_URL}/api/watchlist`;
 
 const WatchlistService = {
     getSymbolSuggestions: async (prefix) => {
@@ -23,6 +24,9 @@ const WatchlistService = {
     },
 
     getWatchlist: async (email) => {
+        if (!email) {
+            throw new Error('Email is required to fetch the watchlist.');
+        }
         try {
             const response = await axios.get(`${BASE_URL}/${email}`);
             return response.data;

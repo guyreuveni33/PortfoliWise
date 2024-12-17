@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from '../../styleMenu/portfoliosScreen.module.css';
 import Gauge from './Gauge';
 import LoadingAnimation from './LoadingAnimation';
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
 
 const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
     const [recommendationData, setRecommendationData] = useState(null);
@@ -31,7 +32,7 @@ const AnalyzerModal = ({ handleClose, isVisible, stockSymbol }) => {
                 setIsLoading(true);
                 try {
                     const response = await fetch(
-                        `http://localhost:3001/api/portfolio/recommendation/${stockSymbol}`
+                        `${API_URL}/api/portfolio/recommendation/${stockSymbol}`
                     );
                     const data = await response.json();
                     setRecommendationData(data);

@@ -3,12 +3,14 @@ import axios from 'axios';
 import {toast} from 'react-toastify';
 import styles from '../../styleMenu/settings.module.css';
 
+const API_URL = process.env.REACT_APP_API_URL; // Fetch the base URL from the .env file
+
 const ChangeNickname = ({setNickname}) => {
     const [inputValue, setInputValue] = useState('');
 
     const handleNicknameChange = async () => {
         try {
-            await axios.put('http://localhost:3001/api/users/update-profile', {nickname: inputValue}, {
+            await axios.put(`${API_URL}/api/users/update-profile`, {nickname: inputValue}, {
                 headers: {'Authorization': `Bearer ${localStorage.getItem('token')}`}
             });
             localStorage.setItem('nickname', inputValue);
