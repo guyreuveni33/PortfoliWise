@@ -114,6 +114,7 @@ hr {
 
 #sub {
     background: #613DE4;
+    margin-top:8px ;
 }
 
 #googleSign {
@@ -146,3 +147,54 @@ hr {
     }
 }
 
+.guest_button {
+    background-color: #f0f4f8;
+    color: #333;
+    border: 1px solid #d1d5db;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.3s ease;
+}
+
+.guest_button:hover {
+    background-color: #e2e8f0;
+    border-color: #a0aec0;
+}
+
+.guest_icon {
+    font-size: 15px;
+}
+
+.guest_subtext {
+    font-size: 13px;
+     margin-top: 4px;
+}
+.guest_button {
+    background: linear-gradient(135deg, #6dd5ed, #2193b0);
+    color: #fff;
+    border: none;
+    padding: 12px 20px;
+    font-size: 16px;
+    font-weight: 500;
+     cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+
+}
+
+.guest_button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 12px rgba(0, 0, 0, 0.2);
+}
+
+.guest_button:active {
+    transform: translateY(0);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
