@@ -1,5 +1,7 @@
 const User = require('../models/User');
 const {getMultipleStockPrices} = require('./stockService');
+const {spawn} = require('child_process');
+const path = require('path'); // Import the path module
 
 exports.addSymbolToWatchlist = async (email, symbol) => {
     try {
@@ -51,33 +53,42 @@ exports.getWatchlistByEmail = async (email) => {
 };
 
 
-const {spawn} = require('child_process');
 
 exports.getStockSuggestions = (symbolPrefix, limit = 5) => {
     return new Promise((resolve, reject) => {
-        const pythonProcess = spawn('python', ['../Server/scripts/stock_symbol_lookup.py', symbolPrefix, '5']);
+        // Use path.resolve to get an absolute path to the Python script
+        const scriptPath = path.resolve(__dirname, '../scripts/stock_symbol_lookup.py');
+
+        // Spawn the Python process with the correct script path and arguments
+        const pythonProcess = spawn('python', [scriptPath, symbolPrefix, limit.toString()]);
 
         let resultData = '';
+        let errorData = '';
 
-        // Collect data
+        // Collect data from stdout
         pythonProcess.stdout.on('data', (data) => {
             resultData += data.toString();
         });
 
+        // Collect data from stderr (any error messages from Python)
         pythonProcess.stderr.on('data', (data) => {
-            console.error(`Python stderr: ${data}`);
+            errorData += data.toString();
+            console.error(`Error from Python script: ${data}`);
         });
 
+        // Handle process close
         pythonProcess.on('close', (code) => {
             if (code === 0) {
                 try {
                     const suggestions = JSON.parse(resultData);
-                    resolve(suggestions);  // Resolve with the suggestions
+                    resolve(suggestions); // Successfully parse and return suggestions
                 } catch (err) {
-                    reject(new Error('Error parsing Python script output'));
+                    console.error('Error parsing Python script output:', err.message);
+                    reject('Error parsing Python script output');
                 }
             } else {
-                reject(new Error('Python script exited with error'));
+                console.error(`Python script exited with code ${code}: ${errorData}`);
+                reject(`Python script exited with code ${code}: ${errorData}`);
             }
         });
     });
