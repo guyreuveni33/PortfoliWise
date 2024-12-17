@@ -13,6 +13,8 @@ const PortfolioCard = ({portfolioId, index}) => {
             });
             const {netGain} = response.data;
             setProfit(netGain);
+            console.log('API Request URL:', `${API_URL}/api/portfolio/annual-tax/${portfolioId}`);
+
         } catch (error) {
             console.error('Error fetching profit data:', error);
             setProfit(null);

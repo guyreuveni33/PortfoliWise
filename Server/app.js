@@ -15,7 +15,7 @@ const { runScriptForTopStocks } = require('./pythonScriptHandler'); // Import th
 connectDB();
 
 const app = express();
-const port = process.env.PORT || 8080; // Railway uses dynamic PORT
+const port = process.env.PORT || 3001; // Railway uses dynamic PORT
 const corsOptions = {
     origin: (origin, callback) => {
         // Allow specific origins or all for testing

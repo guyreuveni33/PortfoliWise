@@ -25,7 +25,7 @@ const TaxScreen = () => {
     useEffect(() => {
         const fetchPortfolios = async () => {
             try {
-                const response = await axios.get(`${API_URL}:3001/api/portfolios`, {
+                const response = await axios.get(`${API_URL}/api/portfolios`, {
                     headers: {
                         'Authorization': `Bearer ${localStorage.getItem('token')}`
                     }
