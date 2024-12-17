@@ -16,18 +16,28 @@ connectDB();
 
 const app = express();
 const port = process.env.PORT || 8080; // Railway uses dynamic PORT
+const corsOptions = {
+    origin: (origin, callback) => {
+        // Allow specific origins or all for testing
+        const allowedOrigins = [
+            'http://localhost:3000',
+            'https://portfoli-wise.vercel.app',
+        ];
+        if (!origin || allowedOrigins.includes(origin)) {
+            callback(null, true);
+        } else {
+            callback(new Error('Not allowed by CORS'));
+        }
+    },
+    methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+    credentials: true,
+};
 
-const allowedOrigins = [
-    'http://localhost:3000', // Local Development
-    'https://portfoli-wise.vercel.app', // Vercel frontend
-];
+app.use(cors(corsOptions));
 
-app.use(cors({
-    origin: allowedOrigins, // Allow these origins
-    credentials: true,      // Allow cookies/auth headers if needed
-}));
-app.options('*', cors());
-
+// Explicitly handle OPTIONS preflight requests
+app.options('*', cors(corsOptions));
 
 app.use(bodyParser.json());
 
